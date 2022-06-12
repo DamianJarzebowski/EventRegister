@@ -3,7 +3,7 @@ databaseChangeLog:
   -  changeSet:
        id:  002
        author:  Damian Jarzębowski
-       changes: add table category
+       changes:
 
          -  createTable:
               tableName:  category

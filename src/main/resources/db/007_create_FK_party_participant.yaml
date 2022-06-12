@@ -3,14 +3,16 @@ databaseChangeLog:
   -  changeSet:
        id:  006
        author:  Damian Jarzębowski
-       changes: add FK OneToMany Category ManyToOne Event
+       changes:
 
-  -  addForeignKeyConstraint:
+        -  addForeignKeyConstraint:
 
-       baseColumnNames:  participant_id
-       baseTableName:  party
+             constraintName: PARTY_FK_2
 
-       referencedColumnNames:  id
-       referencedTableName:  participant
+             baseColumnNames:  participant_id
+             baseTableName:  party
 
-       validate:  true
+             referencedColumnNames:  id
+             referencedTableName:  participant
+
+             validate:  true

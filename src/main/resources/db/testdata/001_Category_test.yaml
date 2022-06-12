@@ -3,15 +3,15 @@ databaseChangeLog:
   -  changeSet:
        id:  001
        author:  Damian Jarzębowski
-       changes: add test category
+       changes:
 
-         - insert:
-             columns:
-               - column:
-                   name: name
-                   value: Bieganie
-               - column:
-                   name: description
-                   value: Bieganie po ulicy Piotrkowskiej
-             dbms: 'h2,  mysql, postgresql'
-             tableName: category
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Bieganie
+             - column:
+                 name: description
+                 value: Bieganie po ulicy Piotrkowskiej
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category

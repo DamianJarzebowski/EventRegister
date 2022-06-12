@@ -1,50 +1,49 @@
 databaseChangeLog:
 
   -  changeSet:
-       id:  001
-       author:  Damian Jarzębowski
-       changes: add table event
+       id: 001
+       author: Damian Jarzębowski
+       changes:
 
-         -  createTable:
-              tableName:  event
-
+       - createTable:
+              tableName: event
               columns:
 
-                -  column:
-                     name:  id
-                     type:  BIGINT
-                     autoIncrement:  true
+              - column:
+                   name: id
+                   type: BIGINT
+                   autoIncrement: true
 
-                     constraints:
-                       primaryKey:  true
-                       nullable:  false
+                   constraints:
+                     primaryKey: true
+                     nullable: false
 
-                -  column:
-                     name:  name
-                     type:  varchar(25)
+              - column:
+                   name: name
+                   type: varchar(25)
 
-                -  column:
-                     name:  description
-                     type:  varchar(250)
+              - column:
+                   name: description
+                   type: varchar(250)
 
-                -  column:
-                     name:  maxParticipant
-                     type:  int
+              - column:
+                   name: maxParticipant
+                   type: int
 
-                -  column:
-                     name:  minParticipant
-                     type:  int
+              - column:
+                   name: minParticipant
+                   type: int
 
-                -  column:
-                     name:  date
-                     type:  datetime2
+              - column:
+                   name: date
+                   type: date
 
-                -  column:
-                     name:  time
-                     type:  datetime2
+              - column:
+                   name: time
+                   type: timestamptz
 
-                -  column:
-                     name:  category_id
-                     type:  BIGINT
+              - column:
+                   name: category_id
+                   type: BIGINT
 
 
