@@ -1,3 +1,4 @@
 spring:
   liquibase:
     change-log: classpath:db/main_config.yaml
+

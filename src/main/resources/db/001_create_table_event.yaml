@@ -27,11 +27,11 @@ databaseChangeLog:
                    type: varchar(250)
 
               - column:
-                   name: maxParticipant
+                   name: max_Participant
                    type: int
 
               - column:
-                   name: minParticipant
+                   name: min_Participant
                    type: int
 
               - column:
@@ -40,7 +40,7 @@ databaseChangeLog:
 
               - column:
                    name: time
-                   type: timestamptz
+                   type: TIME ZONE
 
               - column:
                    name: category_id

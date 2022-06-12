@@ -17,7 +17,6 @@ public class Participant {
     private String lastName;
     private int age;
 
-    // Lista party, w których uczestnik uczestniczy
     @OneToMany(mappedBy = "participant")
     private List<Party> parties = new ArrayList<>();
 

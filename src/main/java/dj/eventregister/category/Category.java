@@ -16,6 +16,7 @@ public class Category {
     private Long id;
     private String name;
     private String description;
+
     @OneToMany(mappedBy = "category")
     private Set<Event> events = new HashSet<>();
 
