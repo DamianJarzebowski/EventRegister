@@ -1,0 +1,32 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  003
+       author:  Damian Jarzębowski
+       changes: add table participant
+
+         -  createTable:
+              tableName:  participant
+
+              columns:
+
+                -  column:
+                     name:  id
+                     type:  BIGINT
+                     autoIncrement:  true
+
+                     constraints:
+                       primaryKey:  true
+                       nullable:  false
+
+                -  column:
+                     name:  name
+                     type:  varchar(25)
+
+                -  column:
+                     name:  lastName
+                     type:  varchar(250)
+
+                -  column:
+                     name:  age
+                     type:  int

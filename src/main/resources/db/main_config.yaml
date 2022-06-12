@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: 001_create_table_event.yaml
+  - include:
+      file: 002_create_table_category.yaml
+  - include:
+      file: 003_create_table_participant.yaml
+
+
