@@ -1,0 +1,15 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /konsola-h2
+
+  datasource:
+    url: jdbc:h2:mem:test
+    username: admin
+    password:
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate

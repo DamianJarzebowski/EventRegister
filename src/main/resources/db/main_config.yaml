@@ -13,5 +13,7 @@ databaseChangeLog:
       file: 006_create_FK_party_event.yaml.yaml
   - include:
       file: 007_create_FK_party_participant.yaml
+  - include:
+      file: testdata/001_Category_test.yaml
 
 
