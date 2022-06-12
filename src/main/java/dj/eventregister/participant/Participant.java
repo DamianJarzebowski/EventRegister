@@ -1,10 +1,11 @@
 package dj.eventregister.participant;
 
-import dj.eventregister.event.Event;
 import dj.eventregister.party.Party;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,13 +17,9 @@ public class Participant {
     private String lastName;
     private int age;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
-
-    @ManyToOne
-    @JoinColumn(name = "party_id")
-    private Party party;
+    // Lista party, w których uczestnik uczestniczy
+    @OneToMany(mappedBy = "participant")
+    private List<Party> parties = new ArrayList<>();
 
 
 

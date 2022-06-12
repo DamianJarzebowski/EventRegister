@@ -1,4 +1,4 @@
-package dj.eventregister.event_category;
+package dj.eventregister.category;
 
 import dj.eventregister.event.Event;
 import lombok.Data;

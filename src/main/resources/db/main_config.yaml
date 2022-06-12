@@ -5,5 +5,13 @@ databaseChangeLog:
       file: 002_create_table_category.yaml
   - include:
       file: 003_create_table_participant.yaml
+  - include:
+      file: 004_create_table_party.yaml
+  - include:
+      file: 005_create_FK_category_event.yaml
+  - include:
+      file: 006_create_FK_party_event.yaml.yaml
+  - include:
+      file: 007_create_FK_party_participant.yaml
 
 

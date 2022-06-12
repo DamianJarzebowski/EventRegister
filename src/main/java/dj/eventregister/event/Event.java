@@ -1,9 +1,11 @@
 package dj.eventregister.event;
 
-import dj.eventregister.event_category.Category;
+import dj.eventregister.category.Category;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -14,6 +16,10 @@ public class Event {
     private Long id;
     private String name;
     private String description;
+    private int maxParticipant;
+    private int minParticipant;
+    private LocalDate date;
+    private LocalTime time;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
