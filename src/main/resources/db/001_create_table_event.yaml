@@ -20,11 +20,11 @@ databaseChangeLog:
 
               - column:
                    name: name
-                   type: varchar(25)
+                   type: varchar(50)
 
               - column:
                    name: description
-                   type: varchar(250)
+                   type: varchar(500)
 
               - column:
                    name: max_Participant
@@ -33,6 +33,10 @@ databaseChangeLog:
               - column:
                    name: min_Participant
                    type: int
+
+              - column:
+                  - name: majority
+                  - type: BIT
 
               - column:
                    name: date

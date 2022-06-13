@@ -12,6 +12,7 @@ databaseChangeLog:
                  value: Bieganie
            dbms: 'h2,  mysql, postgresql'
            tableName: category
+
        - insert:
            columns:
              - column:
@@ -19,6 +20,7 @@ databaseChangeLog:
                  value: Taniec
            dbms: 'h2,  mysql, postgresql'
            tableName: category
+
        - insert:
            columns:
              - column:
@@ -26,6 +28,7 @@ databaseChangeLog:
                  value: Strzelanie
            dbms: 'h2,  mysql, postgresql'
            tableName: category
+
        - insert:
            columns:
              - column:
@@ -33,6 +36,7 @@ databaseChangeLog:
                  value: Pływanie
            dbms: 'h2,  mysql, postgresql'
            tableName: category
+
        - insert:
            columns:
              - column:
@@ -40,6 +44,7 @@ databaseChangeLog:
                  value: Komputerowe
            dbms: 'h2,  mysql, postgresql'
            tableName: category
+
        - insert:
            columns:
              - column:

@@ -23,5 +23,13 @@ databaseChangeLog:
   - include:
       file: testdata/001_Category_test.yaml
       relativeToChangelogFile: true
-
+  - include:
+      file: testdata/002_Event_test.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: testdata/003_Participant_test.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: testdata/004_Party_test.yaml
+      relativeToChangelogFile: true
 

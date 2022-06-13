@@ -1,0 +1,93 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  002
+       author:  Damian Jarzębowski
+       changes:
+
+         - insert:
+             columns:
+               - column:
+                   name: name
+                   value: Bahata z Małgorzatą
+               - column:
+                   name: description
+                   value: Półtoragodziny kurs tańca z trenerem na świerzym powietrzu na ryneczku manufaktury.
+               - column:
+                   name: max_Participant
+                   value: 25
+               - column:
+                   name: min_Participant
+                   value: 10
+               - column:
+                   name: majority
+                   value: 1
+               - column:
+                   name: Date
+                   value: '2022-07-12'
+               - column:
+                   name: Time
+                   value: '14:00:00'
+               - column:
+                   name: category_id
+                   value: 2
+             dbms: 'h2,  mysql, postgresql'
+             tableName: event
+
+         - insert:
+             columns:
+               - column:
+                   name: name
+                   value: Morswanie Klubu MORS
+               - column:
+                   name: description
+                   value: Morsujemy w Łódzkim Arturówku zapraszamy wszystkich chętnych.
+               - column:
+                   name: max_Participant
+                   value: 50
+               - column:
+                   name: min_Participant
+                   value: 10
+               - column:
+                   name: majority
+                   value: 1
+               - column:
+                   name: Date
+                   value: '2022-12-02'
+               - column:
+                   name: Time
+                   value: '12:00:00'
+               - column:
+                   name: category_id
+                   value: 4
+             dbms: 'h2,  mysql, postgresql'
+             tableName: event
+
+         - insert:
+             columns:
+               - column:
+                   name: name
+                   value: Programowanie na starcie
+               - column:
+                   name: description
+                   value: Doświadczeni mentorzy programowania w Javie organizują darmowe zajęcia z programowania dla dzieci.
+               - column:
+                   name: max_Participant
+                   value: 10
+               - column:
+                   name: min_Participant
+                   value: 5
+               - column:
+                   name: majority
+                   value: 0
+               - column:
+                   name: Date
+                   value: '2022-09-10'
+               - column:
+                   name: Time
+                   value: '15:00:00'
+               - column:
+                   name: category_id
+                   value: 5
+             dbms: 'h2,  mysql, postgresql'
+             tableName: event
