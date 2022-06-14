@@ -17,5 +17,6 @@ public class EventDto {
     private boolean majority;
     private LocalDate date;
     private LocalTime time;
-    private Category category;
+    private String category;
+
 }

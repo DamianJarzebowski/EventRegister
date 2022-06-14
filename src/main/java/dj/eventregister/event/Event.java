@@ -26,6 +26,7 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
-
+    public Category getCategory() {
+        return category;
+    }
 }

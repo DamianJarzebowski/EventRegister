@@ -2,9 +2,11 @@ package dj.eventregister.event;
 
 import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class EventMapper {
 
     private final CategoryRepository categoryRepository;
@@ -24,8 +26,7 @@ public class EventMapper {
         dto.setMajority(event.isMajority());
         dto.setDate(event.getDate());
         dto.setTime(event.getTime());
-        Optional<Category> category = categoryRepository.findByName(event.getName());
-        category.ifPresent(dto::setCategory);
+        dto.setCategory(event.getCategory().getName()); // W celu pobrania nazwy kategorii wyciągamy jej nazwe.
         return dto;
     }
 
@@ -40,7 +41,7 @@ public class EventMapper {
         entity.setMajority(eventDto.isMajority());
         entity.setDate(eventDto.getDate());
         entity.setTime(eventDto.getTime());
-        Optional<Category> category = categoryRepository.findByName(eventDto.getName());
+        Optional<Category> category = categoryRepository.findByName(eventDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
         return entity;
     }
