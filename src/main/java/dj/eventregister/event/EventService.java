@@ -1,6 +1,5 @@
 package dj.eventregister.event;
 
-import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,13 @@ public class EventService {
                 .map(eventMapper::toDto)
                 .filter(event -> event.getCategory().equals(category))
                 .toList();
+    }
+
+    EventDto saveEvent(EventDto eventDto) {
+        Event event = eventMapper.toEntity(eventDto);
+        Event savedEvent = eventRepository.save(event);
+        return eventMapper.toDto(savedEvent);
+
     }
 
 }

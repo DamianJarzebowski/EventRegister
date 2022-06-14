@@ -1,12 +1,8 @@
 package dj.eventregister.event;
 
-
-import dj.eventregister.category.Category;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,11 +14,16 @@ public class EventController {
     private final EventService eventService;
 
 
-    @GetMapping("/names")
+    @GetMapping("")
     public List<EventDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
-        if (category == null)
+        if (category.isEmpty())
             return eventService.findAllEvents();
         return eventService.findAllEventsWithThisCategoryName(category);
+    }
+
+    @PostMapping("/save")
+    ResponseEntity<EventDto> saveEvent() {
+        return null;
     }
 
 
