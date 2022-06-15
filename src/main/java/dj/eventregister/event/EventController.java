@@ -33,8 +33,10 @@ public class EventController {
         return ResponseEntity.created(savedCompanyUri).body(savedEvent);
     }
 
+
+    // nie da sie skasowac rekordu 1
     @DeleteMapping("/{id}")
-    ResponseEntity<EventDto> deleteEvent(@PathVariable Long id) {
+    ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
