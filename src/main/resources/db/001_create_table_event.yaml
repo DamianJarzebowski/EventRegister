@@ -35,8 +35,12 @@ databaseChangeLog:
                    type: int
 
               - column:
-                  - name: majority
-                  - type: BIT
+                   name: current_Participants
+                   type: int
+
+              - column:
+                 - name: majority
+                 - type: BIT
 
               - column:
                    name: date

@@ -20,6 +20,9 @@ databaseChangeLog:
                    name: min_Participant
                    value: 10
                - column:
+                   - name: current_Participants
+                   - value: 0
+               - column:
                    name: majority
                    value: 1
                - column:
@@ -49,6 +52,9 @@ databaseChangeLog:
                    name: min_Participant
                    value: 10
                - column:
+                   - name: current_Participants
+                   - value: 0
+               - column:
                    name: majority
                    value: 1
                - column:
@@ -77,6 +83,9 @@ databaseChangeLog:
                - column:
                    name: min_Participant
                    value: 5
+               - column:
+                   - name: current_Participants
+                   - value: 0
                - column:
                    name: majority
                    value: 0
