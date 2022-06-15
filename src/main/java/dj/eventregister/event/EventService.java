@@ -1,10 +1,10 @@
 package dj.eventregister.event;
 
-import dj.eventregister.category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -12,7 +12,6 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-    private final CategoryRepository categoryRepository;
 
     List<EventDto> findAllEvents() {
         return eventRepository.findAll()
@@ -30,10 +29,19 @@ public class EventService {
     }
 
     EventDto saveEvent(EventDto eventDto) {
+        Optional<Event> eventByName = eventRepository.findByName(eventDto.getName());
+        eventByName.ifPresent(a -> {
+            throw new DuplicateEventNameException();
+        });
         Event event = eventMapper.toEntity(eventDto);
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);
-
     }
+
+    void deleteEvent(Long id) {
+        eventRepository.deleteById(id);
+    }
+
+
 
 }
