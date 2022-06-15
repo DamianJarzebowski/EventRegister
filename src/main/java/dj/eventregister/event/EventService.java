@@ -28,11 +28,15 @@ public class EventService {
                 .toList();
     }
 
-    EventDto saveEvent(EventDto eventDto) {
+    EventDto save(EventDto eventDto) {
         Optional<Event> eventByName = eventRepository.findByName(eventDto.getName());
         eventByName.ifPresent(a -> {
             throw new DuplicateEventNameException();
         });
+        return mapAndSaveEvent(eventDto);
+    }
+
+    EventDto mapAndSaveEvent (EventDto eventDto) {
         Event event = eventMapper.toEntity(eventDto);
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);

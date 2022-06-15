@@ -3,9 +3,11 @@ package dj.eventregister.participant;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ParticipantMapper {
+class ParticipantMapper {
 
-    ParticipantDto toDto (Participant participant) {
+    private ParticipantMapper() {}
+
+    static ParticipantDto toDto (Participant participant) {
         var dto = new ParticipantDto();
         dto.setId(participant.getId());
         dto.setName(participant.getName());
@@ -15,7 +17,7 @@ public class ParticipantMapper {
         return dto;
     }
 
-    Participant toEntity (ParticipantDto participantDto) {
+    static Participant toEntity (ParticipantDto participantDto) {
         var entity = new Participant();
         entity.setId(participantDto.getId());
         entity.setName(participantDto.getName());

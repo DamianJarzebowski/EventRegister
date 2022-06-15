@@ -25,7 +25,7 @@ public class EventController {
 
     @PostMapping("/save")
     ResponseEntity<EventDto> saveEvent(@RequestBody EventDto eventDto) {
-        EventDto savedEvent = eventService.saveEvent(eventDto);
+        EventDto savedEvent = eventService.save(eventDto);
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/id")
                 .buildAndExpand(savedEvent.getId())
@@ -36,7 +36,7 @@ public class EventController {
 
     // nie da sie skasowac rekordu 1
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+    ResponseEntity<EventDto> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
