@@ -30,3 +30,7 @@ databaseChangeLog:
                 -  column:
                      name:  age
                      type:  int
+
+                -  column:
+                     name:  email
+                     type:  varchar(50)

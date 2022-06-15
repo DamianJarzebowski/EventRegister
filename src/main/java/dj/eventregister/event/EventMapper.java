@@ -2,18 +2,16 @@ package dj.eventregister.event;
 
 import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class EventMapper {
 
     private final CategoryRepository categoryRepository;
-
-    public EventMapper(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     EventDto toDto(Event event) {
         var dto = new EventDto();

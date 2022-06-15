@@ -17,6 +17,7 @@ public class Participant {
     private String name;
     private String lastName;
     private int age;
+    private String email;
 
     @OneToMany(mappedBy = "participant")
     private List<Party> parties = new ArrayList<>();
