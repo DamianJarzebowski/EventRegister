@@ -36,6 +36,12 @@ public class EventService {
         return mapAndSaveEvent(eventDto);
     }
 
+    EventDto update(EventDto eventDto) {
+        int newCurrentParticipants = eventDto.getCurrentParticipants() + 1;
+        eventDto.setCurrentParticipants(newCurrentParticipants);
+        return mapAndSaveEvent(eventDto);
+    }
+
     EventDto mapAndSaveEvent (EventDto eventDto) {
         Event event = eventMapper.toEntity(eventDto);
         Event savedEvent = eventRepository.save(event);
