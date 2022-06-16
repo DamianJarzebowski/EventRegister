@@ -1,4 +1,6 @@
 spring:
   liquibase:
     change-log: classpath:db/main_config.yaml
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
