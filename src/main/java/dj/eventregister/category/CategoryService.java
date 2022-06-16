@@ -1,18 +1,18 @@
 package dj.eventregister.category;
 
+import dj.eventregister.event.DuplicateEventNameException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private final CategoryMapper categoryMapper;
 
     List<String> findAllCategoryNames() {
         return categoryRepository.findAll()
@@ -25,4 +25,20 @@ public class CategoryService {
         return categoryRepository.findById(id)
                 .map(Category::getName);
     }
+
+    CategoryDto save(CategoryDto categoryDto) {
+        Optional<Category> eventByName = categoryRepository.findByName(categoryDto.getName());
+        eventByName.ifPresent(a -> {
+            throw new DuplicateEventNameException();
+        });
+        return mapAndSaveCategory(categoryDto);
+    }
+
+    CategoryDto mapAndSaveCategory (CategoryDto categoryDto) {
+        Category category = categoryMapper.toEntity(categoryDto);
+        Category savedCategory = categoryRepository.save(category);
+        return categoryMapper.toDto(savedCategory);
+    }
+
+
 }
