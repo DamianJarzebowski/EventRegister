@@ -37,4 +37,10 @@ class CategoryController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
+    @DeleteMapping("/{id}")
+    ResponseEntity<EventDto> deleteEvent(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
