@@ -32,7 +32,6 @@ public class EventService {
         return  eventRepository.findById(id).map(eventMapper::toDto);
     }
 
-
     EventDto save(EventDto eventDto) {
         Optional<Event> eventByName = eventRepository.findByName(eventDto.getName());
         eventByName.ifPresent(a -> {
@@ -64,7 +63,5 @@ public class EventService {
     void deleteEvent(Long id) {
         eventRepository.deleteById(id);
     }
-
-
 
 }
