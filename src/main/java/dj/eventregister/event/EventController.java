@@ -10,11 +10,15 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/api/event")
 public class EventController {
 
     private final EventService eventService;
 
+    // How to make Slavic Happy
+    // for new Created events change slightly name to avoid name application
+    // for updates duplicate name will be rejected
+    // validate number of participants 1-100 max > min
 
     @GetMapping("")
     public List<EventDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
@@ -23,14 +27,21 @@ public class EventController {
         return eventService.findAllEventsWithThisCategoryName(category);
     }
 
-    @PostMapping("/save")
-    ResponseEntity<EventDto> saveEvent(@RequestBody EventDto eventDto) {
+    @GetMapping("{id}")
+    public ResponseEntity<EventDto> findById (@PathVariable Long id) {
+        return eventService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("")
+    ResponseEntity<Object> saveEvent(@RequestBody EventDto eventDto) {
         EventDto savedEvent = eventService.save(eventDto);
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/id")
+                .path("/{id}")
                 .buildAndExpand(savedEvent.getId())
                 .toUri();
-        return ResponseEntity.created(savedCompanyUri).body(savedEvent);
+        return ResponseEntity.created(savedCompanyUri).build();
     }
 
 

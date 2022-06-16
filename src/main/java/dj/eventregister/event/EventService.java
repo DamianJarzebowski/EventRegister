@@ -28,13 +28,28 @@ public class EventService {
                 .toList();
     }
 
+    Optional<EventDto> findById(long id) {
+        return  eventRepository.findById(id).map(eventMapper::toDto);
+    }
+
+
     EventDto save(EventDto eventDto) {
         Optional<Event> eventByName = eventRepository.findByName(eventDto.getName());
         eventByName.ifPresent(a -> {
             throw new DuplicateEventNameException();
         });
+        /*
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         */
+
         return mapAndSaveEvent(eventDto);
     }
+
+
 
     EventDto update(EventDto eventDto) {
         int newCurrentParticipants = eventDto.getCurrentParticipants() + 1;

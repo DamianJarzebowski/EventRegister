@@ -20,14 +20,14 @@ public class ParticipantController {
         return participantService.findAll();
     }
 
-    @PostMapping("/save")
+    @PostMapping("")
     ResponseEntity<ParticipantDto> saveParticipant(@RequestBody ParticipantDto participantDto) {
         ParticipantDto savedParticipant = participantService.save(participantDto);
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/id")
+                .path("/{id}")
                 .buildAndExpand(savedParticipant.getId())
                 .toUri();
-        return ResponseEntity.created(savedCompanyUri).body(savedParticipant);
+        return ResponseEntity.created(savedCompanyUri).build();
     }
 
     @DeleteMapping("{id}")

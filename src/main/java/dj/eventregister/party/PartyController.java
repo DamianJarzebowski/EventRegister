@@ -39,6 +39,6 @@ public class PartyController {
         partyService.getEventFromParty(partyDto).setCurrentParticipants(actualCurrentParticipants + 1);
 
 
-        return ResponseEntity.created(location).body(savedParty);
+        return ResponseEntity.created(location).build();
     }
 }
