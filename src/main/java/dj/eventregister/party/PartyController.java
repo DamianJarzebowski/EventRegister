@@ -16,7 +16,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/party")
-public class PartyController {
+class PartyController {
 
     private final PartyService partyService;
     private final EventService eventService;
