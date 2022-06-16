@@ -29,7 +29,7 @@ public class CategoryService {
     CategoryDto save(CategoryDto categoryDto) {
         Optional<Category> eventByName = categoryRepository.findByName(categoryDto.getName());
         eventByName.ifPresent(a -> {
-            throw new DuplicateEventNameException();
+            throw new DuplicateCategoryNameException();
         });
         return mapAndSaveCategory(categoryDto);
     }
