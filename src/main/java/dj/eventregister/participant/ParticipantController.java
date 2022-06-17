@@ -1,8 +1,11 @@
 package dj.eventregister.participant;
 
+import dj.eventregister.event.EventDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -37,6 +40,14 @@ class ParticipantController {
                 .buildAndExpand(savedParticipant.getId())
                 .toUri();
         return ResponseEntity.created(savedCompanyUri).build();
+    }
+
+    @PutMapping("{id}")
+    ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
+        if(!id.equals(participantDto.getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
+        ParticipantDto updatedEvent = participantService.updateParticipant(participantDto);
+        return ResponseEntity.ok(updatedEvent);
     }
 
     @DeleteMapping("{id}")

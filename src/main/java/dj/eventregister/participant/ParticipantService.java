@@ -1,5 +1,8 @@
 package dj.eventregister.participant;
 
+import dj.eventregister.event.DuplicateEventNameException;
+import dj.eventregister.event.Event;
+import dj.eventregister.event.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +52,14 @@ public class ParticipantService {
         participantRepository.deleteById(id);
     }
 
+
+    ParticipantDto updateParticipant(ParticipantDto participantDto) {
+        Optional<Participant> participantById = participantRepository.findByEmail(participantDto.getEmail());
+        participantById.ifPresent(participant -> {
+            if (!participant.getId().equals(participantDto.getId()))
+                throw new DuplicateEmailException();
+        });
+        return mapAndSaveParticipant(participantDto);
+    }
 
 }
