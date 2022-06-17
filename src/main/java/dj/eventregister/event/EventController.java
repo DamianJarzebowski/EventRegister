@@ -44,6 +44,12 @@ class EventController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
+    @PutMapping("{id}")
+    ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
+        return eventService.replaceEvent(id, eventDto)
+                .map(e -> ResponseEntity.noContent().build())
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     // nie da sie skasowac rekordu 1
     @DeleteMapping("/{id}")

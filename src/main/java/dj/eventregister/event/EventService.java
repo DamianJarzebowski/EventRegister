@@ -48,6 +48,15 @@ public class EventService {
         return mapAndSaveEvent(eventDto);
     }
 
+    Optional<EventDto> replaceEvent (Long eventId, EventDto eventDto) {
+        if (!eventRepository.existsById(eventId))
+            return Optional.empty();
+        eventDto.setId(eventId);
+        Event eventToUpdate = eventMapper.toEntity(eventDto);
+        Event updatedEntity = eventRepository.save(eventToUpdate);
+        return Optional.of(eventMapper.toDto(updatedEntity));
+    }
+
     EventDto update(EventDto eventDto) {
         int newCurrentParticipants = eventDto.getCurrentParticipants() + 1;
         eventDto.setCurrentParticipants(newCurrentParticipants);
