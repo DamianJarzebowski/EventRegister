@@ -1,4 +1,4 @@
-package dj.eventregister.party;
+package dj.eventregister.eventrecord;
 
 import dj.eventregister.event.Event;
 import dj.eventregister.event.EventRepository;
@@ -11,18 +11,18 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class PartyService {
+public class EventRecordService {
 
-    private final PartyRepository partyRepository;
+    private final EventRecordRepository partyRepository;
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
 
-    PartyDto registerTheParticipant(PartyDto partyDto) {
+    EventRecordDto registerTheParticipant(EventRecordDto partyDto) {
 
         Optional<Event> event = eventRepository.findById(partyDto.getEventId());
         Optional<Participant> participant = participantRepository.findById(partyDto.getParticipantId());
 
-        var party = new Party();
+        var party = new EventRecord();
 
         Long participantId = partyDto.getParticipantId();
         Long eventId = partyDto.getEventId();
@@ -35,10 +35,10 @@ public class PartyService {
         int actualCurrentParticipants = getEventFromParty(partyDto).getCurrentParticipants();
         getEventFromParty(partyDto).setCurrentParticipants(actualCurrentParticipants + 1);
 
-        return PartyMapper.toDto(partyRepository.save(party));
+        return EventRecordMapper.toDto(partyRepository.save(party));
     }
 
-    Event getEventFromParty(PartyDto partyDto) {
+    Event getEventFromParty(EventRecordDto partyDto) {
         Long eventDto = partyDto.getEventId();
         return eventRepository.getReferenceById(eventDto);
     }

@@ -1,4 +1,4 @@
-package dj.eventregister.party;
+package dj.eventregister.eventrecord;
 
 import dj.eventregister.event.Event;
 import dj.eventregister.participant.Participant;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Party {
+public class EventRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

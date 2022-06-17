@@ -9,7 +9,7 @@ databaseChangeLog:
       file: 003_create_table_participant.yaml
       relativeToChangelogFile: true
   - include:
-      file: 004_create_table_party.yaml
+      file: 004_create_table_eventRecord.yaml
       relativeToChangelogFile: true
   - include:
       file: 005_create_FK_category_event.yaml
@@ -30,6 +30,6 @@ databaseChangeLog:
       file: testdata/003_Participant_test.yaml
       relativeToChangelogFile: true
   - include:
-      file: testdata/004_Party_test.yaml
+      file: testdata/004_EventRecord_test.yaml
       relativeToChangelogFile: true
 

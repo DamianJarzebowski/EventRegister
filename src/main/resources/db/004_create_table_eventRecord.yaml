@@ -6,7 +6,7 @@ databaseChangeLog:
        changes:
 
          -  createTable:
-              tableName:  party
+              tableName:  event_Record
 
               columns:
 

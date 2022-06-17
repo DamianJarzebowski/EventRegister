@@ -14,4 +14,4 @@ databaseChangeLog:
                    name: participant_id
                    value: 1
              dbms: 'h2,  mysql, postgresql'
-             tableName: party
+             tableName: event_Record

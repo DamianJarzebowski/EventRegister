@@ -1,4 +1,4 @@
-package dj.eventregister.party;
+package dj.eventregister.eventrecord;
 
 import dj.eventregister.event.EventService;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,14 @@ import java.net.URI;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/party")
-class PartyController {
+class EventRecordController {
 
-    private final PartyService partyService;
+    private final EventRecordService partyService;
     private final EventService eventService;
 
     @PostMapping("")
-    public ResponseEntity<PartyDto> registerTheParticipant(@RequestBody PartyDto partyDto) {
-        PartyDto savedParty;
+    public ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto partyDto) {
+        EventRecordDto savedParty;
         try {
             savedParty = partyService.registerTheParticipant(partyDto);
         } catch (InvalidPartyException e) {

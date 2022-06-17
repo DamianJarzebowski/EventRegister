@@ -10,7 +10,7 @@ databaseChangeLog:
              constraintName: PARTY_FK_1
 
              baseColumnNames:  event_id
-             baseTableName:  party
+             baseTableName:  event_Record
 
              referencedColumnNames:  id
              referencedTableName:  event

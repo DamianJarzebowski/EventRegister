@@ -1,6 +1,6 @@
 package dj.eventregister.participant;
 
-import dj.eventregister.party.Party;
+import dj.eventregister.eventrecord.EventRecord;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,7 +20,7 @@ public class Participant {
     private String email;
 
     @OneToMany(mappedBy = "participant")
-    private List<Party> parties = new ArrayList<>();
+    private List<EventRecord> parties = new ArrayList<>();
 
 
 
