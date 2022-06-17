@@ -16,8 +16,17 @@ class ParticipantController {
     private final ParticipantService participantService;
 
     @GetMapping("")
-    public List<ParticipantDto> findAll() {
+    public List<ParticipantDto> findAll(String lastName) {
+        if (lastName != null)
+            return participantService.findByLastName(lastName);
         return participantService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ParticipantDto> findById(@PathVariable Long id) {
+        return participantService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")

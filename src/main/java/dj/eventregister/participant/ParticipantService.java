@@ -11,12 +11,24 @@ import java.util.Optional;
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
+    private final ParticipantMapper participantMapper;
 
     List<ParticipantDto> findAll() {
         return participantRepository.findAll()
                 .stream()
-                .map(ParticipantMapper::toDto)
+                .map(participantMapper::toDto)
                 .toList();
+    }
+
+    List<ParticipantDto> findByLastName(String lastName) {
+        return participantRepository.findAllByLastNameContainingIgnoreCase(lastName)
+                .stream()
+                .map(participantMapper::toDto)
+                .toList();
+    }
+
+    Optional<ParticipantDto> findById(long id) {
+        return  participantRepository.findById(id).map(participantMapper::toDto);
     }
 
     ParticipantDto save(ParticipantDto participantDto) {
@@ -28,9 +40,9 @@ public class ParticipantService {
     }
 
     ParticipantDto mapAndSaveParticipant(ParticipantDto participantDto) {
-        Participant participantEntity = ParticipantMapper.toEntity(participantDto);
+        Participant participantEntity = participantMapper.toEntity(participantDto);
         Participant savedParticipant = participantRepository.save(participantEntity);
-        return ParticipantMapper.toDto(savedParticipant);
+        return participantMapper.toDto(savedParticipant);
     }
 
     void deleteParticipant(Long id) {

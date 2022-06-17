@@ -7,7 +7,7 @@ class ParticipantMapper {
 
     private ParticipantMapper() {}
 
-    static ParticipantDto toDto (Participant participant) {
+    ParticipantDto toDto(Participant participant) {
         var dto = new ParticipantDto();
         dto.setId(participant.getId());
         dto.setName(participant.getName());
@@ -17,7 +17,7 @@ class ParticipantMapper {
         return dto;
     }
 
-    static Participant toEntity (ParticipantDto participantDto) {
+     Participant toEntity (ParticipantDto participantDto) {
         var entity = new Participant();
         entity.setId(participantDto.getId());
         entity.setName(participantDto.getName());

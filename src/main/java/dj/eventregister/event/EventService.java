@@ -48,18 +48,12 @@ public class EventService {
         return mapAndSaveEvent(eventDto);
     }
 
-    Optional<EventDto> replaceEvent (Long eventId, EventDto eventDto) {
-        if (!eventRepository.existsById(eventId))
-            return Optional.empty();
-        eventDto.setId(eventId);
-        Event eventToUpdate = eventMapper.toEntity(eventDto);
-        Event updatedEntity = eventRepository.save(eventToUpdate);
-        return Optional.of(eventMapper.toDto(updatedEntity));
-    }
-
-    EventDto update(EventDto eventDto) {
-        int newCurrentParticipants = eventDto.getCurrentParticipants() + 1;
-        eventDto.setCurrentParticipants(newCurrentParticipants);
+    EventDto updateEvent(EventDto eventDto) {
+        Optional<Event> eventById = eventRepository.findByName(eventDto.getName());
+        eventById.ifPresent(event -> {
+            if(!event.getId().equals(eventDto.getId()))
+                throw new DuplicateEventNameException();
+        });
         return mapAndSaveEvent(eventDto);
     }
 

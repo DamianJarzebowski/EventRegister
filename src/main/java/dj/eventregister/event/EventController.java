@@ -1,8 +1,10 @@
 package dj.eventregister.event;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -44,11 +46,13 @@ class EventController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
+    // Chyba nie działa coś nie tak z formatem daty ????
     @PutMapping("{id}")
     ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
-        return eventService.replaceEvent(id, eventDto)
-                .map(e -> ResponseEntity.noContent().build())
-                .orElse(ResponseEntity.notFound().build());
+        if(!id.equals(eventDto.getId()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
+        EventDto updatedEvent = eventService.updateEvent(eventDto);
+        return ResponseEntity.ok(updatedEvent);
     }
 
     // nie da sie skasowac rekordu 1

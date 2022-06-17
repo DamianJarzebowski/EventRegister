@@ -38,8 +38,8 @@ public class EventRegisterApplication {
                 "1.00",
                 "localhost:8080",
                 new Contact("Damian Jarzębowski", "https://www.linkedin.com/in/damian-jarz%C4%99bowski-05aa32220/", "damian.r.jarzebowski@gmail.com"),
-                "my own licence",
-                "null",
+                "My own licence",
+                "https://www.linkedin.com/in/damian-jarz%C4%99bowski-05aa32220/",
                 Collections.emptyList()
         );
     }
