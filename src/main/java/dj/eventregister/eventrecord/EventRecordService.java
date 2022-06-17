@@ -7,13 +7,15 @@ import dj.eventregister.participant.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class EventRecordService {
 
-    private final EventRecordRepository partyRepository;
+    private final EventRecordRepository eventRecordRepository;
+    private final EventRecordMapper eventRecordMapper;
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
 
@@ -35,11 +37,18 @@ public class EventRecordService {
         int actualCurrentParticipants = getEventFromParty(partyDto).getCurrentParticipants();
         getEventFromParty(partyDto).setCurrentParticipants(actualCurrentParticipants + 1);
 
-        return EventRecordMapper.toDto(partyRepository.save(party));
+        return eventRecordMapper.toDto(eventRecordRepository.save(party));
     }
 
     Event getEventFromParty(EventRecordDto partyDto) {
         Long eventDto = partyDto.getEventId();
         return eventRepository.getReferenceById(eventDto);
+    }
+
+    public List<EventRecordDto> findAllEventsRecords() {
+        return eventRecordRepository.findAll()
+                .stream()
+                .map(eventRecordMapper::toDto)
+                .toList();
     }
 }

@@ -7,7 +7,7 @@ public class EventRecordMapper {
 
     private EventRecordMapper() {}
 
-    static EventRecordDto toDto (EventRecord eventRecord) {
+    EventRecordDto toDto(EventRecord eventRecord) {
         var dto = new EventRecordDto();
         var event = eventRecord.getEvent();
         var participant = eventRecord.getParticipant();
