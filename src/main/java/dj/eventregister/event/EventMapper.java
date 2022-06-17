@@ -13,7 +13,7 @@ public class EventMapper {
 
     private final CategoryRepository categoryRepository;
 
-    EventDto toDto(Event event) {
+    public EventDto toDto(Event event) {
         var dto = new EventDto();
 
         dto.setId(event.getId());

@@ -1,5 +1,6 @@
 package dj.eventregister.eventrecord;
 
+import dj.eventregister.event.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +13,21 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/party")
+@RequestMapping("api/event-record")
 class EventRecordController {
 
     private final EventRecordService eventRecordService;
 
-    @GetMapping
+    @GetMapping("")
     public List<EventRecordDto> findAllEventsRecords() {
         return eventRecordService.findAllEventsRecords();
     }
 
     @PostMapping("")
-    public ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto partyDto) {
+    public ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto eventRecordDto) {
         EventRecordDto savedParty;
         try {
-            savedParty = eventRecordService.registerTheParticipant(partyDto);
+            savedParty = eventRecordService.registerTheParticipant(eventRecordDto);
         } catch (InvalidPartyException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -36,10 +37,15 @@ class EventRecordController {
                 .buildAndExpand(savedParty.getId())
                 .toUri();
 
-        int actualCurrentParticipants = eventRecordService.getEventFromParty(partyDto).getCurrentParticipants();
-        eventRecordService.getEventFromParty(partyDto).setCurrentParticipants(actualCurrentParticipants + 1);
-
+        updateEventCurrentParticipants(eventRecordDto);
 
         return ResponseEntity.created(location).build();
     }
+
+    @PutMapping("")
+    public ResponseEntity<Object> updateEventCurrentParticipants(@RequestBody EventRecordDto eventRecordDto) {
+        EventDto updatedEvent = eventRecordService.updateEventCurrentParticipants(eventRecordDto);
+        return ResponseEntity.ok(updatedEvent);
+    }
+
 }

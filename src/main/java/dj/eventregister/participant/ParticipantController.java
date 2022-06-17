@@ -1,6 +1,5 @@
 package dj.eventregister.participant;
 
-import dj.eventregister.event.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +42,11 @@ class ParticipantController {
     }
 
     @PutMapping("{id}")
-    ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
+    ResponseEntity<Object> replaceParticipant(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
         if(!id.equals(participantDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
-        ParticipantDto updatedEvent = participantService.updateParticipant(participantDto);
-        return ResponseEntity.ok(updatedEvent);
+        ParticipantDto updatedParticipant = participantService.updateParticipant(participantDto);
+        return ResponseEntity.ok(updatedParticipant);
     }
 
     @DeleteMapping("{id}")
