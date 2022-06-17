@@ -45,18 +45,14 @@ public class EventRecordService {
         eventRecord.setParticipant(participant.orElseThrow(() ->
                 new InvalidPartyException("Brak uczestnika z id " + participantId)));
 
-        Event x = eventRepository.getReferenceById(eventRecord.getEvent().getId());
-        x.setCurrentParticipants(x.getCurrentParticipants() + 1);
-        eventRepository.save(x);
-
         return eventRecordMapper.toDto(eventRecordRepository.save(eventRecord));
     }
 
     EventDto updateEventCurrentParticipants(EventRecordDto eventRecordDto) {
-        Event eventToUpdate = eventRepository.getReferenceById(eventRecordDto.getEventId());
-        eventToUpdate.setCurrentParticipants(eventToUpdate.getCurrentParticipants() + 1);
-        Event eventToSave = eventToUpdate;
-        Event savedEvent = eventRepository.save(eventToSave);
+        EventRecord eventRecord = eventRecordMapper.toEntity(eventRecordDto);
+        Event event = eventRecord.getEvent();
+        event.setCurrentParticipants(event.getCurrentParticipants() + 1);
+        Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);
     }
 

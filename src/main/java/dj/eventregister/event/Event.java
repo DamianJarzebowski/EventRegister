@@ -4,8 +4,7 @@ import dj.eventregister.category.Category;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -20,8 +19,7 @@ public class Event {
     private int minParticipant;
     private int currentParticipants;
     private boolean majority;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

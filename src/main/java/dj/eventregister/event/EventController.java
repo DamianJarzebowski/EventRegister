@@ -46,7 +46,6 @@ class EventController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
-    // Chyba nie działa coś nie tak z formatem daty ????
     @PutMapping("{id}")
     ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
         if(!id.equals(eventDto.getId()))

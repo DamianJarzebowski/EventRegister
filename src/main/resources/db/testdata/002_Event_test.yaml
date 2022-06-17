@@ -26,11 +26,8 @@ databaseChangeLog:
                    name: majority
                    value: 1
                - column:
-                   name: Date
-                   value: '2022-07-12'
-               - column:
-                   name: Time
-                   value: '14:00:00'
+                   name: date_Time
+                   value: '2022-07-12 14:00:00'
                - column:
                    name: category_id
                    value: 2
@@ -58,11 +55,8 @@ databaseChangeLog:
                    name: majority
                    value: 1
                - column:
-                   name: Date
-                   value: '2022-12-02'
-               - column:
-                   name: Time
-                   value: '12:00:00'
+                   name: date_Time
+                   value: '2022-12-02 15:00:00'
                - column:
                    name: category_id
                    value: 4
@@ -90,11 +84,8 @@ databaseChangeLog:
                    name: majority
                    value: 0
                - column:
-                   name: Date
-                   value: '2022-09-10'
-               - column:
-                   name: Time
-                   value: '15:00:00'
+                   name: date_Time
+                   value: '2022-09-10 16:00:00'
                - column:
                    name: category_id
                    value: 5

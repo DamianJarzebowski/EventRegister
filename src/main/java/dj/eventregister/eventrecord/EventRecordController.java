@@ -42,7 +42,7 @@ class EventRecordController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping("")
+    @PatchMapping("")
     public ResponseEntity<Object> updateEventCurrentParticipants(@RequestBody EventRecordDto eventRecordDto) {
         EventDto updatedEvent = eventRecordService.updateEventCurrentParticipants(eventRecordDto);
         return ResponseEntity.ok(updatedEvent);

@@ -43,12 +43,8 @@ databaseChangeLog:
                  - type: BIT
 
               - column:
-                   name: date
-                   type: date
-
-              - column:
-                   name: time
-                   type: TIME ZONE
+                   name: date_Time
+                   type: dateTime
 
               - column:
                    name: category_id

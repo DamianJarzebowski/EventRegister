@@ -2,8 +2,7 @@ package dj.eventregister.event;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Data
 public class EventDto {
@@ -15,8 +14,7 @@ public class EventDto {
     private int minParticipant;
     private int currentParticipants;
     private boolean majority;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime dateTime;
     private String category;
 
 }
