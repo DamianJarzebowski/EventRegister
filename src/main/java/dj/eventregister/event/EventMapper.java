@@ -21,9 +21,10 @@ public class EventMapper {
         dto.setDescription(event.getDescription());
         dto.setMaxParticipant(event.getMaxParticipant());
         dto.setMinParticipant(event.getMinParticipant());
+        dto.setCurrentParticipants(event.getCurrentParticipants());
         dto.setMajority(event.isMajority());
         dto.setDateTime(event.getDateTime());
-        dto.setCategory(event.getCategory().getName()); // W celu pobrania nazwy kategorii wyciągamy jej nazwe.
+        dto.setCategory(event.getCategory().getName());
         return dto;
     }
 
@@ -35,6 +36,7 @@ public class EventMapper {
         entity.setDescription(eventDto.getDescription());
         entity.setMaxParticipant(eventDto.getMaxParticipant());
         entity.setMinParticipant(eventDto.getMinParticipant());
+        entity.setCurrentParticipants(eventDto.getCurrentParticipants());
         entity.setMajority(eventDto.isMajority());
         entity.setDateTime(eventDto.getDateTime());
         Optional<Category> category = categoryRepository.findByName(eventDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
