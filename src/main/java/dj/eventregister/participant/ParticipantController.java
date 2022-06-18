@@ -41,7 +41,7 @@ class ParticipantController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     ResponseEntity<Object> replaceParticipant(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
         if(!id.equals(participantDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
@@ -49,7 +49,7 @@ class ParticipantController {
         return ResponseEntity.ok(updatedParticipant);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     ResponseEntity<ParticipantDto> deleteParticipant(@PathVariable Long id) {
         participantService.deleteParticipant(id);
         return ResponseEntity.noContent().build();

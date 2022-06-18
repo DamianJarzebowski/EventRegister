@@ -29,7 +29,7 @@ class EventController {
         return eventService.findAllEventsWithThisCategoryName(category);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<EventDto> findById (@PathVariable Long id) {
         return eventService.findById(id)
                 .map(ResponseEntity::ok)
@@ -46,7 +46,7 @@ class EventController {
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
         if(!id.equals(eventDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
