@@ -28,7 +28,7 @@ class EventRecordController {
         EventRecordDto savedParty;
         try {
             savedParty = eventRecordService.registerTheParticipant(eventRecordDto);
-        } catch (InvalidPartyException e) {
+        } catch (InvalidEventRecordException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
         URI location = ServletUriComponentsBuilder
@@ -42,7 +42,7 @@ class EventRecordController {
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/updateEvent")
+    @PutMapping("/updateEvent")
     public ResponseEntity<Object> updateEventCurrentParticipants(@RequestBody EventRecordDto eventRecordDto) {
         EventDto updatedEvent = eventRecordService.updateEventCurrentParticipants(eventRecordDto);
         return ResponseEntity.ok(updatedEvent);

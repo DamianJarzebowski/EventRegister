@@ -41,9 +41,9 @@ public class EventRecordService {
         Long eventId = eventRecordDto.getEventId();
 
         eventRecord.setEvent(event.orElseThrow(() ->
-                new InvalidPartyException("Brak eventu z id: " + eventId)));
+                new InvalidEventRecordException("Brak eventu z id: " + eventId)));
         eventRecord.setParticipant(participant.orElseThrow(() ->
-                new InvalidPartyException("Brak uczestnika z id " + participantId)));
+                new InvalidEventRecordException("Brak uczestnika z id " + participantId)));
 
         return eventRecordMapper.toDto(eventRecordRepository.save(eventRecord));
     }
@@ -52,6 +52,11 @@ public class EventRecordService {
         EventRecord eventRecord = eventRecordMapper.toEntity(eventRecordDto);
         Event event = eventRecord.getEvent();
         event.setCurrentParticipants(event.getCurrentParticipants() + 1);
+        /*
+        if (event.getCurrentParticipants() > event.getMaxParticipant())
+            new InvalidEventRecordException();
+
+         */
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);
     }

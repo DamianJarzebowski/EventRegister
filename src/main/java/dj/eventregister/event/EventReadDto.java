@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class EventDto {
+public class EventReadDto {
 
     private Long id;
     private String name;

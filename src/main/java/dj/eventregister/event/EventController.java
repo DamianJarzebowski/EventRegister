@@ -18,7 +18,7 @@ class EventController {
     private final EventService eventService;
 
     // How to make Slavic Happy
-    // for new Created events change slightly name to avoid name application
+    // for new Created events change slightly name to avoid name duplication
     // for updates duplicate name will be rejected
     // validate number of participants 1-100 max > min
 
