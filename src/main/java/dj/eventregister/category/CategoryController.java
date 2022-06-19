@@ -16,6 +16,7 @@ import java.util.Optional;
 class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("")
     public List<String> findAllCategoryNames() {
@@ -28,17 +29,18 @@ class CategoryController {
     }
 
     @PostMapping("")
-    ResponseEntity<Object> saveCategory(@RequestBody CategoryDto categoryDto) {
-        CategoryDto savedCategory = categoryService.save(categoryDto);
+    ResponseEntity<Object> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
+        categoryService.save(categoryWriteDto);
+        Optional<Category> categoryReadDto = categoryRepository.findByName(categoryWriteDto.getName());
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedCategory.getId())
+                .buildAndExpand(categoryReadDto.get().getId())
                 .toUri();
         return ResponseEntity.created(savedCompanyUri).build();
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<EventReadDto> deleteEvent(@PathVariable Long id) {
+    ResponseEntity<EventReadDto> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }

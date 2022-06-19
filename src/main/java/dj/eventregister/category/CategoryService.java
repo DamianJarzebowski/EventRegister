@@ -11,7 +11,8 @@ import java.util.Optional;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
+    private final CategoryReadMapper categoryReadMapper;
+    private final CategoryWriteMapper categoryWriteMapper;
 
     List<String> findAllCategoryNames() {
         return categoryRepository.findAll()
@@ -25,18 +26,18 @@ public class CategoryService {
                 .map(Category::getName);
     }
 
-    CategoryDto save(CategoryDto categoryDto) {
-        Optional<Category> eventByName = categoryRepository.findByName(categoryDto.getName());
+    CategoryWriteDto save(CategoryWriteDto categoryWriteDto) {
+        Optional<Category> eventByName = categoryRepository.findByName(categoryWriteDto.getName());
         eventByName.ifPresent(a -> {
             throw new DuplicateCategoryNameException();
         });
-        return mapAndSaveCategory(categoryDto);
+        return mapAndSaveCategory(categoryWriteDto);
     }
 
-    CategoryDto mapAndSaveCategory (CategoryDto categoryDto) {
-        Category category = categoryMapper.toEntity(categoryDto);
+    CategoryWriteDto mapAndSaveCategory (CategoryWriteDto categoryWriteDto) {
+        Category category = categoryWriteMapper.toEntity(categoryWriteDto);
         Category savedCategory = categoryRepository.save(category);
-        return categoryMapper.toDto(savedCategory);
+        return categoryWriteMapper.toDto(savedCategory);
     }
 
     public void deleteCategory(Long id) {
