@@ -29,10 +29,10 @@ class CategoryController {
 
     @PostMapping("")
     ResponseEntity<Object> saveCategory(@RequestBody CategoryDto categoryDto) {
-        CategoryDto savedEvent = categoryService.save(categoryDto);
+        CategoryDto savedCategory = categoryService.save(categoryDto);
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedEvent.getId())
+                .buildAndExpand(savedCategory.getId())
                 .toUri();
         return ResponseEntity.created(savedCompanyUri).build();
     }
