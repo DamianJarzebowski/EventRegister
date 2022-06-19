@@ -30,13 +30,16 @@ class CategoryController {
 
     @PostMapping("")
     ResponseEntity<Object> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
-        categoryService.save(categoryWriteDto);
+        categoryService.saveCategory(categoryWriteDto);
         Optional<Category> categoryReadDto = categoryRepository.findByName(categoryWriteDto.getName());
-        URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(categoryReadDto.get().getId())
-                .toUri();
+        if (categoryReadDto.isPresent()) {
+            URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(categoryReadDto.get().getId())
+                    .toUri();
         return ResponseEntity.created(savedCompanyUri).build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
