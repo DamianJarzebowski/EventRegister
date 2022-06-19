@@ -1,6 +1,6 @@
 package dj.eventregister.category;
 
-import dj.eventregister.event.EventDto;
+import dj.eventregister.event.EventReadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,7 @@ class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<EventDto> deleteEvent(@PathVariable Long id) {
+    ResponseEntity<EventReadDto> deleteEvent(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }

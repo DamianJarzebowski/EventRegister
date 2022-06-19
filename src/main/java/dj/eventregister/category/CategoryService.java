@@ -1,6 +1,5 @@
 package dj.eventregister.category;
 
-import dj.eventregister.event.DuplicateEventNameException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

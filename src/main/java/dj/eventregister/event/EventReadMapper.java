@@ -9,12 +9,12 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class EventMapper {
+public class EventReadMapper {
 
     private final CategoryRepository categoryRepository;
 
-    public EventDto toDto(Event event) {
-        var dto = new EventDto();
+    public EventReadDto toDto(Event event) {
+        var dto = new EventReadDto();
 
         dto.setId(event.getId());
         dto.setName(event.getName());
@@ -28,18 +28,18 @@ public class EventMapper {
         return dto;
     }
 
-    public Event toEntity(EventDto eventDto) {
+    public Event toEntity(EventReadDto eventReadDto) {
         var entity = new Event();
 
-        entity.setId(eventDto.getId());
-        entity.setName(eventDto.getName());
-        entity.setDescription(eventDto.getDescription());
-        entity.setMaxParticipant(eventDto.getMaxParticipant());
-        entity.setMinParticipant(eventDto.getMinParticipant());
-        entity.setCurrentParticipants(eventDto.getCurrentParticipants());
-        entity.setMajority(eventDto.isMajority());
-        entity.setDateTime(eventDto.getDateTime());
-        Optional<Category> category = categoryRepository.findByName(eventDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
+        entity.setId(eventReadDto.getId());
+        entity.setName(eventReadDto.getName());
+        entity.setDescription(eventReadDto.getDescription());
+        entity.setMaxParticipant(eventReadDto.getMaxParticipant());
+        entity.setMinParticipant(eventReadDto.getMinParticipant());
+        entity.setCurrentParticipants(eventReadDto.getCurrentParticipants());
+        entity.setMajority(eventReadDto.isMajority());
+        entity.setDateTime(eventReadDto.getDateTime());
+        Optional<Category> category = categoryRepository.findByName(eventReadDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
         return entity;
     }

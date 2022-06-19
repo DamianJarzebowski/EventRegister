@@ -11,29 +11,30 @@ import java.util.Optional;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final EventMapper eventMapper;
+    private final EventReadMapper eventReadMapper;
+    private final EventWriteMapper eventWriteMapper;
 
-    List<EventDto> findAllEvents() {
+    List<EventReadDto> findAllEvents() {
         return eventRepository.findAll()
                 .stream()
-                .map(eventMapper::toDto)
+                .map(eventReadMapper::toDto)
                 .toList();
     }
 
-    List<EventDto> findAllEventsWithThisCategoryName(String category) {
+    List<EventReadDto> findAllEventsWithThisCategoryName(String category) {
         return eventRepository.findAll()
                 .stream()
-                .map(eventMapper::toDto)
+                .map(eventReadMapper::toDto)
                 .filter(event -> event.getCategory().equals(category))
                 .toList();
     }
 
-    Optional<EventDto> findById(long id) {
-        return  eventRepository.findById(id).map(eventMapper::toDto);
+    Optional<EventWriteDto> findById(long id) {
+        return  eventRepository.findById(id).map(eventWriteMapper::toDto);
     }
 
-    EventDto save(EventDto eventDto) {
-        Optional<Event> eventByName = eventRepository.findByName(eventDto.getName());
+    EventReadDto save(EventReadDto eventReadDto) {
+        Optional<Event> eventByName = eventRepository.findByName(eventReadDto.getName());
         eventByName.ifPresent(a -> {
             throw new DuplicateEventNameException();
         });
@@ -45,22 +46,22 @@ public class EventService {
         }
          */
 
-        return mapAndSaveEvent(eventDto);
+        return mapAndSaveEvent(eventReadDto);
     }
 
-    EventDto updateEvent(EventDto eventDto) {
-        Optional<Event> eventById = eventRepository.findByName(eventDto.getName());
+    EventReadDto updateEvent(EventReadDto eventReadDto) {
+        Optional<Event> eventById = eventRepository.findByName(eventReadDto.getName());
         eventById.ifPresent(event -> {
-            if(!event.getId().equals(eventDto.getId()))
+            if(!event.getId().equals(eventReadDto.getId()))
                 throw new DuplicateEventNameException();
         });
-        return mapAndSaveEvent(eventDto);
+        return mapAndSaveEvent(eventReadDto);
     }
 
-    EventDto mapAndSaveEvent (EventDto eventDto) {
-        Event event = eventMapper.toEntity(eventDto);
+    EventReadDto mapAndSaveEvent (EventReadDto eventReadDto) {
+        Event event = eventReadMapper.toEntity(eventReadDto);
         Event savedEvent = eventRepository.save(event);
-        return eventMapper.toDto(savedEvent);
+        return eventReadMapper.toDto(savedEvent);
     }
 
     void deleteEvent(Long id) {

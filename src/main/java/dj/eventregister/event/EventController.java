@@ -23,22 +23,22 @@ class EventController {
     // validate number of participants 1-100 max > min
 
     @GetMapping("")
-    public List<EventDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
+    public List<EventReadDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
         if (category == null)
             return eventService.findAllEvents();
         return eventService.findAllEventsWithThisCategoryName(category);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventDto> findById (@PathVariable Long id) {
+    public ResponseEntity<EventWriteDto> findById (@PathVariable Long id) {
         return eventService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
-    ResponseEntity<Object> saveEvent(@RequestBody EventDto eventDto) {
-        EventDto savedEvent = eventService.save(eventDto);
+    ResponseEntity<Object> saveEvent(@RequestBody EventReadDto eventReadDto) {
+        EventReadDto savedEvent = eventService.save(eventReadDto);
         URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedEvent.getId())
@@ -47,16 +47,16 @@ class EventController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
-        if(!id.equals(eventDto.getId()))
+    ResponseEntity<Object> replaceEvent(@PathVariable Long id, @RequestBody EventReadDto eventReadDto) {
+        if(!id.equals(eventReadDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
-        EventDto updatedEvent = eventService.updateEvent(eventDto);
+        EventReadDto updatedEvent = eventService.updateEvent(eventReadDto);
         return ResponseEntity.ok(updatedEvent);
     }
 
     // nie da sie skasowac rekordu 1
     @DeleteMapping("/{id}")
-    ResponseEntity<EventDto> deleteEvent(@PathVariable Long id) {
+    ResponseEntity<EventReadDto> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
