@@ -39,11 +39,11 @@ class EventController {
     @PostMapping("")
     ResponseEntity<Object> saveEvent(@RequestBody EventReadDto eventReadDto) {
         EventReadDto savedEvent = eventService.save(eventReadDto);
-        URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedEvent.getId())
                 .toUri();
-        return ResponseEntity.created(savedCompanyUri).build();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")

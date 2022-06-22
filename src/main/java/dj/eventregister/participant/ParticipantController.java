@@ -34,11 +34,12 @@ class ParticipantController {
     @PostMapping("")
     ResponseEntity<ParticipantDto> saveParticipant(@RequestBody ParticipantDto participantDto) {
         ParticipantDto savedParticipant = participantService.save(participantDto);
-        URI savedCompanyUri = ServletUriComponentsBuilder.fromCurrentRequest()
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedParticipant.getId())
                 .toUri();
-        return ResponseEntity.created(savedCompanyUri).build();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
