@@ -26,11 +26,7 @@ public class CategoryService {
                 .map(Category::getName);
     }
 
-    Long findId(CategoryWriteDto categoryWriteDto) {
-        return categoryWriteMapper.toEntity(categoryWriteDto).getId();
-    }
-
-    CategoryWriteDto saveCategory(CategoryWriteDto categoryWriteDto) {
+    CategoryReadDto saveCategory(CategoryWriteDto categoryWriteDto) {
         Optional<Category> eventByName = categoryRepository.findByName(categoryWriteDto.getName());
         eventByName.ifPresent(a -> {
             throw new DuplicateCategoryNameException();
@@ -38,10 +34,10 @@ public class CategoryService {
         return mapAndSaveCategory(categoryWriteDto);
     }
 
-    CategoryWriteDto mapAndSaveCategory (CategoryWriteDto categoryWriteDto) {
+    CategoryReadDto mapAndSaveCategory (CategoryWriteDto categoryWriteDto) {
         Category category = categoryWriteMapper.toEntity(categoryWriteDto);
         Category savedCategory = categoryRepository.save(category);
-        return categoryWriteMapper.toDto(savedCategory);
+        return categoryReadMapper.toDto(savedCategory);
     }
 
     public void deleteCategory(Long id) {

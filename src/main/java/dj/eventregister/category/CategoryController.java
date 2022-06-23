@@ -16,7 +16,6 @@ import java.util.Optional;
 class CategoryController {
 
     private final CategoryService categoryService;
-    private final CategoryRepository categoryRepository;
 
     @GetMapping("")
     public List<String> findAllCategoryNames() {
@@ -30,10 +29,10 @@ class CategoryController {
 
     @PostMapping("")
     ResponseEntity<Object> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
-        CategoryWriteDto savedCategory = categoryService.saveCategory(categoryWriteDto);
+        CategoryReadDto savedCategory = categoryService.saveCategory(categoryWriteDto);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(categoryService.findId(savedCategory))
+                    .buildAndExpand(savedCategory.getId())
                     .toUri();
             return ResponseEntity.created(location).build();
     }
