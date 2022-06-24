@@ -42,14 +42,17 @@ public class ParticipantService {
 
     ParticipantReadDto mapAndSaveParticipant(ParticipantWriteDto participantWriteDto) {
         Participant participantEntity = participantWriteMapper.toEntity(participantWriteDto);
-        Participant savedParticipant = participantRepository.save(participantEntity);
-        return participantReadMapper.toDto(savedParticipant);
+        return saveAndMap(participantEntity);
     }
 
     ParticipantReadDto mapAndUpdateParticipant(ParticipantReadDto participantReadDto) {
         Participant participantEntity = participantReadMapper.toEntity(participantReadDto);
-        Participant updatedParticipant = participantRepository.save(participantEntity);
-        return participantReadMapper.toDto(updatedParticipant);
+        return saveAndMap(participantEntity);
+    }
+
+    ParticipantReadDto saveAndMap(Participant participant) {
+        Participant savedParticipant = participantRepository.save(participant);
+        return participantReadMapper.toDto(savedParticipant);
     }
 
     void deleteParticipant(Long id) {
