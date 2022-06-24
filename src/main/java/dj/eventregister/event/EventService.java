@@ -29,15 +29,11 @@ public class EventService {
                 .toList();
     }
 
-    Optional<EventWriteDto> findById(long id) {
-        return  eventRepository.findById(id).map(eventWriteMapper::toDto);
+    Optional<EventReadDto> findById(long id) {
+        return  eventRepository.findById(id).map(eventReadMapper::toDto);
     }
 
-    EventReadDto save(EventReadDto eventReadDto) {
-        Optional<Event> eventByName = eventRepository.findByName(eventReadDto.getName());
-        eventByName.ifPresent(a -> {
-            throw new DuplicateEventNameException();
-        });
+    EventReadDto save(EventWriteDto eventWriteDto) {
         /*
         try {
             Thread.sleep(5000);
@@ -45,21 +41,15 @@ public class EventService {
             e.printStackTrace();
         }
          */
-
-        return mapAndSaveEvent(eventReadDto);
+        return mapAndSaveEvent(eventWriteDto);
     }
 
-    EventReadDto updateEvent(EventReadDto eventReadDto) {
-        Optional<Event> eventById = eventRepository.findByName(eventReadDto.getName());
-        eventById.ifPresent(event -> {
-            if(!event.getId().equals(eventReadDto.getId()))
-                throw new DuplicateEventNameException();
-        });
-        return mapAndSaveEvent(eventReadDto);
+    EventReadDto updateEvent(EventWriteDto eventWriteDto) {
+        return mapAndSaveEvent(eventWriteDto);
     }
 
-    EventReadDto mapAndSaveEvent (EventReadDto eventReadDto) {
-        Event event = eventReadMapper.toEntity(eventReadDto);
+    EventReadDto mapAndSaveEvent (EventWriteDto eventWriteDto) {
+        Event event = eventWriteMapper.toEntity(eventWriteDto);
         Event savedEvent = eventRepository.save(event);
         return eventReadMapper.toDto(savedEvent);
     }

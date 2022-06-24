@@ -16,5 +16,4 @@ public class EventReadDto {
     private boolean majority;
     private LocalDateTime dateTime;
     private String category;
-
 }

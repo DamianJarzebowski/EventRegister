@@ -1,9 +1,13 @@
 package dj.eventregister.category;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class CategoryWriteMapper {
+
+    private final CategoryRepository categoryRepository;
 
     CategoryWriteDto toDto(Category category) {
         var dto = new CategoryWriteDto();

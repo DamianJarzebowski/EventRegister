@@ -1,6 +1,5 @@
 package dj.eventregister.eventrecord;
 
-import dj.eventregister.event.EventReadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,15 +36,17 @@ class EventRecordController {
                 .buildAndExpand(savedParty.getId())
                 .toUri();
 
-        updateEventCurrentParticipants(eventRecordDto);
+        //updateEventCurrentParticipants(eventRecordDto);
 
         return ResponseEntity.created(location).build();
     }
 
+    /*
     @PutMapping("/updateEvent")
     public ResponseEntity<Object> updateEventCurrentParticipants(@RequestBody EventRecordDto eventRecordDto) {
         EventReadDto updatedEvent = eventRecordService.updateEventCurrentParticipants(eventRecordDto);
         return ResponseEntity.ok(updatedEvent);
     }
+     */
 
 }
