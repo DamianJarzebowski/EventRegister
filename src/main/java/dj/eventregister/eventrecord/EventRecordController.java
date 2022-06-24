@@ -18,12 +18,12 @@ class EventRecordController {
     private final EventRecordService eventRecordService;
 
     @GetMapping("")
-    public List<EventRecordDto> findAllEventsRecords() {
+    List<EventRecordDto> findAllEventsRecords() {
         return eventRecordService.findAllEventsRecords();
     }
 
     @PostMapping("")
-    public ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto eventRecordDto) {
+    ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto eventRecordDto) {
         EventRecordDto savedParty;
         try {
             savedParty = eventRecordService.registerTheParticipant(eventRecordDto);
@@ -35,18 +35,13 @@ class EventRecordController {
                 .path("/{id}")
                 .buildAndExpand(savedParty.getId())
                 .toUri();
-
-        //updateEventCurrentParticipants(eventRecordDto);
-
         return ResponseEntity.created(location).build();
     }
 
-    /*
-    @PutMapping("/updateEvent")
-    public ResponseEntity<Object> updateEventCurrentParticipants(@RequestBody EventRecordDto eventRecordDto) {
-        EventReadDto updatedEvent = eventRecordService.updateEventCurrentParticipants(eventRecordDto);
-        return ResponseEntity.ok(updatedEvent);
+    @DeleteMapping("/{id}")
+    ResponseEntity<Object> deleteEventRecord(@PathVariable Long id) {
+        eventRecordService.deleteEventRecord(id);
+        return ResponseEntity.noContent().build();
     }
-     */
 
 }

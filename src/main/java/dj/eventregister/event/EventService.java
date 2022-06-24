@@ -30,7 +30,7 @@ public class EventService {
     }
 
     Optional<EventReadDto> findById(long id) {
-        return  eventRepository.findById(id).map(eventReadMapper::toDto);
+        return eventRepository.findById(id).map(eventReadMapper::toDto);
     }
 
     EventReadDto save(EventWriteDto eventWriteDto) {
@@ -48,12 +48,12 @@ public class EventService {
         return mapAndUpgradeEvent(eventReadDto);
     }
 
-    EventReadDto mapAndSaveEvent (EventWriteDto eventWriteDto) {
+    private EventReadDto mapAndSaveEvent(EventWriteDto eventWriteDto) {
         Event eventEntity = eventWriteMapper.toEntity(eventWriteDto);
         return saveAndMap(eventEntity);
     }
 
-    EventReadDto mapAndUpgradeEvent(EventReadDto eventReadDto) {
+    private EventReadDto mapAndUpgradeEvent(EventReadDto eventReadDto) {
         Event eventEntity = eventReadMapper.toEntity(eventReadDto);
         return saveAndMap(eventEntity);
     }

@@ -23,14 +23,14 @@ class EventController {
     // validate number of participants 1-100 max > min
 
     @GetMapping("")
-    public List<EventReadDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
+    List<EventReadDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
         if (category == null)
             return eventService.findAllEvents();
         return eventService.findAllEventsWithThisCategoryName(category);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventReadDto> findById(@PathVariable Long id) {
+    ResponseEntity<EventReadDto> findById(@PathVariable Long id) {
         return eventService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

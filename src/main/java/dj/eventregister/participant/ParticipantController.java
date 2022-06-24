@@ -18,7 +18,7 @@ class ParticipantController {
     private final ParticipantService participantService;
 
     @GetMapping("")
-    public List<ParticipantReadDto> findAll(String lastName) {
+    List<ParticipantReadDto> findAll(String lastName) {
         if (lastName != null)
             return participantService.findByLastName(lastName);
         return participantService.findAll();
