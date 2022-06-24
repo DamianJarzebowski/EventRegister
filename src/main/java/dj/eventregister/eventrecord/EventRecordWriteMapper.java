@@ -7,32 +7,32 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class EventRecordMapper {
+public class EventRecordWriteMapper {
 
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
 
-    EventRecordDto toDto(EventRecord eventRecord) {
-        var dto = new EventRecordDto();
+    EventRecordWriteDto toDto(EventRecord eventRecord) {
+        var dto = new EventRecordWriteDto();
+
         var event = eventRecord.getEvent();
         var participant = eventRecord.getParticipant();
 
-        dto.setId(eventRecord.getId());
         dto.setEventId(event.getId());
         dto.setParticipantId(participant.getId());
 
         return dto;
     }
 
-    EventRecord toEntity(EventRecordDto eventRecordDto) {
+    EventRecord toEntity(EventRecordWriteDto eventRecordWriteDto) {
         var entity = new EventRecord();
-        entity.setId(eventRecordDto.getId());
-        var event = eventRecordDto.getEventId();
+
+        var event = eventRecordWriteDto.getEventId();
         entity.setEvent(eventRepository.getReferenceById(event));
-        var participant = eventRecordDto.getParticipantId();
+
+        var participant = eventRecordWriteDto.getParticipantId();
         entity.setParticipant(participantRepository.getReferenceById(participant));
 
         return entity;
     }
-
 }

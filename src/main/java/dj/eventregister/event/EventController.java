@@ -54,7 +54,6 @@ class EventController {
         return ResponseEntity.ok(updatedEvent);
     }
 
-    // nie da sie skasowac rekordu 1
     @DeleteMapping("/{id}")
     ResponseEntity<EventReadDto> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);

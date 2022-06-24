@@ -18,15 +18,22 @@ class EventRecordController {
     private final EventRecordService eventRecordService;
 
     @GetMapping("")
-    List<EventRecordDto> findAllEventsRecords() {
+    List<EventRecordReadDto> findAllEventsRecords() {
         return eventRecordService.findAllEventsRecords();
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<EventRecordReadDto> findById(@PathVariable Long id) {
+        return eventRecordService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping("")
-    ResponseEntity<EventRecordDto> registerTheParticipant(@RequestBody EventRecordDto eventRecordDto) {
-        EventRecordDto savedParty;
+    ResponseEntity<EventRecordReadDto> registerTheParticipant(@RequestBody EventRecordWriteDto eventRecordWriteDto) {
+        EventRecordReadDto savedParty;
         try {
-            savedParty = eventRecordService.registerTheParticipant(eventRecordDto);
+            savedParty = eventRecordService.registerTheParticipant(eventRecordWriteDto);
         } catch (InvalidEventRecordException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
