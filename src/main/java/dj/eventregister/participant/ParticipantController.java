@@ -43,7 +43,7 @@ class ParticipantController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> replaceParticipant(@PathVariable Long id, @RequestBody ParticipantReadDto participantReadDto) {
+    ResponseEntity<Object> updateParticipant(@PathVariable Long id, @RequestBody ParticipantReadDto participantReadDto) {
         if(!id.equals(participantReadDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
         ParticipantReadDto updatedParticipant = participantService.updateParticipant(participantReadDto);

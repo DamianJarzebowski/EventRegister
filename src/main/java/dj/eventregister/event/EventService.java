@@ -44,12 +44,21 @@ public class EventService {
         return mapAndSaveEvent(eventWriteDto);
     }
 
-    EventReadDto updateEvent(EventWriteDto eventWriteDto) {
-        return mapAndSaveEvent(eventWriteDto);
+    EventReadDto updateEvent(EventReadDto eventReadDto) {
+        return mapAndUpgradeEvent(eventReadDto);
     }
 
     EventReadDto mapAndSaveEvent (EventWriteDto eventWriteDto) {
-        Event event = eventWriteMapper.toEntity(eventWriteDto);
+        Event eventEntity = eventWriteMapper.toEntity(eventWriteDto);
+        return saveAndMap(eventEntity);
+    }
+
+    EventReadDto mapAndUpgradeEvent(EventReadDto eventReadDto) {
+        Event eventEntity = eventReadMapper.toEntity(eventReadDto);
+        return saveAndMap(eventEntity);
+    }
+
+    private EventReadDto saveAndMap(Event event) {
         Event savedEvent = eventRepository.save(event);
         return eventReadMapper.toDto(savedEvent);
     }

@@ -55,7 +55,6 @@ public class EventRecordService {
         /*
         if (event.getCurrentParticipants() > event.getMaxParticipant())
             new InvalidEventRecordException();
-
          */
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);

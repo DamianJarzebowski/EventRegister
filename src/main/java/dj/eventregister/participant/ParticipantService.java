@@ -40,6 +40,15 @@ public class ParticipantService {
         return mapAndSaveParticipant(participantWriteDto);
     }
 
+    ParticipantReadDto updateParticipant(ParticipantReadDto participantReadDto) {
+        Optional<Participant> participantById = participantRepository.findByEmail(participantReadDto.getEmail());
+        participantById.ifPresent(participant -> {
+            if (!participant.getId().equals(participantReadDto.getId()))
+                throw new DuplicateEmailException();
+        });
+        return mapAndUpdateParticipant(participantReadDto);
+    }
+
     ParticipantReadDto mapAndSaveParticipant(ParticipantWriteDto participantWriteDto) {
         Participant participantEntity = participantWriteMapper.toEntity(participantWriteDto);
         return saveAndMap(participantEntity);
@@ -50,22 +59,13 @@ public class ParticipantService {
         return saveAndMap(participantEntity);
     }
 
-    ParticipantReadDto saveAndMap(Participant participant) {
+    private ParticipantReadDto saveAndMap(Participant participant) {
         Participant savedParticipant = participantRepository.save(participant);
         return participantReadMapper.toDto(savedParticipant);
     }
 
     void deleteParticipant(Long id) {
         participantRepository.deleteById(id);
-    }
-
-    ParticipantReadDto updateParticipant(ParticipantReadDto participantReadDto) {
-        Optional<Participant> participantById = participantRepository.findByEmail(participantReadDto.getEmail());
-        participantById.ifPresent(participant -> {
-            if (!participant.getId().equals(participantReadDto.getId()))
-                throw new DuplicateEmailException();
-        });
-        return mapAndUpdateParticipant(participantReadDto);
     }
 
 }
