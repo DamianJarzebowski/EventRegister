@@ -32,8 +32,8 @@ class ParticipantController {
     }
 
     @PostMapping("")
-    ResponseEntity<ParticipantReadDto> saveParticipant(@RequestBody ParticipantReadDto participantReadDto) {
-        ParticipantReadDto savedParticipant = participantService.save(participantReadDto);
+    ResponseEntity<ParticipantWriteDto> saveParticipant(@RequestBody ParticipantWriteDto participantWriteDto) {
+        ParticipantReadDto savedParticipant = participantService.saveParticipant(participantWriteDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

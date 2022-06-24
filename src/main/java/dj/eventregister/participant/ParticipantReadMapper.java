@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 @Service
 class ParticipantReadMapper {
 
-    private ParticipantReadMapper() {}
-
     ParticipantReadDto toDto(Participant participant) {
         var dto = new ParticipantReadDto();
         dto.setId(participant.getId());

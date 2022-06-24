@@ -12,6 +12,7 @@ public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
     private final ParticipantReadMapper participantReadMapper;
+    private final ParticipantWriteMapper participantWriteMapper;
 
     List<ParticipantReadDto> findAll() {
         return participantRepository.findAll()
@@ -31,24 +32,29 @@ public class ParticipantService {
         return  participantRepository.findById(id).map(participantReadMapper::toDto);
     }
 
-    ParticipantReadDto save(ParticipantReadDto participantReadDto) {
-        Optional<Participant> participantByEmail = participantRepository.findByEmail(participantReadDto.getEmail());
+    ParticipantReadDto saveParticipant(ParticipantWriteDto participantWriteDto) {
+        Optional<Participant> participantByEmail = participantRepository.findByEmail(participantWriteDto.getEmail());
         participantByEmail.ifPresent(participant -> {
             throw new DuplicateEmailException();
         });
-        return mapAndSaveParticipant(participantReadDto);
+        return mapAndSaveParticipant(participantWriteDto);
     }
 
-    ParticipantReadDto mapAndSaveParticipant(ParticipantReadDto participantReadDto) {
-        Participant participantEntity = participantReadMapper.toEntity(participantReadDto);
+    ParticipantReadDto mapAndSaveParticipant(ParticipantWriteDto participantWriteDto) {
+        Participant participantEntity = participantWriteMapper.toEntity(participantWriteDto);
         Participant savedParticipant = participantRepository.save(participantEntity);
         return participantReadMapper.toDto(savedParticipant);
+    }
+
+    ParticipantReadDto mapAndUpdateParticipant(ParticipantReadDto participantReadDto) {
+        Participant participantEntity = participantReadMapper.toEntity(participantReadDto);
+        Participant updatedParticipant = participantRepository.save(participantEntity);
+        return participantReadMapper.toDto(updatedParticipant);
     }
 
     void deleteParticipant(Long id) {
         participantRepository.deleteById(id);
     }
-
 
     ParticipantReadDto updateParticipant(ParticipantReadDto participantReadDto) {
         Optional<Participant> participantById = participantRepository.findByEmail(participantReadDto.getEmail());
@@ -56,7 +62,7 @@ public class ParticipantService {
             if (!participant.getId().equals(participantReadDto.getId()))
                 throw new DuplicateEmailException();
         });
-        return mapAndSaveParticipant(participantReadDto);
+        return mapAndUpdateParticipant(participantReadDto);
     }
 
 }

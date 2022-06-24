@@ -1,8 +1,9 @@
 package dj.eventregister.participant;
 
-public class ParticipantWriteMapper {
+import org.springframework.stereotype.Service;
 
-    private ParticipantWriteMapper() {}
+@Service
+public class ParticipantWriteMapper {
 
     ParticipantWriteDto toDto(Participant participant) {
         var dto = new ParticipantWriteDto();
