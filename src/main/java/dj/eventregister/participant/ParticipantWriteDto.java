@@ -3,9 +3,8 @@ package dj.eventregister.participant;
 import lombok.Data;
 
 @Data
-public class ParticipantDto {
+public class ParticipantWriteDto {
 
-    private Long id;
     private String name;
     private String lastName;
     private int age;

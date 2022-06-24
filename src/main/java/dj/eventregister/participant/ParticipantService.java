@@ -11,38 +11,38 @@ import java.util.Optional;
 public class ParticipantService {
 
     private final ParticipantRepository participantRepository;
-    private final ParticipantMapper participantMapper;
+    private final ParticipantReadMapper participantReadMapper;
 
-    List<ParticipantDto> findAll() {
+    List<ParticipantReadDto> findAll() {
         return participantRepository.findAll()
                 .stream()
-                .map(participantMapper::toDto)
+                .map(participantReadMapper::toDto)
                 .toList();
     }
 
-    List<ParticipantDto> findByLastName(String lastName) {
+    List<ParticipantReadDto> findByLastName(String lastName) {
         return participantRepository.findAllByLastNameContainingIgnoreCase(lastName)
                 .stream()
-                .map(participantMapper::toDto)
+                .map(participantReadMapper::toDto)
                 .toList();
     }
 
-    Optional<ParticipantDto> findById(long id) {
-        return  participantRepository.findById(id).map(participantMapper::toDto);
+    Optional<ParticipantReadDto> findById(long id) {
+        return  participantRepository.findById(id).map(participantReadMapper::toDto);
     }
 
-    ParticipantDto save(ParticipantDto participantDto) {
-        Optional<Participant> participantByEmail = participantRepository.findByEmail(participantDto.getEmail());
+    ParticipantReadDto save(ParticipantReadDto participantReadDto) {
+        Optional<Participant> participantByEmail = participantRepository.findByEmail(participantReadDto.getEmail());
         participantByEmail.ifPresent(participant -> {
             throw new DuplicateEmailException();
         });
-        return mapAndSaveParticipant(participantDto);
+        return mapAndSaveParticipant(participantReadDto);
     }
 
-    ParticipantDto mapAndSaveParticipant(ParticipantDto participantDto) {
-        Participant participantEntity = participantMapper.toEntity(participantDto);
+    ParticipantReadDto mapAndSaveParticipant(ParticipantReadDto participantReadDto) {
+        Participant participantEntity = participantReadMapper.toEntity(participantReadDto);
         Participant savedParticipant = participantRepository.save(participantEntity);
-        return participantMapper.toDto(savedParticipant);
+        return participantReadMapper.toDto(savedParticipant);
     }
 
     void deleteParticipant(Long id) {
@@ -50,13 +50,13 @@ public class ParticipantService {
     }
 
 
-    ParticipantDto updateParticipant(ParticipantDto participantDto) {
-        Optional<Participant> participantById = participantRepository.findByEmail(participantDto.getEmail());
+    ParticipantReadDto updateParticipant(ParticipantReadDto participantReadDto) {
+        Optional<Participant> participantById = participantRepository.findByEmail(participantReadDto.getEmail());
         participantById.ifPresent(participant -> {
-            if (!participant.getId().equals(participantDto.getId()))
+            if (!participant.getId().equals(participantReadDto.getId()))
                 throw new DuplicateEmailException();
         });
-        return mapAndSaveParticipant(participantDto);
+        return mapAndSaveParticipant(participantReadDto);
     }
 
 }

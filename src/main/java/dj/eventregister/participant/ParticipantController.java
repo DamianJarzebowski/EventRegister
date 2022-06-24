@@ -18,22 +18,22 @@ class ParticipantController {
     private final ParticipantService participantService;
 
     @GetMapping("")
-    public List<ParticipantDto> findAll(String lastName) {
+    public List<ParticipantReadDto> findAll(String lastName) {
         if (lastName != null)
             return participantService.findByLastName(lastName);
         return participantService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParticipantDto> findById(@PathVariable Long id) {
+    public ResponseEntity<ParticipantReadDto> findById(@PathVariable Long id) {
         return participantService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
-    ResponseEntity<ParticipantDto> saveParticipant(@RequestBody ParticipantDto participantDto) {
-        ParticipantDto savedParticipant = participantService.save(participantDto);
+    ResponseEntity<ParticipantReadDto> saveParticipant(@RequestBody ParticipantReadDto participantReadDto) {
+        ParticipantReadDto savedParticipant = participantService.save(participantReadDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -43,15 +43,15 @@ class ParticipantController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> replaceParticipant(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
-        if(!id.equals(participantDto.getId()))
+    ResponseEntity<Object> replaceParticipant(@PathVariable Long id, @RequestBody ParticipantReadDto participantReadDto) {
+        if(!id.equals(participantReadDto.getId()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
-        ParticipantDto updatedParticipant = participantService.updateParticipant(participantDto);
+        ParticipantReadDto updatedParticipant = participantService.updateParticipant(participantReadDto);
         return ResponseEntity.ok(updatedParticipant);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<ParticipantDto> deleteParticipant(@PathVariable Long id) {
+    ResponseEntity<ParticipantReadDto> deleteParticipant(@PathVariable Long id) {
         participantService.deleteParticipant(id);
         return ResponseEntity.noContent().build();
     }
