@@ -24,8 +24,4 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
 }

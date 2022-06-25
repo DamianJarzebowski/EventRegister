@@ -21,7 +21,7 @@ public class CategoryService {
                 .toList();
     }
 
-    public Optional<String> findById(long id) {
+     Optional<String> findById(long id) {
         return categoryRepository.findById(id)
                 .map(Category::getName);
     }
@@ -40,7 +40,7 @@ public class CategoryService {
         return categoryReadMapper.toDto(savedCategory);
     }
 
-    public void deleteCategory(Long id) {
+    void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
 }
