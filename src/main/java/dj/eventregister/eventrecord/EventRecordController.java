@@ -23,7 +23,7 @@ class EventRecordController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<EventRecordReadDto> findById(@PathVariable Long id) {
+    ResponseEntity<EventRecordReadDto> findById(@PathVariable long id) {
         return eventRecordService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

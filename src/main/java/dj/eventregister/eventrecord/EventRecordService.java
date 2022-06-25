@@ -1,9 +1,6 @@
 package dj.eventregister.eventrecord;
 
-import dj.eventregister.event.Event;
-import dj.eventregister.event.EventReadDto;
 import dj.eventregister.event.EventRepository;
-import dj.eventregister.participant.Participant;
 import dj.eventregister.participant.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,20 +26,18 @@ public class EventRecordService {
                 .toList();
     }
 
+    Optional<EventRecordReadDto> findById(long id) {
+        return eventRecordRepository.findById(id).map(eventRecordReadMapper::toDto);
+    }
+
     EventRecordReadDto registerTheParticipant(EventRecordWriteDto eventRecordWriteDto) {
 
-        Optional<Event> event = eventRepository.findById(eventRecordWriteDto.getEventId());
-        Optional<Participant> participant = participantRepository.findById(eventRecordWriteDto.getParticipantId());
-
-        var eventRecord = new EventRecord();
-
-        Long participantId = eventRecordWriteDto.getParticipantId();
-        Long eventId = eventRecordWriteDto.getEventId();
-
-        eventRecord.setEvent(event.orElseThrow(() ->
-                new InvalidEventRecordException("Brak eventu z id: " + eventId)));
-        eventRecord.setParticipant(participant.orElseThrow(() ->
-                new InvalidEventRecordException("Brak uczestnika z id " + participantId)));
+        Optional.ofNullable(eventRepository.findById(eventRecordWriteDto.getEventId())
+                .orElseThrow(() ->
+                        new InvalidEventRecordException("Brak eventu z id: " + eventRecordWriteDto.getEventId())));
+        Optional.ofNullable(participantRepository.findById(eventRecordWriteDto.getParticipantId())
+                .orElseThrow(() ->
+                        new InvalidEventRecordException("Brak uczestnika z id " + eventRecordWriteDto.getParticipantId())));
 
         return mapAndSaveEventRecord(eventRecordWriteDto);
     }
@@ -57,12 +52,8 @@ public class EventRecordService {
         return eventRecordReadMapper.toDto(eventRecord);
     }
 
-    void deleteEventRecord(Long id) {
+    void deleteEventRecord(long id) {
         eventRecordRepository.deleteById(id);
-    }
-
-    Optional<EventRecordReadDto> findById(Long id) {
-        return eventRecordRepository.findById(id).map(eventRecordReadMapper::toDto);
     }
 
 }
