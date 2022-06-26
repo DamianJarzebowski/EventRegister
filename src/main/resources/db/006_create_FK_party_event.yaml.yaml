@@ -7,7 +7,7 @@ databaseChangeLog:
 
         -  addForeignKeyConstraint:
 
-             constraintName: PARTY_FK_1
+             constraintName: EVENT_RECORD_FK_1
 
              baseColumnNames:  event_id
              baseTableName:  event_Record

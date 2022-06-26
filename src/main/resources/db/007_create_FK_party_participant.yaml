@@ -1,13 +1,13 @@
 databaseChangeLog:
 
   -  changeSet:
-       id:  006
+       id:  007
        author:  Damian Jarzębowski
        changes:
 
         -  addForeignKeyConstraint:
 
-             constraintName: PARTY_FK_2
+             constraintName: EVENT_RECORD_FK_2
 
              baseColumnNames:  participant_id
              baseTableName:  event_Record

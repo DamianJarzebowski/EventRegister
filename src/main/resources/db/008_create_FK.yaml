@@ -1,0 +1,8 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  008
+       author:  Damian Jarzębowski
+       changes:
+
+       -  addUniqueConstraint:
