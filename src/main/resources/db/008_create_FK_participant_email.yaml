@@ -7,5 +7,5 @@ databaseChangeLog:
 
          - addUniqueConstraint:
              columnNames: email
-             constraintName: email validate unique
+             constraintName: email make unique
              tableName: participant
