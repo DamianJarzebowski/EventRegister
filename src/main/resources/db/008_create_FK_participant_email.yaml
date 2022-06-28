@@ -1,0 +1,19 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  008
+       author:  Damian Jarzębowski
+       changes:
+
+         - addUniqueConstraint:
+             catalogName: db
+             columnNames: email
+             constraintName: email
+             deferrable: true
+             disabled: false
+             forIndexName: A String
+             initiallyDeferred: true
+             schemaName: public
+             tableName: participant
+             tablespace: A String
+             validate: true
