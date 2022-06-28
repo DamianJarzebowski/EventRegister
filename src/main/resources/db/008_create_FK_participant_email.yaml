@@ -6,14 +6,6 @@ databaseChangeLog:
        changes:
 
          - addUniqueConstraint:
-             catalogName: db
              columnNames: email
-             constraintName: email
-             deferrable: true
-             disabled: false
-             forIndexName: A String
-             initiallyDeferred: true
-             schemaName: public
+             constraintName: email validate unique
              tableName: participant
-             tablespace: A String
-             validate: true
