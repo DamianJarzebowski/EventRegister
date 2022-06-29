@@ -24,7 +24,7 @@ databaseChangeLog:
                      type:  varchar(25)
 
                 -  column:
-                     name:  last_Name
+                     name:  last_name
                      type:  varchar(250)
 
                 -  column:

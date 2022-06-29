@@ -11,7 +11,7 @@ databaseChangeLog:
                    name: name
                    value: Damian
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Jarzębowski
                - column:
                    name: age
@@ -28,7 +28,7 @@ databaseChangeLog:
                    name: name
                    value: Asia
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Siudek
                - column:
                    name: age
@@ -45,7 +45,7 @@ databaseChangeLog:
                    name: name
                    value: Grzegorz
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Kostrzewa
                - column:
                    name: age
@@ -62,7 +62,7 @@ databaseChangeLog:
                    name: name
                    value: Mariusz
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Płachta
                - column:
                    name: age
@@ -80,7 +80,7 @@ databaseChangeLog:
                    name: name
                    value: Robert
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Migocki
                - column:
                    name: age
@@ -98,7 +98,7 @@ databaseChangeLog:
                    name: name
                    value: Magda
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Baran
                - column:
                    name: age
@@ -116,7 +116,7 @@ databaseChangeLog:
                    name: name
                    value: Krystian
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Dąbrowski
                - column:
                    name: age
@@ -133,7 +133,7 @@ databaseChangeLog:
                    name: name
                    value: Mateusz
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Morawiecki
                - column:
                    name: age
@@ -151,7 +151,7 @@ databaseChangeLog:
                    name: name
                    value: Zdzisław
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Stonoga
                - column:
                    name: age
@@ -168,7 +168,7 @@ databaseChangeLog:
                    name: name
                    value: Patryk
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Kisiel
                - column:
                    name: age
@@ -186,7 +186,7 @@ databaseChangeLog:
                    name: name
                    value: Mateusz
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Torbicki
                - column:
                    name: age
@@ -203,7 +203,7 @@ databaseChangeLog:
                    name: name
                    value: Andrzej
                - column:
-                   name: last_Name
+                   name: last_name
                    value: Sitko
                - column:
                    name: age

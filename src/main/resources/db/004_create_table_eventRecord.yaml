@@ -6,7 +6,7 @@ databaseChangeLog:
        changes:
 
          -  createTable:
-              tableName:  event_Record
+              tableName:  event_record
 
               columns:
 

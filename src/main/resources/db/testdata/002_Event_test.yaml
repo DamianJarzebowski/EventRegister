@@ -14,19 +14,19 @@ databaseChangeLog:
                    name: description
                    value: Półtoragodziny kurs tańca z trenerem na świerzym powietrzu na ryneczku manufaktury.
                - column:
-                   name: max_Participant
+                   name: max_participant
                    value: 25
                - column:
-                   name: min_Participant
+                   name: min_participant
                    value: 10
                - column:
-                   - name: current_Participants
+                   - name: current_participants
                    - value: 0
                - column:
                    name: majority
                    value: 1
                - column:
-                   name: date_Time
+                   name: date_time
                    value: '2022-07-12 14:00:00'
                - column:
                    name: category_id
@@ -43,19 +43,19 @@ databaseChangeLog:
                    name: description
                    value: Morsujemy w Łódzkim Arturówku zapraszamy wszystkich chętnych.
                - column:
-                   name: max_Participant
+                   name: max_participant
                    value: 50
                - column:
-                   name: min_Participant
+                   name: min_participant
                    value: 10
                - column:
-                   - name: current_Participants
+                   - name: current_participants
                    - value: 0
                - column:
                    name: majority
                    value: 1
                - column:
-                   name: date_Time
+                   name: date_time
                    value: '2022-12-02 15:00:00'
                - column:
                    name: category_id
@@ -72,19 +72,19 @@ databaseChangeLog:
                    name: description
                    value: Doświadczeni mentorzy programowania w Javie organizują darmowe zajęcia z programowania dla dzieci.
                - column:
-                   name: max_Participant
+                   name: max_participant
                    value: 10
                - column:
-                   name: min_Participant
+                   name: min_participant
                    value: 5
                - column:
-                   - name: current_Participants
+                   - name: current_participants
                    - value: 0
                - column:
                    name: majority
                    value: 0
                - column:
-                   name: date_Time
+                   name: date_time
                    value: '2022-09-10 16:00:00'
                - column:
                    name: category_id

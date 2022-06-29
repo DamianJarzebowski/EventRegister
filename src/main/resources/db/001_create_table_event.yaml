@@ -27,15 +27,15 @@ databaseChangeLog:
                    type: varchar(500)
 
               - column:
-                   name: max_Participant
+                   name: max_participant
                    type: int
 
               - column:
-                   name: min_Participant
+                   name: min_participant
                    type: int
 
               - column:
-                   name: current_Participants
+                   name: current_participants
                    type: int
 
               - column:
@@ -43,7 +43,7 @@ databaseChangeLog:
                  - type: BIT
 
               - column:
-                   name: date_Time
+                   name: date_time
                    type: dateTime
 
               - column:

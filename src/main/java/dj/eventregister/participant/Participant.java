@@ -15,6 +15,7 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(name = "last_name")
     private String lastName;
     private int age;
     private String email;
