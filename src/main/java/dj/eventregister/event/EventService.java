@@ -1,6 +1,8 @@
 package dj.eventregister.event;
 
+import dj.eventregister.eventrecord.EventRecordRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,24 +15,30 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventReadMapper eventReadMapper;
     private final EventWriteMapper eventWriteMapper;
+    private final EventRecordRepository eventRecordRepository;
 
     List<EventReadDto> findAllEvents() {
+
         return eventRepository.findAll()
                 .stream()
-                .map(eventReadMapper::toDto)
+                .map(model -> new Tuple2(model, sumParticipants(model)))
+                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant))
                 .toList();
     }
 
     List<EventReadDto> findAllEventsWithThisCategoryName(String category) {
         return eventRepository.findAll()
                 .stream()
-                .map(eventReadMapper::toDto)
-                .filter(event -> event.getCategory().equals(category))
+                .map(model -> new Tuple2(model, sumParticipants(model)))
+                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant))
+                .filter(it -> it.getCategory().equals(category))
                 .toList();
     }
 
     Optional<EventReadDto> findById(long id) {
-        return eventRepository.findById(id).map(eventReadMapper::toDto);
+        return eventRepository.findById(id)
+                .map(model -> new Tuple2(model, sumParticipants(model)))
+                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant));
     }
 
     EventReadDto save(EventWriteDto eventWriteDto) {
@@ -60,11 +68,26 @@ public class EventService {
 
     private EventReadDto saveAndMap(Event event) {
         Event savedEvent = eventRepository.save(event);
-        return eventReadMapper.toDto(savedEvent);
+        return eventReadMapper.toDto(savedEvent, savedEvent.getCurrentParticipants());
+    }
+
+    public int sumParticipants(Event event) {
+        return eventRecordRepository.findAll()
+                .stream()
+                .filter(eventRecord -> eventRecord.getEvent().equals(event))
+                .toList()
+                .size();
     }
 
     void deleteEvent(Long id) {
         eventRepository.deleteById(id);
+    }
+
+    @Value
+    static class Tuple2 {
+
+        Event event;
+         int numberOfParticipant;
     }
 
 }

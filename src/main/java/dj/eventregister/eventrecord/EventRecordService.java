@@ -1,6 +1,7 @@
 package dj.eventregister.eventrecord;
 
-import dj.eventregister.event.EventRepository;
+import dj.eventregister.event.*;
+import dj.eventregister.participant.Participant;
 import dj.eventregister.participant.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,39 @@ public class EventRecordService {
         Optional.ofNullable(participantRepository.findById(eventRecordWriteDto.getParticipantId())
                 .orElseThrow(() ->
                         new InvalidEventRecordException("Brak uczestnika z id " + eventRecordWriteDto.getParticipantId())));
+        if(!checkMajorityIfNeed(eventRecordWriteDto))
+            throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
 
         return mapAndSaveEventRecord(eventRecordWriteDto);
     }
+
+    private boolean checkMajorityIfNeed(EventRecordWriteDto eventRecordWriteDto) {
+        if(findEventMajority(eventRecordWriteDto)) {
+            return checkParticipantMajority(eventRecordWriteDto);
+        }
+        else return true;
+    }
+
+    private boolean findEventMajority(EventRecordWriteDto eventRecordWriteDto) {
+        Long eventId = eventRecordWriteDto.getEventId();
+        Optional<Event> event = eventRepository.findById(eventId);
+        return event
+                .map(Event::isMajority)
+                .get();
+    }
+
+    private int checkParticipantAge(EventRecordWriteDto eventRecordWriteDto) {
+        Long participantId = eventRecordWriteDto.getParticipantId();
+        Optional<Participant> participant = participantRepository.findById(participantId);
+        return participant
+                .map(Participant::getAge)
+                .get();
+    }
+
+    private boolean checkParticipantMajority(EventRecordWriteDto eventRecordWriteDto) {
+        return checkParticipantAge(eventRecordWriteDto) > 17;
+    }
+
 
     private EventRecordReadDto mapAndSaveEventRecord(EventRecordWriteDto eventRecordWriteDto) {
         EventRecord eventRecordEntity = eventRecordWriteMapper.toEntity(eventRecordWriteDto);

@@ -2,7 +2,6 @@ package dj.eventregister.event;
 
 import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
-import dj.eventregister.eventrecord.EventRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +12,8 @@ import java.util.Optional;
 public class EventReadMapper {
 
     private final CategoryRepository categoryRepository;
-    private final EventRecordRepository eventRecordRepository;
 
-    public EventReadDto toDto(Event event) {
+    public EventReadDto toDto(Event event, int numberOfParticipant) {
         var dto = new EventReadDto();
 
         dto.setId(event.getId());
@@ -23,19 +21,11 @@ public class EventReadMapper {
         dto.setDescription(event.getDescription());
         dto.setMaxParticipant(event.getMaxParticipant());
         dto.setMinParticipant(event.getMinParticipant());
-        dto.setCurrentParticipants(sumParticipants(event));
+        dto.setCurrentParticipants(numberOfParticipant);
         dto.setMajority(event.isMajority());
         dto.setDateTime(event.getDateTime());
         dto.setCategory(event.getCategory().getName());
         return dto;
-    }
-
-    public int sumParticipants(Event event) {
-        return eventRecordRepository.findAll()
-                .stream()
-                .filter(eventRecord -> eventRecord.getEvent().equals(event))
-                .toList()
-                .size();
     }
 
     public Event toEntity(EventReadDto eventReadDto) {
