@@ -39,25 +39,24 @@ public class EventRecordService {
         Optional.ofNullable(participantRepository.findById(eventRecordWriteDto.getParticipantId())
                 .orElseThrow(() ->
                         new InvalidEventRecordException("Brak uczestnika z id " + eventRecordWriteDto.getParticipantId())));
-        if(!checkMajorityIfNeed(eventRecordWriteDto))
+        if (!checkMajorityIfNeed(eventRecordWriteDto))
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
 
         return mapAndSaveEventRecord(eventRecordWriteDto);
     }
 
     private boolean checkMajorityIfNeed(EventRecordWriteDto eventRecordWriteDto) {
-        if(findEventMajority(eventRecordWriteDto)) {
+        if (findEventMajority(eventRecordWriteDto)) {
             return checkParticipantMajority(eventRecordWriteDto);
-        }
-        else return true;
+        } else return true;
     }
 
     private boolean findEventMajority(EventRecordWriteDto eventRecordWriteDto) {
         Long eventId = eventRecordWriteDto.getEventId();
-        Optional<Event> event = eventRepository.findById(eventId);
+        Optional<Event> event = this.eventRepository.findById(eventId);
         return event
                 .map(Event::isMajority)
-                .get();
+                .orElseThrow(RuntimeException::new);
     }
 
     private int checkParticipantAge(EventRecordWriteDto eventRecordWriteDto) {
@@ -65,7 +64,7 @@ public class EventRecordService {
         Optional<Participant> participant = participantRepository.findById(participantId);
         return participant
                 .map(Participant::getAge)
-                .get();
+                .orElseThrow(RuntimeException::new);
     }
 
     private boolean checkParticipantMajority(EventRecordWriteDto eventRecordWriteDto) {
