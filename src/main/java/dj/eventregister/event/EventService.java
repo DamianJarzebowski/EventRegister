@@ -87,7 +87,7 @@ public class EventService {
     static class Tuple2 {
 
         Event event;
-         int numberOfParticipant;
+        int numberOfParticipant;
     }
 
 }
