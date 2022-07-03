@@ -73,10 +73,10 @@ databaseChangeLog:
                    value: Doświadczeni mentorzy programowania w Javie organizują darmowe zajęcia z programowania dla dzieci.
                - column:
                    name: max_participant
-                   value: 10
+                   value: 2
                - column:
                    name: min_participant
-                   value: 5
+                   value: 1
                - column:
                    - name: current_participants
                    - value: 0

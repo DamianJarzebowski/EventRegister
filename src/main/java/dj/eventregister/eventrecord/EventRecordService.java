@@ -18,6 +18,8 @@ public class EventRecordService {
     private final EventRecordWriteMapper eventRecordWriteMapper;
 
     private final EventRepository eventRepository;
+    private final EventService eventService;
+    private final EventReadMapper eventReadMapper;
     private final ParticipantRepository participantRepository;
 
     List<EventRecordReadDto> findAllEventsRecords() {
@@ -41,8 +43,21 @@ public class EventRecordService {
                         new InvalidEventRecordException("Brak uczestnika z id " + eventRecordWriteDto.getParticipantId())));
         if (!checkMajorityIfNeed(eventRecordWriteDto))
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
+        if (!checkLimitParticipantInEvent(eventRecordWriteDto))
+            throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
 
         return mapAndSaveEventRecord(eventRecordWriteDto);
+    }
+
+    private boolean checkLimitParticipantInEvent(EventRecordWriteDto eventRecordWriteDto) {
+        Long eventId = eventRecordWriteDto.getEventId();
+        Optional<EventReadDto> eventReadDto = eventService.findById(eventId);
+        int maxParticipants = eventReadDto
+                .map(EventReadDto::getMaxParticipant)
+                .orElseThrow(RuntimeException::new);
+        Optional<Event> event = eventRepository.findById(eventId);
+        int currentParticipants = eventService.sumParticipants(event.orElseThrow(RuntimeException::new));
+        return maxParticipants > currentParticipants;
     }
 
     private boolean checkMajorityIfNeed(EventRecordWriteDto eventRecordWriteDto) {
@@ -53,7 +68,7 @@ public class EventRecordService {
 
     private boolean findEventMajority(EventRecordWriteDto eventRecordWriteDto) {
         Long eventId = eventRecordWriteDto.getEventId();
-        Optional<Event> event = this.eventRepository.findById(eventId);
+        Optional<Event> event = eventRepository.findById(eventId);
         return event
                 .map(Event::isMajority)
                 .orElseThrow(RuntimeException::new);
@@ -70,7 +85,6 @@ public class EventRecordService {
     private boolean checkParticipantMajority(EventRecordWriteDto eventRecordWriteDto) {
         return checkParticipantAge(eventRecordWriteDto) > 17;
     }
-
 
     private EventRecordReadDto mapAndSaveEventRecord(EventRecordWriteDto eventRecordWriteDto) {
         EventRecord eventRecordEntity = eventRecordWriteMapper.toEntity(eventRecordWriteDto);

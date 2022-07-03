@@ -35,7 +35,7 @@ public class EventService {
                 .toList();
     }
 
-    Optional<EventReadDto> findById(long id) {
+    public Optional<EventReadDto> findById(long id) {
         return eventRepository.findById(id)
                 .map(model -> new Tuple2(model, sumParticipants(model)))
                 .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant));
