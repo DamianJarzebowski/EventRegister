@@ -19,7 +19,6 @@ public class EventRecordService {
 
     private final EventRepository eventRepository;
     private final EventService eventService;
-    private final EventReadMapper eventReadMapper;
     private final ParticipantRepository participantRepository;
 
     List<EventRecordReadDto> findAllEventsRecords() {
