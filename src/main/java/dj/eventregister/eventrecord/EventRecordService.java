@@ -82,7 +82,8 @@ public class EventRecordService {
     }
 
     private boolean checkParticipantMajority(EventRecordWriteDto eventRecordWriteDto) {
-        return checkParticipantAge(eventRecordWriteDto) > 17;
+        final int MAX_AGE_OF_UNDERAGE = 17;
+        return checkParticipantAge(eventRecordWriteDto) > MAX_AGE_OF_UNDERAGE;
     }
 
     private EventRecordReadDto mapAndSaveEventRecord(EventRecordWriteDto eventRecordWriteDto) {
