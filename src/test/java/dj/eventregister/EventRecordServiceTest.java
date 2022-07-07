@@ -11,7 +11,7 @@ public class EventRecordServiceTest {
     @Test
     void shouldCheckParticipantMajority() {
 
-        var sut = new EventRecordService();
+        //var sut = new EventRecordService();
     }
 
 }
