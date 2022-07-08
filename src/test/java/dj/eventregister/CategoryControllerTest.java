@@ -1,21 +1,25 @@
 package dj.eventregister;
 
 import dj.eventregister.category.CategoryWriteDto;
-import dj.eventregister.event.EventWriteDto;
 import io.restassured.RestAssured;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.testng.annotations.Test;
 
-import java.time.LocalDateTime;
-
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CategoryControllerTest {
 
     public static final String BASE_URL = "http://localhost:8080/api/categories";
 
-    @Test(description = "create a category")
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
+    @Test(description = "Create a category")
     void postTest() {
 
-        var dto = new CategoryWriteDto("Event", "Testowy Event Opis Eventu", 15, 20, true, LocalDateTime.of(2023, 12, 31, 12, 0, 0, 0), "Taniec");
 
+        var dto = new CategoryWriteDto("Test Category");
 
         RestAssured
                 .given()
