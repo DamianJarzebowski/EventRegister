@@ -2,30 +2,40 @@ package dj.eventregister;
 
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.testng.annotations.Test;
+
+
+import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CategoryControllerTest {
 
-    public static final String BASE_URL = "http://localhost:8080/api/categories";
+    public static final String BASE_URL = "/api/categories";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Test(description = "Create a category")
+    @Test
     void postTest() {
 
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-        var dto = new CategoryWriteDto("Test Category");
+
+        // var dto = new CategoryWriteDto("Test Category");
 
         RestAssured
                 .given()
-                    .body("{\"name\": \"test\"}")
+                .log()
+                .all()
+                .header("Content-Type", "application/json")
+                    //.body("{\"name\": \"test\"}")
+                .body("{ }")
+
                 .when()
-                    .post(BASE_URL)
+                    .post(uri)
                 .then()
                     .statusCode(201);
     }
