@@ -23,16 +23,12 @@ public class CategoryControllerTest {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-
-        // var dto = new CategoryWriteDto("Test Category");
-
         RestAssured
                 .given()
                 .log()
                 .all()
                 .header("Content-Type", "application/json")
-                    //.body("{\"name\": \"test\"}")
-                .body("{ }")
+                .body("{\"name\": \"test\"}")
 
                 .when()
                     .post(uri)
