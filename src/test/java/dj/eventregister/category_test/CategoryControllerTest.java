@@ -1,4 +1,4 @@
-package dj.eventregister;
+package dj.eventregister.category_test;
 
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
