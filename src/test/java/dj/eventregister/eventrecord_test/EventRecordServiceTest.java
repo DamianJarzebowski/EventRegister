@@ -1,4 +1,4 @@
-package dj.eventregister;
+package dj.eventregister.eventrecord_test;
 
 import dj.eventregister.eventrecord.EventRecordService;
 import lombok.RequiredArgsConstructor;

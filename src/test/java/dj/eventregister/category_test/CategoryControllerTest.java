@@ -2,6 +2,7 @@ package dj.eventregister.category_test;
 
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,11 +26,8 @@ public class CategoryControllerTest {
 
         RestAssured
                 .given()
-                .log()
-                .all()
-                .header("Content-Type", "application/json")
-                .body("{\"name\": \"test\"}")
-
+                    .contentType(ContentType.JSON)
+                    .body("{\"name\": \"test\"}")
                 .when()
                     .post(uri)
                 .then()
