@@ -26,7 +26,7 @@ class CategoryControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{\"name\": \"test\"}")
+                    .body("{\"name\": \"CategoryTestName\"}")
                 .when()
                     .post(uri)
                 .then()
