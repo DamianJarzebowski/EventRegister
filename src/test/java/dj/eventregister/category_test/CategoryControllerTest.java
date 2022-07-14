@@ -1,6 +1,5 @@
 package dj.eventregister.category_test;
 
-import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CategoryControllerTest {
+class CategoryControllerTest {
 
     public static final String BASE_URL = "/api/categories";
 

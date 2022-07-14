@@ -1,4 +1,4 @@
-package dj.eventregister;
+package dj.eventregister.event_test;
 
 import dj.eventregister.event.EventWriteDto;
 import org.assertj.core.api.Assertions;
@@ -14,11 +14,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EventRegisterApplicationTests {
-
-    @Test
-    void contextLoads() {
-    }
+class EventControllerTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -40,5 +36,4 @@ class EventRegisterApplicationTests {
 
         Assertions.assertThat(response).isEqualTo(URI.create("http://localhost:"+ port +"/api/event/4"));
     }
-
 }
