@@ -61,7 +61,14 @@ class EventControllerTest {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-
+        RestAssured
+                .given()
+                    .contentType(ContentType.JSON)
+                .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:56:30.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
+                .when()
+                    .put(uri + "/4")
+                .then()
+                    .statusCode(200);
     }
 
     @Test
@@ -69,8 +76,11 @@ class EventControllerTest {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-
+        RestAssured
+                .given()
+                .when()
+                    .delete(uri + "/2")
+                .then()
+                    .statusCode(204);
     }
-
-
 }
