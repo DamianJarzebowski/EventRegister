@@ -1,6 +1,8 @@
 package dj.eventregister.event_test;
 
 import dj.eventregister.event.EventWriteDto;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventControllerTest {
+
+    public static final String BASE_URL = "/api/event";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -36,4 +40,37 @@ class EventControllerTest {
 
         Assertions.assertThat(response).isEqualTo(URI.create("http://localhost:"+ port +"/api/event/4"));
     }
+
+    @Test
+     void testPost() {
+
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+        RestAssured
+                .given()
+                    .contentType(ContentType.JSON)
+                    .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:56:30.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
+                .when()
+                    .post(uri)
+                .then()
+                .statusCode(201);
+    }
+
+    @Test
+    void testPut() {
+
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+
+    }
+
+    @Test
+    void testDelete() {
+
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+
+    }
+
+
 }

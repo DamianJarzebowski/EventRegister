@@ -1,6 +1,5 @@
 package dj.eventregister.category_test;
 
-import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -8,17 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-
-
 import java.net.URI;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 
     public static final String BASE_URL = "/api/categories";
-
-
 
     @Autowired
     private TestRestTemplate testRestTemplate;
