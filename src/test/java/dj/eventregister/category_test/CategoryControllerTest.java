@@ -1,9 +1,9 @@
 package dj.eventregister.category_test;
 
+import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
-import static org.hamcrest.Matchers.containsString;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
@@ -65,16 +64,4 @@ class CategoryControllerTest {
                 .statusCode(204);
     }
 
-    @Test
-    void optionsTest() {
-
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-
-        RestAssured.options(uri)
-                .then()
-                .statusCode(204)
-                .header("access-control-allow-methods", Matchers.equalTo("GET, POST, DELETE"))
-                .body(Matchers.emptyOrNullString());
-    }
 }
