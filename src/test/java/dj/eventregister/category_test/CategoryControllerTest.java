@@ -36,13 +36,17 @@ class CategoryControllerTest {
     }
 
     @Test
-    void getTest() {
+     void getTest() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
         RestAssured.get(uri + "/1")
                 .then()
                 .body(Matchers.containsString("TestCategory"));
+
+        RestAssured.get(uri)
+                .then()
+                .body("", Matchers.hasItem("TestCategory"));
     }
 
     @Test
@@ -57,5 +61,4 @@ class CategoryControllerTest {
                     .then()
                 .statusCode(204);
     }
-
 }
