@@ -9,9 +9,9 @@ databaseChangeLog:
              columns:
                - column:
                    name: event_id
-                   value: 1
+                   value: 2
                - column:
                    name: participant_id
-                   value: 1
+                   value: 2
              dbms: 'h2,  mysql, postgresql'
              tableName: event_record

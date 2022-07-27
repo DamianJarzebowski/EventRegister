@@ -30,7 +30,7 @@ class CategoryControllerTest {
                     .post(uri)
                 .then()
                     .statusCode(201);
-        RestAssured.get(uri + "/7")
+        RestAssured.get(uri + "/8")
                 .then()
                 .body(Matchers.containsString("CategoryTestName"));
     }
@@ -40,9 +40,9 @@ class CategoryControllerTest {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-        RestAssured.get(uri + "/7")
+        RestAssured.get(uri + "/1")
                 .then()
-                .body(Matchers.containsString("CategoryTestName"));
+                .body(Matchers.containsString("TestCategory"));
     }
 
     @Test
