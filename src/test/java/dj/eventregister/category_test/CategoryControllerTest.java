@@ -43,7 +43,6 @@ class CategoryControllerTest {
         RestAssured.get(uri + "/1")
                 .then()
                 .body(Matchers.containsString("TestCategory"));
-
         RestAssured.get(uri)
                 .then()
                 .body("", Matchers.hasItem("TestCategory"));

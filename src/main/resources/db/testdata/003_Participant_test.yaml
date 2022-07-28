@@ -12,7 +12,7 @@ databaseChangeLog:
                    value: Test
                - column:
                    name: last_name
-                   value: User
+                   value: Participant
                - column:
                    name: age
                    value: 99
