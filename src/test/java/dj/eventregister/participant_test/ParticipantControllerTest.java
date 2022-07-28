@@ -44,7 +44,10 @@ class ParticipantControllerTest {
 
         RestAssured.get(uri)
                 .then()
-                .body("name", Matchers.hasItem("Test"));
+                .body("name", Matchers.hasItem("Test"))
+                .body("lastName", Matchers.hasItem("User"))
+                .body("age", Matchers.hasItem(99))
+                .body("email", Matchers.hasItem("test@o2.pl"));
     }
 
     @Test

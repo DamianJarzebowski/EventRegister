@@ -4,6 +4,7 @@ import dj.eventregister.event.EventWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +40,22 @@ class EventControllerTest {
         var port = uri.getPort();
 
         Assertions.assertThat(response).isEqualTo(URI.create("http://localhost:"+ port +"/api/event/4"));
+    }
+
+    @Test
+    void getTest() {
+
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+        RestAssured.get(uri + "/1")
+                .then()
+                .body(Matchers.containsString("{\"id\":1,\"name\":\"Test Event\",\"description\":\"Description Test Event\",\"maxParticipant\":3,\"minParticipant\":1,\"currentParticipants\":0,\"majority\":true,\"dateTime\":\"2999-11-11T14:00:00\",\"category\":\"TestCategory\"}"));
+        RestAssured.get(uri)
+                .then()
+                .body("name", Matchers.hasItem("Test Event"))
+                .body("description", Matchers.hasItem("Description Test Event"))
+                .body("maxParticipant", Matchers.hasItem(3))
+                .body("minParticipant", Matchers.hasItem(1));
     }
 
     @Test
