@@ -49,11 +49,11 @@ class EventControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:56:30.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
+                    .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:00:00.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
                 .when()
                     .post(uri)
                 .then()
-                .statusCode(201);
+                    .statusCode(201);
     }
 
     @Test
@@ -64,9 +64,9 @@ class EventControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:56:30.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
+                    .body("{ \"category\": \"TestCategory\", \"dateTime\": \"2999-11-11T14:00:00.604Z\", \"description\": \"PUT Description Test Event\", \"majority\": true, \"maxParticipant\": 3, \"minParticipant\": 1, \"name\": \"Put Test Event\"}")
                 .when()
-                    .put(uri + "/4")
+                    .put(uri + "/1")
                 .then()
                     .statusCode(200);
     }
@@ -79,7 +79,7 @@ class EventControllerTest {
         RestAssured
                 .given()
                 .when()
-                    .delete(uri + "/2")
+                    .delete(uri + "/1")
                 .then()
                     .statusCode(204);
     }
