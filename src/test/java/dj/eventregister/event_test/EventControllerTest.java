@@ -66,7 +66,7 @@ class EventControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{ \"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:00:00.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
+                    .body("{\"category\": \"Taniec\", \"dateTime\": \"2022-07-16T00:00:00.604Z\", \"description\": \"EventDescription\", \"majority\": true, \"maxParticipant\": 10, \"minParticipant\": 5, \"name\": \"EventName\"}")
                 .when()
                     .post(uri)
                 .then()
@@ -81,7 +81,7 @@ class EventControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{ \"category\": \"TestCategory\", \"dateTime\": \"2999-11-11T14:00:00.604Z\", \"description\": \"PUT Description Test Event\", \"majority\": true, \"maxParticipant\": 3, \"minParticipant\": 1, \"name\": \"Put Test Event\"}")
+                    .body("{\"id\": 1, \"category\": \"TestCategory\", \"dateTime\": \"2999-11-11T14:00:00.604Z\", \"description\": \"PUT Description Test Event\", \"majority\": true, \"maxParticipant\": 3, \"minParticipant\": 1, \"name\": \"Put Test Event\"}")
                 .when()
                     .put(uri + "/1")
                 .then()

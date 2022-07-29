@@ -41,7 +41,7 @@ class ParticipantControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{\"name\": \"Test\", \"last_name\": \"Participant\", \"age\": \"99\", \"email\": \"test@o2.pl\"}")
+                    .body("{\"id\": 1, \"name\": \"Test\", \"last_name\": \"Participant\", \"age\": \"99\", \"email\": \"test@o2.pl\"}")
                 .when()
                     .put(uri + "/1")
                 .then()
@@ -55,7 +55,7 @@ class ParticipantControllerTest {
 
         RestAssured.get(uri + "/1")
                 .then()
-                .body(Matchers.containsString("{\"id\":1,\"name\":\"Test\",\"lastName\":\"User\",\"age\":99,\"email\":\"test@o2.pl\"}"));
+                .body(Matchers.containsString("{\"id\": 1,\"name\":\"Test\",\"lastName\":\"User\",\"age\":99,\"email\":\"test@o2.pl\"}"));
 
         RestAssured.get(uri)
                 .then()
