@@ -44,8 +44,19 @@ public class EventRecordService {
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
         if (!checkLimitParticipantInEvent(eventRecordWriteDto))
             throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
+        if (!checkIfTheParticipantIsAlreadyRegistered(eventRecordWriteDto))
+            throw new InvalidEventRecordException("Uczestnik o tym id został juz zarejestrowany na ten event");
 
         return mapAndSaveEventRecord(eventRecordWriteDto);
+    }
+
+    private boolean checkIfTheParticipantIsAlreadyRegistered(EventRecordWriteDto eventRecordWriteDto) {
+        Long participantId = eventRecordWriteDto.getParticipantId();
+        List<EventRecordReadDto> list = findAllEventsRecords()
+                .stream()
+                .filter(eventRecord -> eventRecord.getParticipantId().equals(participantId))
+                .toList();
+        return list.isEmpty();
     }
 
     private boolean checkLimitParticipantInEvent(EventRecordWriteDto eventRecordWriteDto) {
