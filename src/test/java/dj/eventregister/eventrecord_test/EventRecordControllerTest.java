@@ -11,7 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EventRecordServiceTest {
+class EventRecordControllerTest {
 
     public static final String BASE_URL = "/api/event-record";
 
