@@ -30,7 +30,7 @@ class EventRecordController {
     }
 
     @PostMapping("")
-    ResponseEntity<EventRecordReadDto> registerTheParticipant(@RequestBody EventRecordWriteDto eventRecordWriteDto) {
+    ResponseEntity<?> registerTheParticipant(@RequestBody EventRecordWriteDto eventRecordWriteDto) {
         EventRecordReadDto savedParty;
         try {
             savedParty = eventRecordService.registerTheParticipant(eventRecordWriteDto);

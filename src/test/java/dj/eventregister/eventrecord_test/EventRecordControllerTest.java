@@ -1,8 +1,10 @@
 package dj.eventregister.eventrecord_test;
 
+import dj.eventregister.eventrecord.EventRecordReadDto;
+import dj.eventregister.eventrecord.EventRecordWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matchers;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,13 +21,45 @@ class EventRecordControllerTest {
     private TestRestTemplate testRestTemplate;
 
     @Test
+    void shouldCreateAndGetEventRecord() {
+
+        var uri = URI.create((testRestTemplate.getRootUri()) + BASE_URL);
+
+        var location = RestAssured
+                .with()
+                    .contentType(ContentType.JSON)
+                .body(new EventRecordWriteDto()
+                        .setEventId(1L)
+                        .setParticipantId(1L))
+                .when()
+                    .post(uri)
+                    .header("location");
+
+        var actual = RestAssured
+                .given().headers("Content-Type", ContentType.JSON)
+                .get(location)
+                .as(EventRecordReadDto.class);
+
+        var expected = new EventRecordReadDto()
+                .setId(actual.getId())
+                .setEventId(1L)
+                .setParticipantId(1L);
+
+        Assertions.assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     void getTest() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        RestAssured.get(uri + "/1")
-                .then()
-            .body(Matchers.containsString("{\"id\":1,\"eventId\":1,\"participantId\":1}"));
+        var actual = RestAssured
+                .get(uri + "/1")
+                .as(EventRecordReadDto.class);
+        var expected = new EventRecordReadDto()
+                .setId(1L)
+                .setEventId(1L)
+                .setParticipantId(1L);
+        Assertions.assertThat(actual).isEqualTo(expected);
     }
 
     @Test

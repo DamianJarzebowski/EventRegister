@@ -9,14 +9,6 @@ databaseChangeLog:
            columns:
              - column:
                  name: name
-                 value: TestCategory
-           dbms: 'h2,  mysql, postgresql'
-           tableName: category
-
-       - insert:
-           columns:
-             - column:
-                 name: name
                  value: Bieganie
            dbms: 'h2,  mysql, postgresql'
            tableName: category

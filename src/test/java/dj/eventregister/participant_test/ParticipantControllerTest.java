@@ -55,7 +55,7 @@ class ParticipantControllerTest {
 
         RestAssured.get(uri + "/1")
                 .then()
-                .body(Matchers.containsString("{\"id\": 1,\"name\":\"Test\",\"lastName\":\"User\",\"age\":99,\"email\":\"test@o2.pl\"}"));
+                .body(Matchers.containsString("{\"id\":1,\"name\":\"Test\",\"lastName\":null,\"age\":99,\"email\":\"test@o2.pl\"}"));
 
         RestAssured.get(uri)
                 .then()

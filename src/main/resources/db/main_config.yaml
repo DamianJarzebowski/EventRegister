@@ -30,9 +30,6 @@ databaseChangeLog:
       file: testdata/003_Participant_test.yaml
       relativeToChangelogFile: true
   - include:
-      file: testdata/004_EventRecord_test.yaml
-      relativeToChangelogFile: true
-  - include:
       file: 008_create_UC_participant_email.yaml
       relativeToChangelogFile: true
   - include:

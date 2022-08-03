@@ -9,35 +9,6 @@ databaseChangeLog:
              columns:
                - column:
                    name: name
-                   value: Test Event
-               - column:
-                   name: description
-                   value: Description Test Event
-               - column:
-                   name: max_participant
-                   value: 3
-               - column:
-                   name: min_participant
-                   value: 1
-               - column:
-                   - name: current_participants
-                   - value: 0
-               - column:
-                   name: majority
-                   value: 1
-               - column:
-                   name: date_time
-                   value: '2999-11-11 14:00:00'
-               - column:
-                   name: category_id
-                   value: 1
-             dbms: 'h2,  mysql, postgresql'
-             tableName: event
-
-         - insert:
-             columns:
-               - column:
-                   name: name
                    value: Bahata z Małgorzatą
                - column:
                    name: description

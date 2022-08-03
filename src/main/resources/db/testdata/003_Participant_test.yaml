@@ -9,23 +9,6 @@ databaseChangeLog:
              columns:
                - column:
                    name: name
-                   value: Test
-               - column:
-                   name: last_name
-                   value: Participant
-               - column:
-                   name: age
-                   value: 99
-               - column:
-                   name: email
-                   value: test@o2.pl
-             dbms: 'h2,  mysql, postgresql'
-             tableName: participant
-
-         - insert:
-             columns:
-               - column:
-                   name: name
                    value: Damian
                - column:
                    name: last_name
