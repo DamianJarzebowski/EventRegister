@@ -23,17 +23,9 @@ class EventRecordControllerTest {
     @Test
     void shouldCreateAndGetEventRecord() {
 
-        var uri = URI.create((testRestTemplate.getRootUri()) + BASE_URL);
+        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-        var location = RestAssured
-                .with()
-                    .contentType(ContentType.JSON)
-                .body(new EventRecordWriteDto()
-                        .setEventId(1L)
-                        .setParticipantId(1L))
-                .when()
-                    .post(uri)
-                    .header("location");
+        var location = createEventRecordAndReturnLocation(uri);
 
         var actual = RestAssured
                 .given().headers("Content-Type", ContentType.JSON)
@@ -68,15 +60,27 @@ class EventRecordControllerTest {
     @Test
     void shouldCreateAndDeleteEventRecord() {
 
-        shouldCreateEventRecord();
-
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+        var location = createEventRecordAndReturnLocation(uri);
 
         RestAssured
                 .when()
-                    .delete(uri + "/1")
+                    .delete(location)
                 .then()
                     .statusCode(204);
+    }
+
+    String createEventRecordAndReturnLocation(String uri) {
+        return RestAssured
+                .with()
+                .contentType(ContentType.JSON)
+                .body(new EventRecordWriteDto()
+                        .setEventId(1L)
+                        .setParticipantId(1L))
+                .when()
+                .post(uri)
+                .header("location");
     }
 
 }
