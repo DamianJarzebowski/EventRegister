@@ -49,21 +49,7 @@ class EventRecordControllerTest {
     }
 
     @Test
-    void getTest() {
-
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-        var actual = RestAssured
-                .get(uri + "/1")
-                .as(EventRecordReadDto.class);
-        var expected = new EventRecordReadDto()
-                .setId(1L)
-                .setEventId(1L)
-                .setParticipantId(1L);
-        Assertions.assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void testPost() {
+    void shouldCreateEventRecord() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 

@@ -21,9 +21,9 @@ public class CategoryService {
                 .toList();
     }
 
-     Optional<String> findById(long id) {
+     Optional<CategoryReadDto> findById(long id) {
         return categoryRepository.findById(id)
-                .map(Category::getName);
+                .map(categoryReadMapper::toDto);
     }
 
     CategoryReadDto saveCategory(CategoryWriteDto categoryWriteDto) {

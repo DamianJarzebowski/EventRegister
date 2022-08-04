@@ -8,7 +8,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,12 +22,14 @@ class CategoryController {
     }
 
     @GetMapping("/{id}")
-    Optional<String> findById(@PathVariable long id) {
-        return categoryService.findById(id);
+    ResponseEntity<CategoryReadDto> findById(@PathVariable long id) {
+        return categoryService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    ResponseEntity<Object> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
+    ResponseEntity<?> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
         CategoryReadDto savedCategory = categoryService.saveCategory(categoryWriteDto);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
