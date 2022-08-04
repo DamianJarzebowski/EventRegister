@@ -28,9 +28,10 @@ class EventRecordControllerTest {
         var location = createEventRecordAndReturnLocation(uri);
 
         var actual = RestAssured
-                .given().headers("Content-Type", ContentType.JSON)
-                .get(location)
-                .as(EventRecordReadDto.class);
+                .given()
+                    .headers("Content-Type", ContentType.JSON)
+                    .get(location)
+                    .as(EventRecordReadDto.class);
 
         var expected = new EventRecordReadDto()
                 .setId(actual.getId())
@@ -73,14 +74,14 @@ class EventRecordControllerTest {
 
     String createEventRecordAndReturnLocation(String uri) {
         return RestAssured
-                .with()
-                .contentType(ContentType.JSON)
-                .body(new EventRecordWriteDto()
-                        .setEventId(1L)
-                        .setParticipantId(1L))
+                .given()
+                    .contentType(ContentType.JSON)
+                    .body(new EventRecordWriteDto()
+                            .setEventId(1L)
+                            .setParticipantId(1L))
                 .when()
-                .post(uri)
-                .header("location");
+                    .post(uri)
+                    .header("location");
     }
 
 }
