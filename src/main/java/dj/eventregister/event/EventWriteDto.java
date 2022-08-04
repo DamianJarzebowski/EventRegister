@@ -3,11 +3,13 @@ package dj.eventregister.event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @Data
 public class EventWriteDto {
 

@@ -1,8 +1,10 @@
 package dj.eventregister.participant_test;
 
+import dj.eventregister.participant.ParticipantReadDto;
+import dj.eventregister.participant.ParticipantWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matchers;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,14 +21,18 @@ class ParticipantControllerTest {
     private TestRestTemplate testRestTemplate;
 
     @Test
-    void postTest() {
+    void shouldCreateParticipant() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{\"name\": \"CreateTest\", \"last_name\": \"Participant\", \"age\": \"99\", \"email\": \"createTestEamil@o2.pl\"}")
+                    .body(new ParticipantWriteDto()
+                            .setName("TestName")
+                            .setLastName("TestLastName")
+                            .setAge(18)
+                            .setEmail("testEmail@gmail.com"))
                 .when()
                     .post(uri)
                 .then()
@@ -34,47 +40,80 @@ class ParticipantControllerTest {
     }
 
     @Test
-    void testPut() {
+    void shouldCreateAndUpdateParticipant() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+
+        var location = createParticipantAndReturnLocation(uri);
+
+        var actual = RestAssured
+                .given().headers("Content-Type", ContentType.JSON)
+                .get(location)
+                .as(ParticipantReadDto.class);
 
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{\"id\": 1, \"name\": \"Test\", \"last_name\": \"Participant\", \"age\": \"99\", \"email\": \"test@o2.pl\"}")
+                    .body(new ParticipantReadDto()
+                            .setId(actual.getId())
+                            .setName("UpdateName")
+                            .setLastName("UpdateLastName")
+                            .setAge(99)
+                            .setEmail("UpdateEmail@gmail.com"))
                 .when()
-                    .put(uri + "/1")
+                    .put(location)
                 .then()
                     .statusCode(200);
     }
 
     @Test
-    void getTest() {
+    void shouldCreateAndGetParticipant() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
-        RestAssured.get(uri + "/1")
-                .then()
-                .body(Matchers.containsString("{\"id\":1,\"name\":\"Test\",\"lastName\":null,\"age\":99,\"email\":\"test@o2.pl\"}"));
+        var location = createParticipantAndReturnLocation(uri);
 
-        RestAssured.get(uri)
-                .then()
-                .body("name", Matchers.hasItem("Test"))
-                .body("lastName", Matchers.hasItem("Participant"))
-                .body("age", Matchers.hasItem(99))
-                .body("email", Matchers.hasItem("test@o2.pl"));
+        var actual = RestAssured
+                .given().headers("Content-Type", ContentType.JSON)
+                .get(location)
+                .as(ParticipantReadDto.class);
+
+        var expected = new ParticipantReadDto()
+                .setId(actual.getId())
+                .setName("TestName")
+                .setLastName("TestLastName")
+                .setAge(18)
+                .setEmail("testEmail@gmail.com");
+
+        Assertions.assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    void deleteTest() {
+    void shouldCreateAndDeleteParticipant() {
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
+        var location = createParticipantAndReturnLocation(uri);
+
         RestAssured
-                    .given()
-                    .when()
-                .delete(uri + "/1")
-                    .then()
+                .when()
+                .delete(location)
+                .then()
                 .statusCode(204);
+    }
+
+    String createParticipantAndReturnLocation(String uri) {
+
+        return RestAssured
+                .given()
+                    .contentType(ContentType.JSON)
+                    .body(new ParticipantWriteDto()
+                            .setName("TestName")
+                            .setLastName("TestLastName")
+                            .setAge(18)
+                            .setEmail("testEmail@gmail.com"))
+                .when()
+                    .post(uri)
+                    .header("location");
     }
 }
