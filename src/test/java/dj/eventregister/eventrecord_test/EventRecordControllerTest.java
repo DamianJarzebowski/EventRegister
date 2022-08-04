@@ -56,7 +56,9 @@ class EventRecordControllerTest {
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body("{\"eventId\":1, \"participantId\":2}")
+                    .body(new EventRecordWriteDto()
+                            .setEventId(1L)
+                            .setParticipantId(1L))
                 .when()
                     .post(uri)
                 .then()
@@ -64,16 +66,17 @@ class EventRecordControllerTest {
     }
 
     @Test
-    void testDelete() {
+    void shouldCreateAndDeleteEventRecord() {
+
+        shouldCreateEventRecord();
 
         var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
         RestAssured
-                .given()
                 .when()
-                .delete(uri + "/1")
+                    .delete(uri + "/1")
                 .then()
-                .statusCode(204);
+                    .statusCode(204);
     }
 
 }
