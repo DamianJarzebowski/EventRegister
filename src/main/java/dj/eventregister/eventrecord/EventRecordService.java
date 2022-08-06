@@ -70,6 +70,7 @@ public class EventRecordService {
         return maxParticipants > currentParticipants;
     }
 
+
     private boolean checkMajorityIfNeed(EventRecordWriteDto eventRecordWriteDto) {
         if (findEventMajority(eventRecordWriteDto)) {
             return checkParticipantMajority(eventRecordWriteDto);
