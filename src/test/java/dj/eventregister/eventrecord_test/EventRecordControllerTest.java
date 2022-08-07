@@ -4,6 +4,7 @@ import dj.eventregister.eventrecord.EventRecordReadDto;
 import dj.eventregister.eventrecord.EventRecordWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ class EventRecordControllerTest {
                 .when()
                     .post(uri)
                 .then()
-                    .statusCode(201);
+                    .statusCode(HttpStatus.SC_CREATED);
     }
 
     @Test
@@ -69,7 +70,7 @@ class EventRecordControllerTest {
                 .when()
                     .delete(location)
                 .then()
-                    .statusCode(204);
+                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     String createEventRecordAndReturnLocation(String uri) {

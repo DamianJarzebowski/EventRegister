@@ -4,6 +4,7 @@ import dj.eventregister.event.EventReadDto;
 import dj.eventregister.event.EventWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.hibernate.sql.Update;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,7 @@ class EventControllerTest {
                 .when()
                     .post(uri)
                 .then()
-                    .statusCode(201);
+                    .statusCode(HttpStatus.SC_CREATED);
     }
 
     @Test
@@ -99,7 +100,7 @@ class EventControllerTest {
                 .when()
                     .put(location)
                 .then()
-                    .statusCode(200);
+                    .statusCode(HttpStatus.SC_OK);
     }
 
     @Test
@@ -114,7 +115,7 @@ class EventControllerTest {
                 .when()
                     .delete(location)
                 .then()
-                    .statusCode(204);
+                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     private String createEventAndReturnLocation(String uri) {
