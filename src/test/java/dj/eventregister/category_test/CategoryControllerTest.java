@@ -4,6 +4,7 @@ import dj.eventregister.category.CategoryReadDto;
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ class CategoryControllerTest {
                 .when()
                     .post(uri)
                 .then()
-                    .statusCode(201);
+                    .statusCode(HttpStatus.SC_CREATED);
     }
 
     @Test
@@ -68,7 +69,7 @@ class CategoryControllerTest {
                 .when()
                     .delete(location)
                     .then()
-                .statusCode(204);
+                .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     String createCategoryAndReturnLocation(String uri) {
