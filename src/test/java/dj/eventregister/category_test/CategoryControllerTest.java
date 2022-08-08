@@ -3,24 +3,28 @@ package dj.eventregister.category_test;
 import dj.eventregister.category.CategoryReadDto;
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.testng.annotations.BeforeSuite;
 
 import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 
-    public static final String BASE_URL = "/api/categories";
-
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+
+
+    public static final String BASE_URL = "/api/categories";
 
     @Test
     void shouldCreateCategory() {
@@ -35,7 +39,8 @@ class CategoryControllerTest {
                 .when()
                     .post(uri)
                 .then()
-                    .statusCode(HttpStatus.SC_CREATED);
+                .spec(ResponseSpecCreate);
+
     }
 
     @Test
@@ -83,4 +88,15 @@ class CategoryControllerTest {
                     .post(uri)
                     .header("location");
     }
+
+    public RequestSpecBuilder getDefaultRequestSpec() {
+        return new RequestSpecBuilder()
+                .setBaseUri(URI.create(testRestTemplate.getRootUri()) + BASE_URL);
+    }
+
+    ResponseSpecification ResponseSpecCreate = new ResponseSpecBuilder()
+            .expectStatusCode(HttpStatus.SC_CREATED)
+            .build();
+
+
 }
