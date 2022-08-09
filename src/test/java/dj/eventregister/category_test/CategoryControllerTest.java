@@ -22,8 +22,6 @@ class CategoryControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-
-
     public static final String BASE_URL = "/api/categories";
 
     @Test
@@ -40,7 +38,6 @@ class CategoryControllerTest {
                     .post(uri)
                 .then()
                 .spec(ResponseSpecCreate);
-
     }
 
     @Test
