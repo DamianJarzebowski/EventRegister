@@ -86,11 +86,6 @@ class CategoryControllerTest {
                     .header("location");
     }
 
-    public RequestSpecBuilder getDefaultRequestSpec() {
-        return new RequestSpecBuilder()
-                .setBaseUri(URI.create(testRestTemplate.getRootUri()) + BASE_URL);
-    }
-
     ResponseSpecification ResponseSpecCreate = new ResponseSpecBuilder()
             .expectStatusCode(HttpStatus.SC_CREATED)
             .build();
