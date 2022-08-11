@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,12 +22,17 @@ class EventRecordControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    String baseUri;
+
+    @BeforeEach
+    void beforeEach() {
+        baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+    }
+
     @Test
     void shouldCreateAndGetEventRecord() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createEventRecordAndReturnLocation(uri);
+        var location = createEventRecordAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -45,8 +51,6 @@ class EventRecordControllerTest {
     @Test
     void shouldCreateEventRecord() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
@@ -54,7 +58,7 @@ class EventRecordControllerTest {
                             .setEventId(1L)
                             .setParticipantId(1L))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED);
     }
@@ -62,9 +66,7 @@ class EventRecordControllerTest {
     @Test
     void shouldCreateAndDeleteEventRecord() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createEventRecordAndReturnLocation(uri);
+        var location = createEventRecordAndReturnLocation(baseUri);
 
         RestAssured
                 .when()
@@ -82,6 +84,9 @@ class EventRecordControllerTest {
                             .setParticipantId(1L))
                 .when()
                     .post(uri)
+                .then()
+                    .statusCode(HttpStatus.SC_CREATED)
+                .extract()
                     .header("location");
     }
 
