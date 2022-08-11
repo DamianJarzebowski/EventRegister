@@ -17,12 +17,11 @@ import java.net.URI;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordControllerTest {
 
-    public static final String BASE_URL = "/api/event-record";
+    static final String BASE_URL = "/api/event-record";
+    String baseUri;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
-
-    String baseUri;
 
     @BeforeEach
     void beforeEach() {
@@ -75,7 +74,7 @@ class EventRecordControllerTest {
                     .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    String createEventRecordAndReturnLocation(String uri) {
+    String createEventRecordAndReturnLocation(String baseUri) {
         return RestAssured
                 .given()
                     .contentType(ContentType.JSON)
@@ -83,7 +82,7 @@ class EventRecordControllerTest {
                             .setEventId(1L)
                             .setParticipantId(1L))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED)
                 .extract()

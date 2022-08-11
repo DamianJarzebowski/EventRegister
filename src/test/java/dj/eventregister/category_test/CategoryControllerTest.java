@@ -9,6 +9,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,15 +20,19 @@ import java.net.URI;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 
+    public static final String BASE_URL = "/api/categories";
+    String baseUri;
+
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    public static final String BASE_URL = "/api/categories";
+    @BeforeEach
+    void beforeEach() {
+        baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+    }
 
     @Test
     void shouldCreateCategory() {
-
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
         RestAssured
                 .with()
@@ -35,7 +40,7 @@ class CategoryControllerTest {
                 .body(new CategoryReadDto()
                         .setName("TestCategoryName"))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                 .then()
                 .spec(ResponseSpecCreate);
     }
@@ -43,9 +48,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndGetCategory() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createCategoryAndReturnLocation(uri);
+        var location = createCategoryAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -63,9 +66,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndDeleteCategory() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createCategoryAndReturnLocation(uri);
+        var location = createCategoryAndReturnLocation(baseUri);
 
         RestAssured
                 .when()

@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.hibernate.sql.Update;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +21,12 @@ import java.time.LocalDateTime;
 class EventControllerTest {
 
     public static final String BASE_URL = "/api/event";
+    String baseUri;
+
+    @BeforeEach
+    void beforeEach() {
+        baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+    }
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -27,9 +34,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndGetEvent() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createEventAndReturnLocation(uri);
+        var location = createEventAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -53,8 +58,6 @@ class EventControllerTest {
     @Test
      void shouldCreateEvent() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
@@ -67,7 +70,7 @@ class EventControllerTest {
                         .setMinParticipant(1)
                         .setDateTime(LocalDateTime.now()))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED);
     }
@@ -75,9 +78,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndUpdateEvent() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createEventAndReturnLocation(uri);
+        var location = createEventAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -106,9 +107,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndDeleteEvent() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        String location = createEventAndReturnLocation(uri);
+        String location = createEventAndReturnLocation(baseUri);
 
         RestAssured
                 .given()
@@ -118,7 +117,7 @@ class EventControllerTest {
                     .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    private String createEventAndReturnLocation(String uri) {
+    private String createEventAndReturnLocation(String baseUri) {
 
             return RestAssured
                     .given()
@@ -132,7 +131,7 @@ class EventControllerTest {
                             .setMinParticipant(1)
                             .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
                     .when()
-                        .post(uri)
+                        .post(baseUri)
                         .header("location");
     }
 }

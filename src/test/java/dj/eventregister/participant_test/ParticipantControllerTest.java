@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,15 +17,19 @@ import java.net.URI;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ParticipantControllerTest {
 
-    public static final String BASE_URL = "/api/participants";
-
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    public static final String BASE_URL = "/api/participants";
+    String baseUri;
+
+    @BeforeEach
+    void beforeEach() {
+        baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
+    }
+
     @Test
     void shouldCreateParticipant() {
-
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
 
         RestAssured
                 .given()
@@ -35,7 +40,7 @@ class ParticipantControllerTest {
                             .setAge(18)
                             .setEmail("testEmail@gmail.com"))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED);
     }
@@ -43,9 +48,7 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateAndUpdateParticipant() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createParticipantAndReturnLocation(uri);
+        var location = createParticipantAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given().headers("Content-Type", ContentType.JSON)
@@ -70,9 +73,7 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateAndGetParticipant() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createParticipantAndReturnLocation(uri);
+        var location = createParticipantAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given().headers("Content-Type", ContentType.JSON)
@@ -92,9 +93,7 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateAndDeleteParticipant() {
 
-        var uri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-
-        var location = createParticipantAndReturnLocation(uri);
+        var location = createParticipantAndReturnLocation(baseUri);
 
         RestAssured
                 .when()
@@ -103,7 +102,7 @@ class ParticipantControllerTest {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    String createParticipantAndReturnLocation(String uri) {
+    String createParticipantAndReturnLocation(String baseUri) {
 
         return RestAssured
                 .given()
@@ -114,7 +113,7 @@ class ParticipantControllerTest {
                             .setAge(18)
                             .setEmail("testEmail@gmail.com"))
                 .when()
-                    .post(uri)
+                    .post(baseUri)
                     .header("location");
     }
 }
