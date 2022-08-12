@@ -3,10 +3,7 @@ package dj.eventregister.category_test;
 import dj.eventregister.category.CategoryReadDto;
 import dj.eventregister.category.CategoryWriteDto;
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,21 +31,15 @@ class CategoryControllerTest {
     @Test
     void shouldCreateCategory() {
 
-        RestAssured
-                .with()
-                .contentType((ContentType.JSON))
-                .body(new CategoryReadDto()
-                        .setName("TestCategoryName"))
-                .when()
-                    .post(baseUri)
-                .then()
-                .spec(ResponseSpecCreate);
+        String location = createCategoryCheckStatusAndReturnLocation(baseUri);
+
+        deleteCategory(location);
     }
 
     @Test
     void shouldCreateAndGetCategory() {
 
-        var location = createCategoryAndReturnLocation(baseUri);
+        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -61,21 +52,19 @@ class CategoryControllerTest {
                 .setName("TestCategoryName");
 
         Assertions.assertThat(actual).isEqualTo(expected);
+
+        deleteCategory(location);
     }
 
     @Test
     void shouldCreateAndDeleteCategory() {
 
-        var location = createCategoryAndReturnLocation(baseUri);
+        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
-        RestAssured
-                .when()
-                    .delete(location)
-                    .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        deleteCategory(location);
     }
 
-    String createCategoryAndReturnLocation(String uri) {
+    String createCategoryCheckStatusAndReturnLocation(String uri) {
 
         return RestAssured
                 .with()
@@ -84,12 +73,18 @@ class CategoryControllerTest {
                         .setName("TestCategoryName"))
                 .when()
                     .post(uri)
+                .then()
+                    .statusCode(HttpStatus.SC_CREATED)
+                .extract()
                     .header("location");
     }
 
-    ResponseSpecification ResponseSpecCreate = new ResponseSpecBuilder()
-            .expectStatusCode(HttpStatus.SC_CREATED)
-            .build();
+    void deleteCategory(String location) {
 
-
+        RestAssured
+                .when()
+                    .delete(location)
+                .then()
+                    .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
 }
