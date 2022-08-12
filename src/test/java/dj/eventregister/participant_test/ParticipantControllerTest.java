@@ -105,6 +105,9 @@ class ParticipantControllerTest {
                             .setEmail("testEmail@gmail.com"))
                 .when()
                     .post(baseUri)
+                .then()
+                    .statusCode(HttpStatus.SC_CREATED)
+                .extract()
                     .header("location");
     }
 
