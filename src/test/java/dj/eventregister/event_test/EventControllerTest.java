@@ -6,7 +6,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
-import org.hibernate.sql.Update;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,26 +52,16 @@ class EventControllerTest {
                 .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59));
 
         Assertions.assertThat(actual).isEqualTo(expected);
+
+        deleteEvent(location);
     }
 
     @Test
      void shouldCreateEvent() {
 
-        RestAssured
-                .given()
-                    .contentType(ContentType.JSON)
-                .body(new EventWriteDto()
-                        .setName("TestEventName")
-                        .setDescription("TestDescription")
-                        .setCategory("Taniec")
-                        .setMajority(true)
-                        .setMaxParticipant(3)
-                        .setMinParticipant(1)
-                        .setDateTime(LocalDateTime.now()))
-                .when()
-                    .post(baseUri)
-                .then()
-                    .statusCode(HttpStatus.SC_CREATED);
+        String location = createEventAndReturnLocation(baseUri);
+
+        deleteEvent(location);
     }
 
     @Test
@@ -102,6 +91,8 @@ class EventControllerTest {
                     .put(location)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
+
+        deleteEvent(location);
     }
 
     @Test
@@ -109,15 +100,10 @@ class EventControllerTest {
 
         String location = createEventAndReturnLocation(baseUri);
 
-        RestAssured
-                .given()
-                .when()
-                    .delete(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
+        deleteEvent(location);
     }
 
-    private String createEventAndReturnLocation(String baseUri) {
+    String createEventAndReturnLocation(String baseUri) {
 
             return RestAssured
                     .given()
@@ -132,6 +118,19 @@ class EventControllerTest {
                             .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
                     .when()
                         .post(baseUri)
+                    .then()
+                        .statusCode(HttpStatus.SC_CREATED)
+                    .extract()
                         .header("location");
     }
+
+    void deleteEvent(String location) {
+
+        RestAssured
+                .when()
+                    .delete(location)
+                .then()
+                    .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+
 }
