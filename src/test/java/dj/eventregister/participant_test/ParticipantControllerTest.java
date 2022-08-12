@@ -31,18 +31,9 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateParticipant() {
 
-        RestAssured
-                .given()
-                    .contentType(ContentType.JSON)
-                    .body(new ParticipantWriteDto()
-                            .setName("TestName")
-                            .setLastName("TestLastName")
-                            .setAge(18)
-                            .setEmail("testEmail@gmail.com"))
-                .when()
-                    .post(baseUri)
-                .then()
-                    .statusCode(HttpStatus.SC_CREATED);
+        var location = createParticipantAndReturnLocation(baseUri);
+
+        deleteParticipant(location);
     }
 
     @Test
@@ -68,6 +59,8 @@ class ParticipantControllerTest {
                     .put(location)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
+
+        deleteParticipant(location);
     }
 
     @Test
@@ -88,6 +81,8 @@ class ParticipantControllerTest {
                 .setEmail("testEmail@gmail.com");
 
         Assertions.assertThat(actual).isEqualTo(expected);
+
+        deleteParticipant(location);
     }
 
     @Test
@@ -95,11 +90,7 @@ class ParticipantControllerTest {
 
         var location = createParticipantAndReturnLocation(baseUri);
 
-        RestAssured
-                .when()
-                .delete(location)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        deleteParticipant(location);
     }
 
     String createParticipantAndReturnLocation(String baseUri) {
@@ -115,5 +106,14 @@ class ParticipantControllerTest {
                 .when()
                     .post(baseUri)
                     .header("location");
+    }
+
+    void deleteParticipant(String location) {
+
+        RestAssured
+                .when()
+                    .delete(location)
+                .then()
+                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 }

@@ -31,7 +31,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateCategory() {
 
-        String location = createCategoryCheckStatusAndReturnLocation(baseUri);
+        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
         deleteCategory(location);
     }

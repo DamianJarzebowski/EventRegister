@@ -50,16 +50,9 @@ class EventRecordControllerTest {
     @Test
     void shouldCreateEventRecord() {
 
-        RestAssured
-                .given()
-                    .contentType(ContentType.JSON)
-                    .body(new EventRecordWriteDto()
-                            .setEventId(1L)
-                            .setParticipantId(1L))
-                .when()
-                    .post(baseUri)
-                .then()
-                    .statusCode(HttpStatus.SC_CREATED);
+        var location = createEventRecordAndReturnLocation(baseUri);
+
+        deleteEventRecord(location);
     }
 
     @Test
@@ -67,11 +60,7 @@ class EventRecordControllerTest {
 
         var location = createEventRecordAndReturnLocation(baseUri);
 
-        RestAssured
-                .when()
-                    .delete(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
+        deleteEventRecord(location);
     }
 
     String createEventRecordAndReturnLocation(String baseUri) {
@@ -87,6 +76,15 @@ class EventRecordControllerTest {
                     .statusCode(HttpStatus.SC_CREATED)
                 .extract()
                     .header("location");
+    }
+
+    void deleteEventRecord(String location) {
+
+        RestAssured
+                .when()
+                .delete(location)
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
 }

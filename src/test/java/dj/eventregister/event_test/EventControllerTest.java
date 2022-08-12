@@ -59,7 +59,7 @@ class EventControllerTest {
     @Test
      void shouldCreateEvent() {
 
-        String location = createEventAndReturnLocation(baseUri);
+        var location = createEventAndReturnLocation(baseUri);
 
         deleteEvent(location);
     }
@@ -98,7 +98,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndDeleteEvent() {
 
-        String location = createEventAndReturnLocation(baseUri);
+        var location = createEventAndReturnLocation(baseUri);
 
         deleteEvent(location);
     }
