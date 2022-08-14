@@ -18,6 +18,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordControllerTest {
@@ -57,7 +58,7 @@ class EventRecordControllerTest {
 
         Assertions.assertThat(actual).isEqualTo(expected);
 
-        deleteEventRecordAndData(location);
+        deleteEventRecord(location);
     }
 
     @Test
@@ -65,7 +66,7 @@ class EventRecordControllerTest {
 
         var location = createEventRecordAndReturnLocation(baseUri);
 
-        deleteEventRecordAndData(location);
+        deleteEventRecord(location);
     }
 
     @Test
@@ -73,7 +74,7 @@ class EventRecordControllerTest {
 
         var location = createEventRecordAndReturnLocation(baseUri);
 
-        deleteEventRecordAndData(location);
+        deleteEventRecord(location);
     }
 
     String createEventRecordAndReturnLocation(String baseUri) {
@@ -104,28 +105,20 @@ class EventRecordControllerTest {
                     .header("location");
     }
 
-    void deleteEventRecordAndData(String location) {
+    void deleteEventRecord(String location) {
 
         RestAssured
                 .when()
                     .delete(location)
                 .then()
                     .statusCode(HttpStatus.SC_NO_CONTENT);
-
-        RestAssured
-                .when()
-                    .delete(participantLocation)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
-
-        RestAssured
-                .when()
-                    .delete(eventLocation)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     String createParticipant() {
+
+        Random random = new Random();
+        final int rangePrefixNumber = 999;
+
         return RestAssured
                 .given()
                     .contentType(ContentType.JSON)
@@ -133,7 +126,7 @@ class EventRecordControllerTest {
                             .setName("TestName")
                             .setLastName("TestLastName")
                             .setAge(18)
-                            .setEmail("testEmail@gmail.com"))
+                            .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
                 .when()
                     .post(baseUri + PARTICIPANT_BASE_URL)
                 .then()

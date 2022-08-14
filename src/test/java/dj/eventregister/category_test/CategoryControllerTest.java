@@ -6,6 +6,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,9 @@ class CategoryControllerTest {
     }
 
     @Test
-    void shouldCreateCategory() {
-
-        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
-
-        deleteCategory(location);
-    }
-
-    @Test
     void shouldCreateAndGetCategory() {
+
+        var randomCategoryName = RandomString.make();
 
         var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
@@ -49,7 +44,7 @@ class CategoryControllerTest {
 
         var expected = new CategoryReadDto()
                 .setId(actual.getId())
-                .setName("TestCategoryName");
+                .setName(actual.getName());
 
         Assertions.assertThat(actual).isEqualTo(expected);
 
@@ -62,6 +57,12 @@ class CategoryControllerTest {
         var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
         deleteCategory(location);
+
+        RestAssured
+                .given()
+                    .get(location)
+                .then()
+                    .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     String createCategoryCheckStatusAndReturnLocation(String uri) {
@@ -70,7 +71,7 @@ class CategoryControllerTest {
                 .with()
                     .contentType(ContentType.JSON)
                     .body(new CategoryWriteDto()
-                        .setName("TestCategoryName"))
+                        .setName(RandomString.make()))
                 .when()
                     .post(uri)
                 .then()

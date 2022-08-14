@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
+import java.util.Random;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ParticipantControllerTest {
@@ -22,28 +23,20 @@ class ParticipantControllerTest {
 
     public static final String BASE_URL = "/api/participants";
     String baseUri;
+    String participantLocation;
 
     @BeforeEach
     void beforeEach() {
         baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-    }
-
-    @Test
-    void shouldCreateParticipant() {
-
-        var location = createParticipantAndReturnLocation(baseUri);
-
-        deleteParticipant(location);
+        participantLocation = createParticipantAndReturnLocation(baseUri);
     }
 
     @Test
     void shouldCreateAndUpdateParticipant() {
 
-        var location = createParticipantAndReturnLocation(baseUri);
-
         var actual = RestAssured
                 .given().headers("Content-Type", ContentType.JSON)
-                .get(location)
+                .get(participantLocation)
                 .as(ParticipantReadDto.class);
 
         RestAssured
@@ -56,21 +49,18 @@ class ParticipantControllerTest {
                             .setAge(99)
                             .setEmail("UpdateEmail@gmail.com"))
                 .when()
-                    .put(location)
+                    .put(participantLocation)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
 
-        deleteParticipant(location);
     }
 
     @Test
     void shouldCreateAndGetParticipant() {
 
-        var location = createParticipantAndReturnLocation(baseUri);
-
         var actual = RestAssured
                 .given().headers("Content-Type", ContentType.JSON)
-                .get(location)
+                .get(participantLocation)
                 .as(ParticipantReadDto.class);
 
         var expected = new ParticipantReadDto()
@@ -78,22 +68,27 @@ class ParticipantControllerTest {
                 .setName("TestName")
                 .setLastName("TestLastName")
                 .setAge(18)
-                .setEmail("testEmail@gmail.com");
+                .setEmail(actual.getEmail());
 
         Assertions.assertThat(actual).isEqualTo(expected);
-
-        deleteParticipant(location);
     }
 
     @Test
     void shouldCreateAndDeleteParticipant() {
 
-        var location = createParticipantAndReturnLocation(baseUri);
+        deleteParticipant(participantLocation);
 
-        deleteParticipant(location);
+        RestAssured
+                .given()
+                    .get(participantLocation)
+                .then()
+                    .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     String createParticipantAndReturnLocation(String baseUri) {
+
+        Random random = new Random();
+        final int rangePrefixNumber = 999;
 
         return RestAssured
                 .given()
@@ -102,7 +97,7 @@ class ParticipantControllerTest {
                             .setName("TestName")
                             .setLastName("TestLastName")
                             .setAge(18)
-                            .setEmail("testEmail@gmail.com"))
+                            .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
                 .when()
                     .post(baseUri)
                 .then()
