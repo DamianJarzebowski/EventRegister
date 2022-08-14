@@ -23,12 +23,14 @@ import java.util.Random;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordControllerTest {
 
-    static final String BASE_URL = "/api/event-record";
-    static final String PARTICIPANT_BASE_URL = "/api/participants";
-    public static final String EVENT_BASE_URL = "/api/event";
+    static final String EVENT_RECORD_URL = "/api/event-record";
+    static final String PARTICIPANT_URL = "/api/participants";
+    public static final String EVENT_URL = "/api/event";
+    
     String baseUri;
     String participantLocation;
     String eventLocation;
+    String eventRegisterLocation;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -38,17 +40,16 @@ class EventRecordControllerTest {
         baseUri = URI.create(testRestTemplate.getRootUri()).toString();
         participantLocation = createParticipant();
         eventLocation = createEvent();
+        eventRegisterLocation = createEventRecordAndReturnLocation(baseUri);
     }
 
     @Test
     void shouldCreateAndGetEventRecord() {
 
-        var location = createEventRecordAndReturnLocation(baseUri);
-
         var actual = RestAssured
                 .given()
                         .headers("Content-Type", ContentType.JSON)
-                        .get(location)
+                        .get(eventRegisterLocation)
                         .as(EventRecordReadDto.class);
 
         var expected = new EventRecordReadDto()
@@ -58,23 +59,19 @@ class EventRecordControllerTest {
 
         Assertions.assertThat(actual).isEqualTo(expected);
 
-        deleteEventRecord(location);
-    }
-
-    @Test
-    void shouldCreateEventRecord() {
-
-        var location = createEventRecordAndReturnLocation(baseUri);
-
-        deleteEventRecord(location);
+        deleteEventRecord(eventRegisterLocation);
     }
 
     @Test
     void shouldCreateAndDeleteEventRecord() {
 
-        var location = createEventRecordAndReturnLocation(baseUri);
+        deleteEventRecord(eventRegisterLocation);
 
-        deleteEventRecord(location);
+        RestAssured
+                .given()
+                    .get(eventRegisterLocation)
+                .then()
+                    .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 
     String createEventRecordAndReturnLocation(String baseUri) {
@@ -98,7 +95,7 @@ class EventRecordControllerTest {
                             .setEventId(actualEvent.getId())
                             .setParticipantId(actualParticipant.getId()))
                 .when()
-                    .post(baseUri + BASE_URL)
+                    .post(baseUri + EVENT_RECORD_URL)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED)
                 .extract()
@@ -128,7 +125,7 @@ class EventRecordControllerTest {
                             .setAge(18)
                             .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
                 .when()
-                    .post(baseUri + PARTICIPANT_BASE_URL)
+                    .post(baseUri + PARTICIPANT_URL)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED)
                 .extract()
@@ -148,7 +145,7 @@ class EventRecordControllerTest {
                             .setMinParticipant(1)
                             .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
                 .when()
-                    .post(baseUri + EVENT_BASE_URL)
+                    .post(baseUri + EVENT_URL)
                 .then()
                     .statusCode(HttpStatus.SC_CREATED)
                 .extract()
