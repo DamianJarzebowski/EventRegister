@@ -5,6 +5,8 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
+// Used to read full model event via API
+
 @Data
 @Accessors(chain = true)
 public class EventReadDto {
