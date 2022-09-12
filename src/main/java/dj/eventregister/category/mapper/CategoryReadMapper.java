@@ -14,10 +14,10 @@ public class CategoryReadMapper {
         return dto;
     }
 
-    public Category toEntity(CategoryReadDto categoryReadDto) {
+    public Category toEntity(CategoryReadDto dto) {
         var entity = new Category();
-        entity.setId(categoryReadDto.getId());
-        entity.setName(categoryReadDto.getName());
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
         return entity;
     }
 }

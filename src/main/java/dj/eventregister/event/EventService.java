@@ -65,8 +65,8 @@ public class EventService {
         return mapAndUpgradeEvent(dto, id);
     }
 
-    private EventReadDto mapAndSaveEvent(EventWriteDto eventWriteDto) {
-        Event eventEntity = eventWriteMapper.toEntity(eventWriteDto);
+    private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
+        Event eventEntity = eventWriteMapper.toEntity(dto);
         return saveAndMap(eventEntity);
     }
 

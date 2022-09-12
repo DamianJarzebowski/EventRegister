@@ -28,16 +28,16 @@ public class EventWriteMapper {
         return dto;
     }
 
-    public Event toEntity(EventWriteDto eventWriteDto) {
+    public Event toEntity(EventWriteDto dto) {
         var entity = new Event();
 
-        entity.setName(eventWriteDto.getName());
-        entity.setDescription(eventWriteDto.getDescription());
-        entity.setMaxParticipant(eventWriteDto.getMaxParticipant());
-        entity.setMinParticipant(eventWriteDto.getMinParticipant());
-        entity.setMajority(eventWriteDto.isMajority());
-        entity.setDateTime(eventWriteDto.getDateTime());
-        Optional<Category> category = categoryRepository.findByName(eventWriteDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setMaxParticipant(dto.getMaxParticipant());
+        entity.setMinParticipant(dto.getMinParticipant());
+        entity.setMajority(dto.isMajority());
+        entity.setDateTime(dto.getDateTime());
+        Optional<Category> category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
         return entity;
     }

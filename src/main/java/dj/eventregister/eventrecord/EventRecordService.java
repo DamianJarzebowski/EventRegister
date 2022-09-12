@@ -37,26 +37,26 @@ public class EventRecordService {
         return eventRecordRepository.findById(id).map(eventRecordReadMapper::toDto);
     }
 
-    EventRecordReadDto registerTheParticipant(EventRecordWriteDto eventRecordWriteDto) {
+    EventRecordReadDto registerTheParticipant(EventRecordWriteDto dto) {
 
-        Optional.ofNullable(eventRepository.findById(eventRecordWriteDto.getEventId())
+        Optional.ofNullable(eventRepository.findById(dto.getEventId())
                 .orElseThrow(() ->
-                        new InvalidEventRecordException("Brak eventu z id: " + eventRecordWriteDto.getEventId())));
-        Optional.ofNullable(participantRepository.findById(eventRecordWriteDto.getParticipantId())
+                        new InvalidEventRecordException("Brak eventu z id: " + dto.getEventId())));
+        Optional.ofNullable(participantRepository.findById(dto.getParticipantId())
                 .orElseThrow(() ->
-                        new InvalidEventRecordException("Brak uczestnika z id " + eventRecordWriteDto.getParticipantId())));
-        if (!checkMajorityIfNeed(eventRecordWriteDto))
+                        new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId())));
+        if (!checkMajorityIfNeed(dto))
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
-        if (!checkLimitParticipantInEvent(eventRecordWriteDto))
+        if (!checkLimitParticipantInEvent(dto))
             throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
-        if (!checkIfTheParticipantIsAlreadyRegistered(eventRecordWriteDto))
+        if (!checkIfTheParticipantIsAlreadyRegistered(dto))
             throw new InvalidEventRecordException("Uczestnik o tym id został juz zarejestrowany na ten event");
 
-        return mapAndSaveEventRecord(eventRecordWriteDto);
+        return mapAndSaveEventRecord(dto);
     }
 
-    private boolean checkIfTheParticipantIsAlreadyRegistered(EventRecordWriteDto eventRecordWriteDto) {
-        Long participantId = eventRecordWriteDto.getParticipantId();
+    private boolean checkIfTheParticipantIsAlreadyRegistered(EventRecordWriteDto dto) {
+        Long participantId = dto.getParticipantId();
         List<EventRecordReadDto> list = findAllEventsRecords()
                 .stream()
                 .filter(eventRecord -> eventRecord.getParticipantId().equals(participantId))
@@ -64,8 +64,8 @@ public class EventRecordService {
         return list.isEmpty();
     }
 
-    private boolean checkLimitParticipantInEvent(EventRecordWriteDto eventRecordWriteDto) {
-        Long eventId = eventRecordWriteDto.getEventId();
+    private boolean checkLimitParticipantInEvent(EventRecordWriteDto dto) {
+        Long eventId = dto.getEventId();
         Optional<EventReadDto> eventReadDto = eventService.findById(eventId);
         int maxParticipants = eventReadDto
                 .map(EventReadDto::getMaxParticipant)
@@ -76,35 +76,35 @@ public class EventRecordService {
     }
 
 
-    private boolean checkMajorityIfNeed(EventRecordWriteDto eventRecordWriteDto) {
-        if (findEventMajority(eventRecordWriteDto)) {
-            return checkParticipantMajority(eventRecordWriteDto);
+    private boolean checkMajorityIfNeed(EventRecordWriteDto dto) {
+        if (findEventMajority(dto)) {
+            return checkParticipantMajority(dto);
         } else return true;
     }
 
-    private boolean findEventMajority(EventRecordWriteDto eventRecordWriteDto) {
-        Long eventId = eventRecordWriteDto.getEventId();
+    private boolean findEventMajority(EventRecordWriteDto dto) {
+        Long eventId = dto.getEventId();
         Optional<Event> event = eventRepository.findById(eventId);
         return event
                 .map(Event::isMajority)
                 .orElseThrow(RuntimeException::new);
     }
 
-    private int checkParticipantAge(EventRecordWriteDto eventRecordWriteDto) {
-        Long participantId = eventRecordWriteDto.getParticipantId();
+    private int checkParticipantAge(EventRecordWriteDto dto) {
+        Long participantId = dto.getParticipantId();
         Optional<Participant> participant = participantRepository.findById(participantId);
         return participant
                 .map(Participant::getAge)
                 .orElseThrow(RuntimeException::new);
     }
 
-    private boolean checkParticipantMajority(EventRecordWriteDto eventRecordWriteDto) {
+    private boolean checkParticipantMajority(EventRecordWriteDto dto) {
         final int MAX_AGE_OF_UNDERAGE = 17;
-        return checkParticipantAge(eventRecordWriteDto) > MAX_AGE_OF_UNDERAGE;
+        return checkParticipantAge(dto) > MAX_AGE_OF_UNDERAGE;
     }
 
-    private EventRecordReadDto mapAndSaveEventRecord(EventRecordWriteDto eventRecordWriteDto) {
-        EventRecord eventRecordEntity = eventRecordWriteMapper.toEntity(eventRecordWriteDto);
+    private EventRecordReadDto mapAndSaveEventRecord(EventRecordWriteDto dto) {
+        EventRecord eventRecordEntity = eventRecordWriteMapper.toEntity(dto);
         return saveAndMap(eventRecordEntity);
     }
 

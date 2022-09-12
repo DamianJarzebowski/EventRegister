@@ -31,8 +31,8 @@ class CategoryController {
     }
 
     @PostMapping
-    ResponseEntity<?> saveCategory(@RequestBody CategoryWriteDto categoryWriteDto) {
-        CategoryReadDto savedCategory = categoryService.saveCategory(categoryWriteDto);
+    ResponseEntity<Category> saveCategory(@RequestBody CategoryWriteDto dto) {
+        CategoryReadDto savedCategory = categoryService.saveCategory(dto);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
                     .buildAndExpand(savedCategory.getId())

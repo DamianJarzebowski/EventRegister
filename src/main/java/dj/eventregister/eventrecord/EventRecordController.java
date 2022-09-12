@@ -2,6 +2,7 @@ package dj.eventregister.eventrecord;
 
 import dj.eventregister.eventrecord.dto.EventRecordReadDto;
 import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
+import dj.eventregister.participant.Participant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,10 @@ class EventRecordController {
     }
 
     @PostMapping("")
-    ResponseEntity<?> registerTheParticipant(@RequestBody EventRecordWriteDto eventRecordWriteDto) {
+    ResponseEntity<Participant> registerTheParticipant(@RequestBody EventRecordWriteDto dto) {
         EventRecordReadDto savedParty;
         try {
-            savedParty = eventRecordService.registerTheParticipant(eventRecordWriteDto);
+            savedParty = eventRecordService.registerTheParticipant(dto);
         } catch (InvalidEventRecordException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

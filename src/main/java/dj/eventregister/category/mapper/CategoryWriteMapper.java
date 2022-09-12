@@ -13,9 +13,9 @@ public class CategoryWriteMapper {
         return dto;
     }
 
-    public Category toEntity(CategoryWriteDto categoryWriteDto) {
+    public Category toEntity(CategoryWriteDto dto) {
         var entity = new Category();
-        entity.setName(categoryWriteDto.getName());
+        entity.setName(dto.getName());
         return entity;
     }
 }

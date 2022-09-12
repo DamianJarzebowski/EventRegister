@@ -26,12 +26,12 @@ public class EventRecordReadMapper {
         return dto;
     }
 
-    public EventRecord toEntity(EventRecordReadDto eventRecordReadDto) {
+    public EventRecord toEntity(EventRecordReadDto dto) {
         var entity = new EventRecord();
-        entity.setId(eventRecordReadDto.getId());
-        var event = eventRecordReadDto.getEventId();
+        entity.setId(dto.getId());
+        var event = dto.getEventId();
         entity.setEvent(eventRepository.getReferenceById(event));
-        var participant = eventRecordReadDto.getParticipantId();
+        var participant = dto.getParticipantId();
         entity.setParticipant(participantRepository.getReferenceById(participant));
 
         return entity;

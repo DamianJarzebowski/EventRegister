@@ -32,10 +32,10 @@ class EventController {
     }
 
     @PostMapping("")
-    ResponseEntity<Object> saveEvent(@RequestBody EventWriteDto eventWriteDto) {
+    ResponseEntity<Object> saveEvent(@RequestBody EventWriteDto dto) {
         EventReadDto savedEvent;
         try {
-            savedEvent = eventService.save(eventWriteDto);
+            savedEvent = eventService.save(dto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }

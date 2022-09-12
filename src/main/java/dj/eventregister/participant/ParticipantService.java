@@ -36,30 +36,30 @@ public class ParticipantService {
         return  participantRepository.findById(id).map(participantReadMapper::toDto);
     }
 
-    ParticipantReadDto saveParticipant(ParticipantWriteDto participantWriteDto) {
-        Optional<Participant> participantByEmail = participantRepository.findByEmail(participantWriteDto.getEmail());
+    ParticipantReadDto saveParticipant(ParticipantWriteDto dto) {
+        Optional<Participant> participantByEmail = participantRepository.findByEmail(dto.getEmail());
         participantByEmail.ifPresent(participant -> {
             throw new DuplicateEmailException();
         });
-        return mapAndSaveParticipant(participantWriteDto);
+        return mapAndSaveParticipant(dto);
     }
 
-    ParticipantReadDto updateParticipant(ParticipantReadDto participantReadDto) {
-        Optional<Participant> participantById = participantRepository.findByEmail(participantReadDto.getEmail());
+    ParticipantReadDto updateParticipant(ParticipantWriteDto dto, Long id) {
+        Optional<Participant> participantById = participantRepository.findByEmail(dto.getEmail());
         participantById.ifPresent(participant -> {
-            if (!participant.getId().equals(participantReadDto.getId()))
+            if (!participant.getId().equals(id))
                 throw new DuplicateEmailException();
         });
-        return mapAndUpdateParticipant(participantReadDto);
+        return mapAndUpdateParticipant(dto, id);
     }
 
-    private ParticipantReadDto mapAndSaveParticipant(ParticipantWriteDto participantWriteDto) {
-        Participant participantEntity = participantWriteMapper.toEntity(participantWriteDto);
+    private ParticipantReadDto mapAndSaveParticipant(ParticipantWriteDto dto) {
+        Participant participantEntity = participantWriteMapper.toEntity(dto);
         return saveAndMap(participantEntity);
     }
 
-    private ParticipantReadDto mapAndUpdateParticipant(ParticipantReadDto participantReadDto) {
-        Participant participantEntity = participantReadMapper.toEntity(participantReadDto);
+    private ParticipantReadDto mapAndUpdateParticipant(ParticipantWriteDto dto, Long id) {
+        Participant participantEntity = participantReadMapper.toEntity(dto, id);
         return saveAndMap(participantEntity);
     }
 

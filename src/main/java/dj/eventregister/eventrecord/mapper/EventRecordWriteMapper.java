@@ -26,13 +26,13 @@ public class EventRecordWriteMapper {
         return dto;
     }
 
-    public EventRecord toEntity(EventRecordWriteDto eventRecordWriteDto) {
+    public EventRecord toEntity(EventRecordWriteDto dto) {
         var entity = new EventRecord();
 
-        var event = eventRecordWriteDto.getEventId();
+        var event = dto.getEventId();
         entity.setEvent(eventRepository.getReferenceById(event));
 
-        var participant = eventRecordWriteDto.getParticipantId();
+        var participant = dto.getParticipantId();
         entity.setParticipant(participantRepository.getReferenceById(participant));
 
         return entity;

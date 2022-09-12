@@ -3,10 +3,8 @@ package dj.eventregister.participant;
 import dj.eventregister.participant.dto.ParticipantReadDto;
 import dj.eventregister.participant.dto.ParticipantWriteDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,8 +32,8 @@ class ParticipantController {
     }
 
     @PostMapping("")
-    ResponseEntity<ParticipantWriteDto> saveParticipant(@RequestBody ParticipantWriteDto participantWriteDto) {
-        ParticipantReadDto savedParticipant = participantService.saveParticipant(participantWriteDto);
+    ResponseEntity<ParticipantWriteDto> saveParticipant(@RequestBody ParticipantWriteDto dto) {
+        ParticipantReadDto savedParticipant = participantService.saveParticipant(dto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -45,10 +43,8 @@ class ParticipantController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> updateParticipant(@PathVariable Long id, @RequestBody ParticipantReadDto participantReadDto) {
-        if(!id.equals(participantReadDto.getId()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aktualizowany obiekt powinien mieć id zgodne z id ścieżki zasobu");
-        ParticipantReadDto updatedParticipant = participantService.updateParticipant(participantReadDto);
+    ResponseEntity<Object> updateParticipant(@PathVariable Long id, @RequestBody ParticipantWriteDto dto) {
+        ParticipantReadDto updatedParticipant = participantService.updateParticipant(dto, id);
         return ResponseEntity.ok(updatedParticipant);
     }
 

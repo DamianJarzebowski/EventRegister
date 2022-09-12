@@ -16,12 +16,12 @@ public class ParticipantWriteMapper {
         return dto;
     }
 
-    public Participant toEntity (ParticipantWriteDto participantWriteDto) {
+    public Participant toEntity (ParticipantWriteDto dto) {
         var entity = new Participant();
-        entity.setName(participantWriteDto.getName());
-        entity.setLastName(participantWriteDto.getLastName());
-        entity.setAge(participantWriteDto.getAge());
-        entity.setEmail(participantWriteDto.getEmail());
+        entity.setName(dto.getName());
+        entity.setLastName(dto.getLastName());
+        entity.setAge(dto.getAge());
+        entity.setEmail(dto.getEmail());
         return entity;
     }
 }

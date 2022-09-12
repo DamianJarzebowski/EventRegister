@@ -2,6 +2,7 @@ package dj.eventregister.participant.mapper;
 
 import dj.eventregister.participant.Participant;
 import dj.eventregister.participant.dto.ParticipantReadDto;
+import dj.eventregister.participant.dto.ParticipantWriteDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,13 +18,13 @@ public class ParticipantReadMapper {
         return dto;
     }
 
-     public Participant toEntity (ParticipantReadDto participantReadDto) {
+     public Participant toEntity (ParticipantWriteDto dto, Long id) {
         var entity = new Participant();
-        entity.setId(participantReadDto.getId());
-        entity.setName(participantReadDto.getName());
-        entity.setLastName(participantReadDto.getLastName());
-        entity.setAge(participantReadDto.getAge());
-        entity.setEmail(participantReadDto.getEmail());
+        entity.setId(id);
+        entity.setName(dto.getName());
+        entity.setLastName(dto.getLastName());
+        entity.setAge(dto.getAge());
+        entity.setEmail(dto.getEmail());
         return entity;
     }
 }
