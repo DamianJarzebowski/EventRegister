@@ -39,12 +39,12 @@ public class EventRecordService {
 
     EventRecordReadDto registerTheParticipant(EventRecordWriteDto dto) {
 
-        Optional.ofNullable(eventRepository.findById(dto.getEventId())
-                .orElseThrow(() ->
-                        new InvalidEventRecordException("Brak eventu z id: " + dto.getEventId())));
-        Optional.ofNullable(participantRepository.findById(dto.getParticipantId())
-                .orElseThrow(() ->
-                        new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId())));
+        Optional<Event> event = eventRepository.findById(dto.getEventId());
+        if(event.isEmpty())
+            throw new InvalidEventRecordException("Brak eventu z id: " + dto.getEventId());
+        Optional<Participant> participant = participantRepository.findById(dto.getParticipantId());
+        if(participant.isEmpty())
+            throw new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId());
         if (!checkMajorityIfNeed(dto))
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
         if (!checkLimitParticipantInEvent(dto))
