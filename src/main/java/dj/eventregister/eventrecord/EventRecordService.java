@@ -39,10 +39,10 @@ public class EventRecordService {
 
     EventRecordReadDto registerTheParticipant(EventRecordWriteDto dto) {
 
-        Optional<Event> event = eventRepository.findById(dto.getEventId());
+        var event = eventRepository.findById(dto.getEventId());
         if(event.isEmpty())
             throw new InvalidEventRecordException("Brak eventu z id: " + dto.getEventId());
-        Optional<Participant> participant = participantRepository.findById(dto.getParticipantId());
+        var participant = participantRepository.findById(dto.getParticipantId());
         if(participant.isEmpty())
             throw new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId());
         if (!checkMajorityIfNeed(dto))
