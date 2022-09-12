@@ -61,8 +61,8 @@ public class EventService {
         return mapAndSaveEvent(content);
     }
 
-    EventReadDto updateEvent(EventReadDto eventReadDto) {
-        return mapAndUpgradeEvent(eventReadDto);
+    EventReadDto updateEvent(EventWriteDto dto, Long id) {
+        return mapAndUpgradeEvent(dto, id);
     }
 
     private EventReadDto mapAndSaveEvent(EventWriteDto eventWriteDto) {
@@ -70,8 +70,8 @@ public class EventService {
         return saveAndMap(eventEntity);
     }
 
-    private EventReadDto mapAndUpgradeEvent(EventReadDto eventReadDto) {
-        Event eventEntity = eventReadMapper.toEntity(eventReadDto);
+    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
+        Event eventEntity = eventReadMapper.toEntity(dto, id);
         return saveAndMap(eventEntity);
     }
 

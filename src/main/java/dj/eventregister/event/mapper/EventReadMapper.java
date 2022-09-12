@@ -4,6 +4,7 @@ import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.event.dto.EventWriteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +31,18 @@ public class EventReadMapper {
         return dto;
     }
 
-    public Event toEntity(EventReadDto eventReadDto) {
+    public Event toEntity(EventWriteDto dto, Long id) {
         var entity = new Event();
 
-        entity.setId(eventReadDto.getId());
-        entity.setName(eventReadDto.getName());
-        entity.setDescription(eventReadDto.getDescription());
-        entity.setMaxParticipant(eventReadDto.getMaxParticipant());
-        entity.setMinParticipant(eventReadDto.getMinParticipant());
-        entity.setCurrentParticipants(eventReadDto.getCurrentParticipants());
-        entity.setMajority(eventReadDto.isMajority());
-        entity.setDateTime(eventReadDto.getDateTime());
-        Optional<Category> category = categoryRepository.findByName(eventReadDto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
+        entity.setId(id);
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setMaxParticipant(dto.getMaxParticipant());
+        entity.setMinParticipant(dto.getMinParticipant());
+        entity.setCurrentParticipants(dto.getCurrentParticipants());
+        entity.setMajority(dto.isMajority());
+        entity.setDateTime(dto.getDateTime());
+        Optional<Category> category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
         return entity;
     }
