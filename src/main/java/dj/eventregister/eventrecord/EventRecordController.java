@@ -1,5 +1,7 @@
 package dj.eventregister.eventrecord;
 
+import dj.eventregister.eventrecord.dto.EventRecordReadDto;
+import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

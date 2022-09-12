@@ -1,5 +1,11 @@
 package dj.eventregister.event;
 
+import dj.eventregister.category.Category;
+import dj.eventregister.category.CategoryRepository;
+import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.event.dto.EventWriteDto;
+import dj.eventregister.event.mapper.EventReadMapper;
+import dj.eventregister.event.mapper.EventWriteMapper;
 import dj.eventregister.eventrecord.EventRecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -16,6 +22,7 @@ public class EventService {
     private final EventReadMapper eventReadMapper;
     private final EventWriteMapper eventWriteMapper;
     private final EventRecordRepository eventRecordRepository;
+    private final CategoryRepository categoryRepository;
 
     List<EventReadDto> findAllEvents() {
 
@@ -41,15 +48,17 @@ public class EventService {
                 .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant));
     }
 
-    EventReadDto save(EventWriteDto eventWriteDto) {
-        /*
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    /**
+     * @throws IllegalArgumentException content is invalid
+     * @param content
+     * @return
+     */
+    EventReadDto save(EventWriteDto content) {
+        Optional<Category> maybeCategory = categoryRepository.findByName(content.getCategory());
+        if (maybeCategory.isEmpty()) {
+            throw new IllegalArgumentException();
         }
-         */
-        return mapAndSaveEvent(eventWriteDto);
+        return mapAndSaveEvent(content);
     }
 
     EventReadDto updateEvent(EventReadDto eventReadDto) {

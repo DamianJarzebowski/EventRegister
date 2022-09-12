@@ -1,11 +1,13 @@
-package dj.eventregister.participant;
+package dj.eventregister.participant.mapper;
 
+import dj.eventregister.participant.Participant;
+import dj.eventregister.participant.dto.ParticipantWriteDto;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ParticipantWriteMapper {
 
-    ParticipantWriteDto toDto(Participant participant) {
+    public ParticipantWriteDto toDto(Participant participant) {
         var dto = new ParticipantWriteDto();
         dto.setName(participant.getName());
         dto.setLastName(participant.getLastName());
@@ -14,7 +16,7 @@ public class ParticipantWriteMapper {
         return dto;
     }
 
-    Participant toEntity (ParticipantWriteDto participantWriteDto) {
+    public Participant toEntity (ParticipantWriteDto participantWriteDto) {
         var entity = new Participant();
         entity.setName(participantWriteDto.getName());
         entity.setLastName(participantWriteDto.getLastName());

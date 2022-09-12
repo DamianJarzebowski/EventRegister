@@ -1,38 +1,40 @@
-package dj.eventregister.eventrecord;
+package dj.eventregister.eventrecord.mapper;
 
 import dj.eventregister.event.EventRepository;
+import dj.eventregister.eventrecord.EventRecord;
+import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
 import dj.eventregister.participant.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class EventRecordReadMapper {
+public class EventRecordWriteMapper {
 
     private final EventRepository eventRepository;
     private final ParticipantRepository participantRepository;
 
-    EventRecordReadDto toDto(EventRecord eventRecord) {
-        var dto = new EventRecordReadDto();
+    public EventRecordWriteDto toDto(EventRecord eventRecord) {
+        var dto = new EventRecordWriteDto();
+
         var event = eventRecord.getEvent();
         var participant = eventRecord.getParticipant();
 
-        dto.setId(eventRecord.getId());
         dto.setEventId(event.getId());
         dto.setParticipantId(participant.getId());
 
         return dto;
     }
 
-    EventRecord toEntity(EventRecordReadDto eventRecordReadDto) {
+    public EventRecord toEntity(EventRecordWriteDto eventRecordWriteDto) {
         var entity = new EventRecord();
-        entity.setId(eventRecordReadDto.getId());
-        var event = eventRecordReadDto.getEventId();
+
+        var event = eventRecordWriteDto.getEventId();
         entity.setEvent(eventRepository.getReferenceById(event));
-        var participant = eventRecordReadDto.getParticipantId();
+
+        var participant = eventRecordWriteDto.getParticipantId();
         entity.setParticipant(participantRepository.getReferenceById(participant));
 
         return entity;
     }
-
 }

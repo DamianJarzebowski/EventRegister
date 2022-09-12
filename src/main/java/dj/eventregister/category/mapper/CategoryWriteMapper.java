@@ -1,17 +1,19 @@
-package dj.eventregister.category;
+package dj.eventregister.category.mapper;
 
+import dj.eventregister.category.Category;
+import dj.eventregister.category.dto.CategoryWriteDto;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryWriteMapper {
 
-    CategoryWriteDto toDto(Category category) {
+    public CategoryWriteDto toDto(Category category) {
         var dto = new CategoryWriteDto();
         dto.setName(category.getName());
         return dto;
     }
 
-    Category toEntity(CategoryWriteDto categoryWriteDto) {
+    public Category toEntity(CategoryWriteDto categoryWriteDto) {
         var entity = new Category();
         entity.setName(categoryWriteDto.getName());
         return entity;

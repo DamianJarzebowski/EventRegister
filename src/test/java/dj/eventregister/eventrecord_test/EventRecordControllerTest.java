@@ -1,11 +1,11 @@
 package dj.eventregister.eventrecord_test;
 
-import dj.eventregister.event.EventReadDto;
-import dj.eventregister.event.EventWriteDto;
-import dj.eventregister.eventrecord.EventRecordReadDto;
-import dj.eventregister.eventrecord.EventRecordWriteDto;
-import dj.eventregister.participant.ParticipantReadDto;
-import dj.eventregister.participant.ParticipantWriteDto;
+import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.event.dto.EventWriteDto;
+import dj.eventregister.eventrecord.dto.EventRecordReadDto;
+import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
+import dj.eventregister.participant.dto.ParticipantReadDto;
+import dj.eventregister.participant.dto.ParticipantWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;

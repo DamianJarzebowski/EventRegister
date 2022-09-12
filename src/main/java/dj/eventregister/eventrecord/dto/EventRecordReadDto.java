@@ -1,4 +1,4 @@
-package dj.eventregister.eventrecord;
+package dj.eventregister.eventrecord.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

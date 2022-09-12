@@ -1,4 +1,4 @@
-package dj.eventregister.participant;
+package dj.eventregister.participant.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

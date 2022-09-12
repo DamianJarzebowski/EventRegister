@@ -1,6 +1,8 @@
 package dj.eventregister.category;
 
-import dj.eventregister.event.EventReadDto;
+import dj.eventregister.category.dto.CategoryReadDto;
+import dj.eventregister.category.dto.CategoryWriteDto;
+import dj.eventregister.event.dto.EventReadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

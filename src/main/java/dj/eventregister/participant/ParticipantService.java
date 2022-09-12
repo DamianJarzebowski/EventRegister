@@ -1,5 +1,9 @@
 package dj.eventregister.participant;
 
+import dj.eventregister.participant.dto.ParticipantReadDto;
+import dj.eventregister.participant.dto.ParticipantWriteDto;
+import dj.eventregister.participant.mapper.ParticipantReadMapper;
+import dj.eventregister.participant.mapper.ParticipantWriteMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

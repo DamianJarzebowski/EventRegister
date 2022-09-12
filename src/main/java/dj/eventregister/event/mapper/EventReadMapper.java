@@ -1,7 +1,9 @@
-package dj.eventregister.event;
+package dj.eventregister.event.mapper;
 
 import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
+import dj.eventregister.event.Event;
+import dj.eventregister.event.dto.EventReadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

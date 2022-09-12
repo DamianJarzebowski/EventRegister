@@ -1,6 +1,11 @@
 package dj.eventregister.eventrecord;
 
 import dj.eventregister.event.*;
+import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.eventrecord.dto.EventRecordReadDto;
+import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
+import dj.eventregister.eventrecord.mapper.EventRecordReadMapper;
+import dj.eventregister.eventrecord.mapper.EventRecordWriteMapper;
 import dj.eventregister.participant.Participant;
 import dj.eventregister.participant.ParticipantRepository;
 import lombok.RequiredArgsConstructor;

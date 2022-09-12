@@ -1,5 +1,7 @@
 package dj.eventregister.event;
 
+import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.event.dto.EventWriteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,6 @@ class EventController {
 
     private final EventService eventService;
 
-    // How to make Slavic Happy
-    // for new Created events change slightly name to avoid name duplication
-    // for updates duplicate name will be rejected
-    // validate number of participants 1-100 max > min
-
     @GetMapping("")
     List<EventReadDto> findAllOrSelectedCategoryOfEvents(@RequestParam(required = false) String category) {
         if (category == null)
@@ -38,7 +35,12 @@ class EventController {
 
     @PostMapping("")
     ResponseEntity<Object> saveEvent(@RequestBody EventWriteDto eventWriteDto) {
-        EventReadDto savedEvent = eventService.save(eventWriteDto);
+        EventReadDto savedEvent;
+        try {
+            savedEvent = eventService.save(eventWriteDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedEvent.getId())
