@@ -83,6 +83,14 @@ class EventControllerTest {
                     .put(location)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
+
+        var actual23123 = RestAssured
+                .given()
+                .headers("Content-Type", ContentType.JSON)
+                .get(location)
+                .as(EventReadDto.class);
+
+        Assertions.assertThat(actual23123.getName()).isEqualTo("UpdateName");
     }
 
     @Test
