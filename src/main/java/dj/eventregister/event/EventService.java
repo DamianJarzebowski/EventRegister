@@ -49,6 +49,7 @@ public class EventService {
      * @return
      * @throws IllegalArgumentException dto is invalid
      */
+
     EventReadDto save(EventWriteDto dto) {
         Optional<Category> maybeCategory = categoryRepository.findByName(dto.getCategory());
         if (maybeCategory.isEmpty()) {
@@ -57,18 +58,9 @@ public class EventService {
         return mapAndSaveEvent(dto);
     }
 
-    EventReadDto updateEvent(EventWriteDto dto) {
-        return mapAndUpgradeEvent(dto);
-    }
-
     private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
         Event eventEntity = eventWriteMapper.toEntity(dto);
         eventEntity.setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT);
-        return saveAndMap(eventEntity);
-    }
-
-    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto) {
-        Event eventEntity = eventWriteMapper.toEntity(dto);
         return saveAndMap(eventEntity);
     }
 
@@ -77,12 +69,13 @@ public class EventService {
         return eventReadMapper.toDto(savedEvent);
     }
 
-    public int sumParticipants(Event event) {
-        return eventRecordRepository.findAll()
-                .stream()
-                .filter(eventRecord -> eventRecord.getEvent().equals(event))
-                .toList()
-                .size();
+    EventReadDto update(EventWriteDto dto, Long id) {
+        return mapAndUpgradeEvent(dto, id);
+    }
+
+    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
+        Event eventEntity = eventReadMapper.toEntity(dto, id);
+        return saveAndMap(eventEntity);
     }
 
     public void updateStateEvent(Long id, Long newNumberOfParticipants) {
