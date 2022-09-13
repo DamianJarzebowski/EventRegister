@@ -16,7 +16,7 @@ public class TestMethods {
 
     static final String EVENT_RECORD_URL = "/api/event-record";
     static final String PARTICIPANT_URL = "/api/participants";
-    public static final String EVENT_URL = "/api/event";
+    static final String EVENT_URL = "/api/event";
 
     static void deleteEventRecord(String location) {
 
@@ -85,7 +85,7 @@ public class TestMethods {
                         .setDescription("TestDescription")
                         .setCategory("Taniec")
                         .setMajority(true)
-                        .setMaxParticipant(3)
+                        .setMaxParticipant(2)
                         .setMinParticipant(1)
                         .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
                 .when()

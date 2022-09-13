@@ -67,6 +67,7 @@ public class EventService {
 
     private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
         Event eventEntity = eventWriteMapper.toEntity(dto);
+        eventEntity.setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT);
         return saveAndMap(eventEntity);
     }
 

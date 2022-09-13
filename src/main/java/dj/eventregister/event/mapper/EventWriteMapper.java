@@ -1,13 +1,10 @@
 package dj.eventregister.event.mapper;
 
-import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventWriteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -37,7 +34,7 @@ public class EventWriteMapper {
         entity.setMinParticipant(dto.getMinParticipant());
         entity.setMajority(dto.isMajority());
         entity.setDateTime(dto.getDateTime());
-        Optional<Category> category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
+        var category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
         return entity;
     }

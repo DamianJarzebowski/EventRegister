@@ -31,6 +31,9 @@ databaseChangeLog:
                - column:
                    name: category_id
                    value: 2
+               - column:
+                   name: state_event
+                   value: 0
              dbms: 'h2,  mysql, postgresql'
              tableName: event
 
@@ -60,6 +63,9 @@ databaseChangeLog:
                - column:
                    name: category_id
                    value: 4
+               - column:
+                   name: state_event
+                   value: 0
              dbms: 'h2,  mysql, postgresql'
              tableName: event
 
@@ -89,5 +95,8 @@ databaseChangeLog:
                - column:
                    name: category_id
                    value: 5
+               - column:
+                   name: state_event
+                   value: 0
              dbms: 'h2,  mysql, postgresql'
              tableName: event

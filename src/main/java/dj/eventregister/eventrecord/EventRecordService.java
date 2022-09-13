@@ -47,8 +47,8 @@ public class EventRecordService {
             throw new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId());
         if (!checkMajorityIfNeed(dto))
             throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
-        if (!checkLimitParticipantInEvent(dto))
-            throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
+        //if (!checkLimitParticipantInEvent(dto))
+        //    throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
         if (!checkIfTheParticipantIsAlreadyRegistered(dto))
             throw new InvalidEventRecordException("Uczestnik o tym id został juz zarejestrowany na ten event");
 

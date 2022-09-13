@@ -50,4 +50,9 @@ databaseChangeLog:
                    name: category_id
                    type: BIGINT
 
+              - column:
+                   name: state_event
+                   type: int
+
+
 

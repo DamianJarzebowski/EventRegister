@@ -20,8 +20,24 @@ public class Event {
     private int currentParticipants;
     private boolean majority;
     private LocalDateTime dateTime;
+    private EventStateMachine stateEvent;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public enum EventStateMachine {
+
+        NOT_ENOUGH_PARTICIPANT("Liczba zapisanych uczestników, nie spełnia organizacyjnego minimum."),
+        MINIMUM_PARTICIPANT_ACHIEVED("Minimalna lcizba uczestników wymagana do organizacji wydarzenia została osiągnięta."),
+        REGISTRATION_CLOSE("Wydarzenie osiągneło limit rejestracji.");
+
+        final String description;
+
+        EventStateMachine(String description) {
+            this.description = description;
+        }
+    }
+
 }
+
