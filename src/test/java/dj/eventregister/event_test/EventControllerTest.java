@@ -1,5 +1,6 @@
 package dj.eventregister.event_test;
 
+import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.event.dto.EventWriteDto;
 import io.restassured.RestAssured;
@@ -49,7 +50,8 @@ class EventControllerTest {
                 .setMajority(true)
                 .setMaxParticipant(3)
                 .setMinParticipant(1)
-                .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59));
+                .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59))
+                .setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT);
 
         Assertions.assertThat(actual).isEqualTo(expected);
     }

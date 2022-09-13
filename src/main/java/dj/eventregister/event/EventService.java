@@ -8,7 +8,6 @@ import dj.eventregister.event.mapper.EventReadMapper;
 import dj.eventregister.event.mapper.EventWriteMapper;
 import dj.eventregister.eventrecord.EventRecordRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,41 +27,38 @@ public class EventService {
 
         return eventRepository.findAll()
                 .stream()
-                .map(model -> new Tuple2(model, sumParticipants(model)))
-                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant))
+                .map(eventReadMapper::toDto)
                 .toList();
     }
 
     List<EventReadDto> findAllEventsWithThisCategoryName(String category) {
         return eventRepository.findAll()
                 .stream()
-                .map(model -> new Tuple2(model, sumParticipants(model)))
-                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant))
+                .map(eventReadMapper::toDto)
                 .filter(it -> it.getCategory().equals(category))
                 .toList();
     }
 
     public Optional<EventReadDto> findById(long id) {
         return eventRepository.findById(id)
-                .map(model -> new Tuple2(model, sumParticipants(model)))
-                .map(it -> eventReadMapper.toDto(it.event, it.numberOfParticipant));
+                .map(eventReadMapper::toDto);
     }
 
     /**
-     * @throws IllegalArgumentException content is invalid
-     * @param content
+     * @param dto
      * @return
+     * @throws IllegalArgumentException dto is invalid
      */
-    EventReadDto save(EventWriteDto content) {
-        Optional<Category> maybeCategory = categoryRepository.findByName(content.getCategory());
+    EventReadDto save(EventWriteDto dto) {
+        Optional<Category> maybeCategory = categoryRepository.findByName(dto.getCategory());
         if (maybeCategory.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        return mapAndSaveEvent(content);
+        return mapAndSaveEvent(dto);
     }
 
-    EventReadDto updateEvent(EventWriteDto dto, Long id) {
-        return mapAndUpgradeEvent(dto, id);
+    EventReadDto updateEvent(EventWriteDto dto) {
+        return mapAndUpgradeEvent(dto);
     }
 
     private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
@@ -71,14 +67,14 @@ public class EventService {
         return saveAndMap(eventEntity);
     }
 
-    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
-        Event eventEntity = eventReadMapper.toEntity(dto, id);
+    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto) {
+        Event eventEntity = eventWriteMapper.toEntity(dto);
         return saveAndMap(eventEntity);
     }
 
     private EventReadDto saveAndMap(Event event) {
         Event savedEvent = eventRepository.save(event);
-        return eventReadMapper.toDto(savedEvent, savedEvent.getCurrentParticipants());
+        return eventReadMapper.toDto(savedEvent);
     }
 
     public int sumParticipants(Event event) {
@@ -89,15 +85,16 @@ public class EventService {
                 .size();
     }
 
+    public void updateStateEvent(Long id, Long newNumberOfParticipants) {
+        var event = eventRepository.findById(id).orElseThrow();
+        if (newNumberOfParticipants == event.getMinParticipant())
+            event.setStateEvent(Event.EventStateMachine.MINIMUM_PARTICIPANT_ACHIEVED);
+        if (newNumberOfParticipants == event.getMaxParticipant())
+            event.setStateEvent(Event.EventStateMachine.REGISTRATION_CLOSE);
+        eventRepository.save(event);
+    }
+
     void deleteEvent(Long id) {
         eventRepository.deleteById(id);
     }
-
-    @Value
-    static class Tuple2 {
-
-        Event event;
-        int numberOfParticipant;
-    }
-
 }

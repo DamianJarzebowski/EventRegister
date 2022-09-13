@@ -4,7 +4,6 @@ import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
-import dj.eventregister.event.dto.EventWriteDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class EventReadMapper {
 
     private final CategoryRepository categoryRepository;
 
-    public EventReadDto toDto(Event event, int numberOfParticipant) {
+    public EventReadDto toDto(Event event) {
         var dto = new EventReadDto();
 
         dto.setId(event.getId());
@@ -24,14 +23,14 @@ public class EventReadMapper {
         dto.setDescription(event.getDescription());
         dto.setMaxParticipant(event.getMaxParticipant());
         dto.setMinParticipant(event.getMinParticipant());
-        dto.setCurrentParticipants(numberOfParticipant);
         dto.setMajority(event.isMajority());
         dto.setDateTime(event.getDateTime());
         dto.setCategory(event.getCategory().getName());
+        dto.setStateEvent(event.getStateEvent());
         return dto;
     }
 
-    public Event toEntity(EventWriteDto dto, Long id) {
+    public Event toEntity(EventReadDto dto, Long id) {
         var entity = new Event();
 
         entity.setId(id);
@@ -39,11 +38,11 @@ public class EventReadMapper {
         entity.setDescription(dto.getDescription());
         entity.setMaxParticipant(dto.getMaxParticipant());
         entity.setMinParticipant(dto.getMinParticipant());
-        entity.setCurrentParticipants(dto.getCurrentParticipants());
         entity.setMajority(dto.isMajority());
         entity.setDateTime(dto.getDateTime());
         Optional<Category> category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
         category.ifPresent(entity::setCategory);
+        entity.setStateEvent(dto.getStateEvent());
         return entity;
     }
 }

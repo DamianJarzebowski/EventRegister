@@ -2,6 +2,7 @@ package dj.eventregister.category;
 
 import dj.eventregister.event.Event;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ public class Category {
     private Long id;
     private String name;
 
+    @ToString.Include
     @OneToMany(mappedBy = "category")
     private Set<Event> events = new HashSet<>();
 

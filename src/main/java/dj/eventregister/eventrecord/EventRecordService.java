@@ -1,7 +1,6 @@
 package dj.eventregister.eventrecord;
 
 import dj.eventregister.event.*;
-import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.eventrecord.dto.EventRecordReadDto;
 import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
 import dj.eventregister.eventrecord.mapper.EventRecordReadMapper;
@@ -39,18 +38,27 @@ public class EventRecordService {
 
     EventRecordReadDto registerTheParticipant(EventRecordWriteDto dto) {
 
-        var event = eventRepository.findById(dto.getEventId());
+        Long eventId = dto.getEventId();
+        Long participantId = dto.getParticipantId();
+
+        var event = eventRepository.findById(eventId);
         if(event.isEmpty())
-            throw new InvalidEventRecordException("Brak eventu z id: " + dto.getEventId());
-        var participant = participantRepository.findById(dto.getParticipantId());
+            throw new InvalidEventRecordException("Brak eventu z id: " + eventId);
+
+        var participant = participantRepository.findById(participantId);
         if(participant.isEmpty())
-            throw new InvalidEventRecordException("Brak uczestnika z id " + dto.getParticipantId());
+            throw new InvalidEventRecordException("Brak uczestnika z id " + participantId);
+
         if (!checkMajorityIfNeed(dto))
-            throw new InvalidEventRecordException("Uczestnik nie osiągnoł pełnoletności");
-        //if (!checkLimitParticipantInEvent(dto))
-        //    throw  new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
+            throw new InvalidEventRecordException("Uczestnik nie osiągnął pełnoletności");
+        if(checkStateEvent(event.get()) == Event.EventStateMachine.REGISTRATION_CLOSE)
+            throw new InvalidEventRecordException("Zapis na event niemożliwy, osiagnięto limit chętnych");
         if (!checkIfTheParticipantIsAlreadyRegistered(dto))
             throw new InvalidEventRecordException("Uczestnik o tym id został juz zarejestrowany na ten event");
+
+        Long newNumberOfParticipants = eventRecordRepository.countByEventId(eventId) + 1;
+
+        eventService.updateStateEvent(eventId, newNumberOfParticipants);
 
         return mapAndSaveEventRecord(dto);
     }
@@ -64,17 +72,9 @@ public class EventRecordService {
         return list.isEmpty();
     }
 
-    private boolean checkLimitParticipantInEvent(EventRecordWriteDto dto) {
-        Long eventId = dto.getEventId();
-        Optional<EventReadDto> eventReadDto = eventService.findById(eventId);
-        int maxParticipants = eventReadDto
-                .map(EventReadDto::getMaxParticipant)
-                .orElseThrow(RuntimeException::new);
-        Optional<Event> event = eventRepository.findById(eventId);
-        int currentParticipants = eventService.sumParticipants(event.orElseThrow(RuntimeException::new));
-        return maxParticipants > currentParticipants;
+    Event.EventStateMachine checkStateEvent(Event event) {
+        return event.getStateEvent();
     }
-
 
     private boolean checkMajorityIfNeed(EventRecordWriteDto dto) {
         if (findEventMajority(dto)) {
