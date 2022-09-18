@@ -32,8 +32,6 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndGetCategory() {
 
-        var randomCategoryName = RandomString.make();
-
         var location = createCategoryCheckStatusAndReturnLocation(baseUri);
 
         var actual = RestAssured
