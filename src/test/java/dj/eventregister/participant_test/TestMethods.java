@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 
 import java.util.Random;
 
-public class TestMethods {
+class TestMethods {
 
     static String createParticipant(String baseUri) {
 

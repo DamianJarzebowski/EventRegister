@@ -108,25 +108,4 @@ class EventControllerTest {
                 .then()
                     .statusCode(HttpStatus.SC_NOT_FOUND);
     }
-
-    @Test
-    void shouldValidateCategory() {
-
-        RestAssured
-                .given()
-                .contentType(ContentType.JSON)
-                .body(new EventWriteDto()
-                        .setName("TestEventName")
-                        .setDescription("TestDescription")
-                        .setCategory("NoExistingCategory")
-                        .setMajority(true)
-                        .setMaxParticipant(3)
-                        .setMinParticipant(1)
-                        .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
-                .when()
-                .post(baseUri)
-                .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
-    }
-
 }

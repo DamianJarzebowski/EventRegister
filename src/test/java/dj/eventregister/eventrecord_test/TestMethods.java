@@ -12,7 +12,7 @@ import org.apache.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-public class TestMethods {
+class TestMethods {
 
     static final String EVENT_RECORD_URL = "/api/event-record";
     static final String PARTICIPANT_URL = "/api/participants";

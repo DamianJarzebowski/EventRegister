@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-public class TestMethods {
+class TestMethods {
 
     static String createEventAndReturnLocation(String baseUri) {
 

@@ -6,7 +6,7 @@ import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 
-public class TestMethods {
+class TestMethods {
 
     static String createCategory(String uri) {
 
