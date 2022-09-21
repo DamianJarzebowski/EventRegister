@@ -31,7 +31,7 @@ class EventRecordControllerTest {
         baseUri = URI.create(testRestTemplate.getRootUri()).toString();
         participantLocation = createParticipant(baseUri);
         eventLocation = createEvent(baseUri);
-        eventRegisterLocation = createEventRecordAndReturnLocation(baseUri, participantLocation, eventLocation);
+        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
     }
 
     @Test

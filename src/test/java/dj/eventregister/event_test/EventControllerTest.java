@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
-
 import java.net.URI;
 import java.time.LocalDateTime;
+
+import static dj.eventregister.event_test.TestMethods.createEventAndReturnLocation;
+import static dj.eventregister.event_test.TestMethods.deleteEvent;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventControllerTest {
@@ -125,36 +127,6 @@ class EventControllerTest {
                 .post(baseUri)
                 .then()
                 .statusCode(HttpStatus.SC_BAD_REQUEST);
-    }
-
-    String createEventAndReturnLocation(String baseUri) {
-
-            return RestAssured
-                    .given()
-                        .contentType(ContentType.JSON)
-                        .body(new EventWriteDto()
-                            .setName("TestEventName")
-                            .setDescription("TestDescription")
-                            .setCategory("Taniec")
-                            .setMajority(true)
-                            .setMaxParticipant(3)
-                            .setMinParticipant(1)
-                            .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
-                    .when()
-                        .post(baseUri)
-                    .then()
-                        .statusCode(HttpStatus.SC_CREATED)
-                    .extract()
-                        .header("location");
-    }
-
-    void deleteEvent(String location) {
-
-        RestAssured
-                .when()
-                    .delete(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
 }

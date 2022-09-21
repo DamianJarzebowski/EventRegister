@@ -48,7 +48,7 @@ public class TestMethods {
                 .header("location");
     }
 
-    static String createEventRecordAndReturnLocation(String baseUri, String participantLocation, String eventLocation) {
+    static String createEventRecord(String baseUri, String participantLocation, String eventLocation) {
 
         var actualParticipant = RestAssured
                 .given()

@@ -1,7 +1,6 @@
 package dj.eventregister.participant_test;
 
 import dj.eventregister.participant.dto.ParticipantReadDto;
-import dj.eventregister.participant.dto.ParticipantWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -13,22 +12,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
-import java.util.Random;
+
+import static dj.eventregister.participant_test.TestMethods.createParticipant;
+import static dj.eventregister.participant_test.TestMethods.deleteParticipant;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ParticipantControllerTest {
-
-    @Autowired
-    private TestRestTemplate testRestTemplate;
 
     public static final String BASE_URL = "/api/participants";
     String baseUri;
     String participantLocation;
 
+    @Autowired
+    private TestRestTemplate testRestTemplate;
+
     @BeforeEach
     void beforeEach() {
         baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
-        participantLocation = createParticipantAndReturnLocation(baseUri);
+        participantLocation = createParticipant(baseUri);
     }
 
     @Test
@@ -52,7 +53,6 @@ class ParticipantControllerTest {
                     .put(participantLocation)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
-
     }
 
     @Test
@@ -83,35 +83,5 @@ class ParticipantControllerTest {
                     .get(participantLocation)
                 .then()
                     .statusCode(HttpStatus.SC_NOT_FOUND);
-    }
-
-    String createParticipantAndReturnLocation(String baseUri) {
-
-        Random random = new Random();
-        final int rangePrefixNumber = 999;
-
-        return RestAssured
-                .given()
-                    .contentType(ContentType.JSON)
-                    .body(new ParticipantWriteDto()
-                            .setName("TestName")
-                            .setLastName("TestLastName")
-                            .setAge(18)
-                            .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
-                .when()
-                    .post(baseUri)
-                .then()
-                    .statusCode(HttpStatus.SC_CREATED)
-                .extract()
-                    .header("location");
-    }
-
-    void deleteParticipant(String location) {
-
-        RestAssured
-                .when()
-                    .delete(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 }

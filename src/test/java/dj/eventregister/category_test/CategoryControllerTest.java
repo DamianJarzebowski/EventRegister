@@ -15,6 +15,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
+import static dj.eventregister.category_test.TestMethods.createCategoryCheckStatusAndReturnLocation;
+import static dj.eventregister.category_test.TestMethods.deleteCategory;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 
@@ -61,29 +64,5 @@ class CategoryControllerTest {
                     .get(location)
                 .then()
                     .statusCode(HttpStatus.SC_NOT_FOUND);
-    }
-
-    String createCategoryCheckStatusAndReturnLocation(String uri) {
-
-        return RestAssured
-                .with()
-                    .contentType(ContentType.JSON)
-                    .body(new CategoryWriteDto()
-                        .setName(RandomString.make()))
-                .when()
-                    .post(uri)
-                .then()
-                    .statusCode(HttpStatus.SC_CREATED)
-                .extract()
-                    .header("location");
-    }
-
-    void deleteCategory(String location) {
-
-        RestAssured
-                .when()
-                    .delete(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 }
