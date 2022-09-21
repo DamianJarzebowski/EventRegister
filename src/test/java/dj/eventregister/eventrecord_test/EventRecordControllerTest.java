@@ -49,8 +49,6 @@ class EventRecordControllerTest {
                 .setParticipantId(actual.getParticipantId());
 
         Assertions.assertThat(actual).isEqualTo(expected);
-
-        deleteEventRecord(eventRegisterLocation);
     }
 
     @Test
