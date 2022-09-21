@@ -18,36 +18,6 @@ class TestMethods {
     static final String PARTICIPANT_URL = "/api/participants";
     static final String EVENT_URL = "/api/event";
 
-    static void deleteEventRecord(String location) {
-
-        RestAssured
-                .when()
-                .delete(location)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
-    }
-
-    static String createParticipant(String baseUri) {
-
-        Random random = new Random();
-        final int rangePrefixNumber = 999;
-
-        return RestAssured
-                .given()
-                .contentType(ContentType.JSON)
-                .body(new ParticipantWriteDto()
-                        .setName("TestName")
-                        .setLastName("TestLastName")
-                        .setAge(18)
-                        .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
-                .when()
-                .post(baseUri + PARTICIPANT_URL)
-                .then()
-                .statusCode(HttpStatus.SC_CREATED)
-                .extract()
-                .header("location");
-    }
-
     static String createEventRecord(String baseUri, String participantLocation, String eventLocation) {
 
         var actualParticipant = RestAssured
@@ -94,5 +64,35 @@ class TestMethods {
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
                 .header("location");
+    }
+
+    static String createParticipant(String baseUri) {
+
+        Random random = new Random();
+        final int rangePrefixNumber = 999;
+
+        return RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+                .body(new ParticipantWriteDto()
+                        .setName("TestName")
+                        .setLastName("TestLastName")
+                        .setAge(18)
+                        .setEmail(random.nextInt(rangePrefixNumber) + "testEmail@gmail.com"))
+                .when()
+                .post(baseUri + PARTICIPANT_URL)
+                .then()
+                .statusCode(HttpStatus.SC_CREATED)
+                .extract()
+                .header("location");
+    }
+
+    static void deleteEventRecord(String location) {
+
+        RestAssured
+                .when()
+                .delete(location)
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 }
