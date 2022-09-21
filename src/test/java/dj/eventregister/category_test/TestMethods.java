@@ -8,7 +8,7 @@ import org.assertj.core.internal.bytebuddy.utility.RandomString;
 
 public class TestMethods {
 
-    static String createCategoryCheckStatusAndReturnLocation(String uri) {
+    static String createCategory(String uri) {
 
         return RestAssured
                 .with()

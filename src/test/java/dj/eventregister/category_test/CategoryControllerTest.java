@@ -1,12 +1,10 @@
 package dj.eventregister.category_test;
 
 import dj.eventregister.category.dto.CategoryReadDto;
-import dj.eventregister.category.dto.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
-import static dj.eventregister.category_test.TestMethods.createCategoryCheckStatusAndReturnLocation;
+import static dj.eventregister.category_test.TestMethods.createCategory;
 import static dj.eventregister.category_test.TestMethods.deleteCategory;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -35,7 +33,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndGetCategory() {
 
-        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
+        var location = createCategory(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -55,7 +53,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndDeleteCategory() {
 
-        var location = createCategoryCheckStatusAndReturnLocation(baseUri);
+        var location = createCategory(baseUri);
 
         deleteCategory(location);
 
