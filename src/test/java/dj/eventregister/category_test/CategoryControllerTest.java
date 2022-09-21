@@ -46,8 +46,6 @@ class CategoryControllerTest {
                 .setName(actual.getName());
 
         Assertions.assertThat(actual).isEqualTo(expected);
-
-        deleteCategory(location);
     }
 
     @Test
