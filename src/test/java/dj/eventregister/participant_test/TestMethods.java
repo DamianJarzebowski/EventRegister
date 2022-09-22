@@ -10,7 +10,6 @@ import java.util.Random;
 class TestMethods {
 
     static String createParticipant(String baseUri) {
-
         Random random = new Random();
         final int rangePrefixNumber = 999;
 

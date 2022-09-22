@@ -1,5 +1,6 @@
 package dj.eventregister.participant_test;
 
+import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.participant.dto.ParticipantReadDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -40,19 +41,29 @@ class ParticipantControllerTest {
                 .get(participantLocation)
                 .as(ParticipantReadDto.class);
 
+        var dateForUpdate = new ParticipantReadDto()
+                .setId(actual.getId())
+                .setName("UpdateName")
+                .setLastName("UpdateLastName")
+                .setAge(99)
+                .setEmail("UpdateEmail@gmail.com");
+
         RestAssured
                 .given()
                     .contentType(ContentType.JSON)
-                    .body(new ParticipantReadDto()
-                            .setId(actual.getId())
-                            .setName("UpdateName")
-                            .setLastName("UpdateLastName")
-                            .setAge(99)
-                            .setEmail("UpdateEmail@gmail.com"))
+                    .body(dateForUpdate)
                 .when()
                     .put(participantLocation)
                 .then()
                     .statusCode(HttpStatus.SC_OK);
+
+        var actualUpdatedParticipant = RestAssured
+                .given()
+                .headers("Content-Type", ContentType.JSON)
+                .get(participantLocation)
+                .as(ParticipantReadDto.class);
+
+        Assertions.assertThat(actualUpdatedParticipant).isEqualTo(dateForUpdate);
     }
 
     @Test
