@@ -65,8 +65,11 @@ public class EventService {
         return mapAndUpgradeEvent(dto, id);
     }
 
+    // Do omówienia zachowanie stanu maszyny stanów podczas update wcześniej go gubiła
+
     private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
         Event eventEntity = eventReadMapper.toEntity(dto, id);
+        eventEntity.setStateEvent(findById(id).map(EventReadDto::getStateEvent).orElseThrow(RuntimeException::new));
         return saveAndMap(eventEntity);
     }
 

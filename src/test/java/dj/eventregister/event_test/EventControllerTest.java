@@ -2,6 +2,7 @@ package dj.eventregister.event_test;
 
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
+import dj.eventregister.event.dto.EventWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -79,22 +80,19 @@ class EventControllerTest {
                 .setMinParticipant(2)
                 .setDateTime(LocalDateTime.of(2000, Month.JANUARY, 10, 12, 30));
 
-        RestAssured
+        var actualUpdatedEvent = RestAssured
                 .given()
                 .contentType(ContentType.JSON)
                 .body(dateForUpdate)
                 .when()
                 .put(location)
                 .then()
-                .statusCode(HttpStatus.SC_OK);
-
-        var actualUpdatedEvent = RestAssured
-                .given()
-                .headers("Content-Type", ContentType.JSON)
-                .get(location)
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
                 .as(EventReadDto.class);
 
-        Assertions.assertThat(actualUpdatedEvent).isEqualTo(dateForUpdate);
+        Assertions.assertThat(actualUpdatedEvent).isEqualTo(dateForUpdate
+                .setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT));
     }
 
     @Test
