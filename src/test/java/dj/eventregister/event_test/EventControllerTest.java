@@ -2,7 +2,6 @@ package dj.eventregister.event_test;
 
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
-import dj.eventregister.event.dto.EventWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;

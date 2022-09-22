@@ -13,8 +13,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 import java.time.LocalDateTime;
 
-import static dj.eventregister.event_test.TestMethods.dateForCreateEvent;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventServiceTest {
 
@@ -35,8 +33,14 @@ class EventServiceTest {
         RestAssured
                 .given()
                 .contentType(ContentType.JSON)
-                .body(dateForCreateEvent
-                        .setCategory("NoExistingCategory"))
+                .body(new EventWriteDto()
+                        .setName("TestEventName")
+                        .setDescription("TestDescription")
+                        .setCategory("NoExistingCategory")
+                        .setMajority(true)
+                        .setMaxParticipant(3)
+                        .setMinParticipant(1)
+                        .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
                 .when()
                 .post(baseUri)
                 .then()
