@@ -2,7 +2,6 @@ package dj.eventregister.event_test;
 
 import dj.eventregister.event.Event;
 import dj.eventregister.event.dto.EventReadDto;
-import dj.eventregister.event.dto.EventWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -15,8 +14,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.Month;
 
-import static dj.eventregister.event_test.TestMethods.createEventAndReturnLocation;
+import static dj.eventregister.event_test.TestMethods.createEvent;
 import static dj.eventregister.event_test.TestMethods.deleteEvent;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -36,7 +36,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndGetEvent() {
 
-        var location = createEventAndReturnLocation(baseUri);
+        var location = createEvent(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -61,7 +61,7 @@ class EventControllerTest {
     @Test
     void shouldCreateAndUpdateEvent() {
 
-        var location = createEventAndReturnLocation(baseUri);
+        var location = createEvent(baseUri);
 
         var actual = RestAssured
                 .given()
@@ -69,43 +69,45 @@ class EventControllerTest {
                 .get(location)
                 .as(EventReadDto.class);
 
+        var dateForUpdate = new EventReadDto()
+                .setId(actual.getId())
+                .setName("UpdateName")
+                .setDescription("UpdateDescription")
+                .setCategory("Pływanie")
+                .setMajority(false)
+                .setMaxParticipant(4)
+                .setMinParticipant(2)
+                .setDateTime(LocalDateTime.of(2000, Month.JANUARY, 10, 12, 30));
+
         RestAssured
                 .given()
-                    .contentType(ContentType.JSON)
-                    .body(new EventReadDto()
-                            .setId(actual.getId())
-                            .setName("UpdateName")
-                            .setDescription("UpdateDescription")
-                            .setCategory("Pływanie")
-                            .setMajority(false)
-                            .setMaxParticipant(4)
-                            .setMinParticipant(2)
-                            .setDateTime(LocalDateTime.now()))
+                .contentType(ContentType.JSON)
+                .body(dateForUpdate)
                 .when()
-                    .put(location)
+                .put(location)
                 .then()
-                    .statusCode(HttpStatus.SC_OK);
+                .statusCode(HttpStatus.SC_OK);
 
-        var actual23123 = RestAssured
+        var actualUpdatedEvent = RestAssured
                 .given()
                 .headers("Content-Type", ContentType.JSON)
                 .get(location)
                 .as(EventReadDto.class);
 
-        Assertions.assertThat(actual23123.getName()).isEqualTo("UpdateName");
+        Assertions.assertThat(actualUpdatedEvent).isEqualTo(dateForUpdate);
     }
 
     @Test
     void shouldCreateAndDeleteEvent() {
 
-        var location = createEventAndReturnLocation(baseUri);
+        var location = createEvent(baseUri);
 
         deleteEvent(location);
 
         RestAssured
                 .given()
-                    .get(location)
+                .get(location)
                 .then()
-                    .statusCode(HttpStatus.SC_NOT_FOUND);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 class TestMethods {
 
-    static String createEventAndReturnLocation(String baseUri) {
+    static String createEvent(String baseUri) {
 
         return RestAssured
                 .given()
