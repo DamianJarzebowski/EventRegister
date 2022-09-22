@@ -1,6 +1,5 @@
 package dj.eventregister.participant_test;
 
-import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.participant.dto.ParticipantReadDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
