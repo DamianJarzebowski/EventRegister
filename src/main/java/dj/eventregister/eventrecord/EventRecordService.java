@@ -38,8 +38,8 @@ public class EventRecordService {
 
     EventRecordReadDto registerTheParticipant(EventRecordWriteDto dto) {
 
-        Long eventId = dto.getEventId();
-        Long participantId = dto.getParticipantId();
+        var eventId = dto.getEventId();
+        var participantId = dto.getParticipantId();
 
         var event = eventRepository.findById(eventId);
         if(event.isEmpty())
@@ -56,7 +56,7 @@ public class EventRecordService {
         if (!checkIfTheParticipantIsAlreadyRegistered(dto))
             throw new InvalidEventRecordException("Uczestnik o tym id został juz zarejestrowany na ten event");
 
-        Long newNumberOfParticipants = eventRecordRepository.countByEventId(eventId) + 1;
+        var newNumberOfParticipants = eventRecordRepository.countByEventId(eventId) + 1;
 
         eventService.updateStateEvent(eventId, newNumberOfParticipants);
 
@@ -64,8 +64,8 @@ public class EventRecordService {
     }
 
     private boolean checkIfTheParticipantIsAlreadyRegistered(EventRecordWriteDto dto) {
-        Long participantId = dto.getParticipantId();
-        List<EventRecordReadDto> list = findAllEventsRecords()
+        var participantId = dto.getParticipantId();
+        var list = findAllEventsRecords()
                 .stream()
                 .filter(eventRecord -> eventRecord.getParticipantId().equals(participantId))
                 .toList();

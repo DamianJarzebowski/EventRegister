@@ -65,8 +65,6 @@ public class EventService {
         return mapAndUpgradeEvent(dto, id);
     }
 
-    // Do omówienia zachowanie stanu maszyny stanów podczas update wcześniej go gubiła
-
     private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
         Event eventEntity = eventReadMapper.toEntity(dto, id);
         Event.EventStateMachine actualState = findById(id)
