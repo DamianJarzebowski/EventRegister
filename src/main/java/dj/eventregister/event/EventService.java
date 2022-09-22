@@ -69,7 +69,10 @@ public class EventService {
 
     private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
         Event eventEntity = eventReadMapper.toEntity(dto, id);
-        eventEntity.setStateEvent(findById(id).map(EventReadDto::getStateEvent).orElseThrow(RuntimeException::new));
+        Event.EventStateMachine actualState = findById(id)
+                .map(EventReadDto::getStateEvent)
+                .orElseThrow(RuntimeException::new);
+        eventEntity.setStateEvent(actualState);
         return saveAndMap(eventEntity);
     }
 
