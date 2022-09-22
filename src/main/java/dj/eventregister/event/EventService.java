@@ -6,7 +6,6 @@ import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.event.dto.EventWriteDto;
 import dj.eventregister.event.mapper.EventReadMapper;
 import dj.eventregister.event.mapper.EventWriteMapper;
-import dj.eventregister.eventrecord.EventRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventReadMapper eventReadMapper;
     private final EventWriteMapper eventWriteMapper;
-    private final EventRecordRepository eventRecordRepository;
     private final CategoryRepository categoryRepository;
 
     List<EventReadDto> findAllEvents() {
@@ -43,12 +41,6 @@ public class EventService {
         return eventRepository.findById(id)
                 .map(eventReadMapper::toDto);
     }
-
-    /**
-     * @param dto
-     * @return
-     * @throws IllegalArgumentException dto is invalid
-     */
 
     EventReadDto save(EventWriteDto dto) {
         Optional<Category> maybeCategory = categoryRepository.findByName(dto.getCategory());
