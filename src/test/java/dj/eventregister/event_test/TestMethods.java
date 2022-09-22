@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 class TestMethods {
 
-    static private EventWriteDto dateForCreateEvent = new EventWriteDto()
+    static final EventWriteDto dateForCreateEvent = new EventWriteDto()
             .setName("TestEventName")
             .setDescription("TestDescription")
             .setCategory("Taniec")

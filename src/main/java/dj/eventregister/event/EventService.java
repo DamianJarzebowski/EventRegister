@@ -1,6 +1,5 @@
 package dj.eventregister.event;
 
-import dj.eventregister.category.Category;
 import dj.eventregister.category.CategoryRepository;
 import dj.eventregister.event.dto.EventReadDto;
 import dj.eventregister.event.dto.EventWriteDto;
@@ -43,11 +42,12 @@ public class EventService {
     }
 
     EventReadDto save(EventWriteDto dto) {
-        Optional<Category> maybeCategory = categoryRepository.findByName(dto.getCategory());
-        if (maybeCategory.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+        findCategoryOrThrowException(dto);
         return mapAndSaveEvent(dto);
+    }
+
+    void findCategoryOrThrowException(EventWriteDto dto) {
+        categoryRepository.findByName(dto.getCategory()).orElseThrow(IllegalArgumentException::new);
     }
 
     private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
