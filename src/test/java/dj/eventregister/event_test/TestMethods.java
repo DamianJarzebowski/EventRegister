@@ -9,19 +9,21 @@ import java.time.LocalDateTime;
 
 class TestMethods {
 
+    static private EventWriteDto dateForCreateEvent = new EventWriteDto()
+            .setName("TestEventName")
+            .setDescription("TestDescription")
+            .setCategory("Taniec")
+            .setMajority(true)
+            .setMaxParticipant(3)
+            .setMinParticipant(1)
+            .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59));
+
     static String createEvent(String baseUri) {
 
         return RestAssured
                 .given()
                 .contentType(ContentType.JSON)
-                .body(new EventWriteDto()
-                        .setName("TestEventName")
-                        .setDescription("TestDescription")
-                        .setCategory("Taniec")
-                        .setMajority(true)
-                        .setMaxParticipant(3)
-                        .setMinParticipant(1)
-                        .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59)))
+                .body(dateForCreateEvent)
                 .when()
                 .post(baseUri)
                 .then()
