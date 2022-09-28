@@ -11,4 +11,7 @@ public class ParticipantWriteDto {
     private String lastName;
     private int age;
     private String email;
+
 }
+
+

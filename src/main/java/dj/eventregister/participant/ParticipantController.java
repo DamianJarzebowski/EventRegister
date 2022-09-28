@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/participants")
 class ParticipantController {
-
     private final ParticipantService participantService;
 
     @GetMapping("")
