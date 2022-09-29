@@ -17,7 +17,7 @@ import static dj.eventregister.eventrecord_test.TestMethods.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordControllerTest {
-    
+
     String baseUri;
     String participantLocation;
     String eventLocation;
