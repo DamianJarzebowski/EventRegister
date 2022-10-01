@@ -1,0 +1,11 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  008
+       author:  Damian Jarzębowski
+       changes:
+
+         - addUniqueConstraint:
+             columnNames: email
+             constraintName: email make unique
+             tableName: participant

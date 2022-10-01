@@ -1,0 +1,54 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  001
+       author:  Damian Jarzębowski
+       changes:
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Bieganie
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Taniec
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Strzelanie
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Pływanie
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Komputerowe
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category
+
+       - insert:
+           columns:
+             - column:
+                 name: name
+                 value: Rower
+           dbms: 'h2,  mysql, postgresql'
+           tableName: category

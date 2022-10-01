@@ -1,0 +1,25 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id:  002
+       author:  Damian Jarzębowski
+       changes:
+
+         -  createTable:
+              tableName:  category
+
+              columns:
+
+                -  column:
+                     name:  id
+                     type:  BIGINT
+                     autoIncrement:  true
+
+                     constraints:
+                       primaryKey:  true
+                       nullable:  false
+
+                -  column:
+                     name:  name
+                     type:  varchar(25)
+
