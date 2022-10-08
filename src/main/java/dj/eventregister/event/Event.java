@@ -2,11 +2,13 @@ package dj.eventregister.event;
 
 import dj.eventregister.category.Category;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@Accessors(chain = true)
 @Entity
 public class Event {
 
