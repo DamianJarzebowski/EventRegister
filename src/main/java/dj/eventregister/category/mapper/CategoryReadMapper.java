@@ -8,16 +8,14 @@ import org.springframework.stereotype.Service;
 public class CategoryReadMapper {
 
     public CategoryReadDto toDto(Category category) {
-        var dto = new CategoryReadDto();
-        dto.setId(category.getId());
-        dto.setName(category.getName());
-        return dto;
+        return new CategoryReadDto()
+                .setId(category.getId())
+                .setName(category.getName());
     }
 
     public Category toEntity(CategoryReadDto dto) {
-        var entity = new Category();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        return entity;
+        return new Category()
+                .setId(dto.getId())
+                .setName(dto.getName());
     }
 }

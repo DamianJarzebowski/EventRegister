@@ -3,6 +3,7 @@ package dj.eventregister.category;
 import dj.eventregister.event.Event;
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Accessors(chain = true)
 public class Category {
 
     @Id
