@@ -12,30 +12,14 @@ public class EventWriteMapper {
 
     private final CategoryRepository categoryRepository;
 
-    public EventWriteDto toDto(Event event) {
-        var dto = new EventWriteDto();
-
-        dto.setName(event.getName());
-        dto.setDescription(event.getDescription());
-        dto.setMaxParticipant(event.getMaxParticipant());
-        dto.setMinParticipant(event.getMinParticipant());
-        dto.setMajority(event.isMajority());
-        dto.setDateTime(event.getDateTime());
-        dto.setCategory(event.getCategory().getName());
-        return dto;
-    }
-
     public Event toEntity(EventWriteDto dto) {
-        var entity = new Event();
-
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setMaxParticipant(dto.getMaxParticipant());
-        entity.setMinParticipant(dto.getMinParticipant());
-        entity.setMajority(dto.isMajority());
-        entity.setDateTime(dto.getDateTime());
-        var category = categoryRepository.findByName(dto.getCategory()); // W celu zwrócenia z warstwy widoku i przypisania do bazy kategorii wyszukujemy ją po naazwie za pomocą dodatkowej metody z repozytorium
-        category.ifPresent(entity::setCategory);
-        return entity;
+        return new Event()
+                .setName(dto.getName())
+                .setDescription(dto.getDescription())
+                .setMaxParticipant(dto.getMaxParticipant())
+                .setMinParticipant(dto.getMinParticipant())
+                .setMajority(dto.isMajority())
+                .setDateTime(dto.getDateTime())
+                .setCategory(categoryRepository.findByName(dto.getCategory()).orElseThrow(RuntimeException::new));
     }
 }

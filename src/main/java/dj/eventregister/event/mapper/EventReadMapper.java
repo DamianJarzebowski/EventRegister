@@ -36,7 +36,5 @@ public class EventReadMapper {
                 .setMajority(dto.isMajority())
                 .setDateTime(dto.getDateTime())
                 .setCategory(categoryRepository.findByName(dto.getCategory()).orElseThrow(RuntimeException::new));
-
-
     }
 }
