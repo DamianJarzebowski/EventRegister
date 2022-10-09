@@ -12,5 +12,4 @@ import lombok.experimental.Accessors;
 public class CategoryWriteDto {
 
     private String name;
-
 }

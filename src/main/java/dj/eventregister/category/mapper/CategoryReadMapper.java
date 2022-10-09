@@ -12,10 +12,4 @@ public class CategoryReadMapper {
                 .setId(category.getId())
                 .setName(category.getName());
     }
-
-    public Category toEntity(CategoryReadDto dto) {
-        return new Category()
-                .setId(dto.getId())
-                .setName(dto.getName());
-    }
 }
