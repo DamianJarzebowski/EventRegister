@@ -9,22 +9,20 @@ import org.springframework.stereotype.Service;
 public class ParticipantReadMapper {
 
     public ParticipantReadDto toDto(Participant participant) {
-        var dto = new ParticipantReadDto();
-        dto.setId(participant.getId());
-        dto.setName(participant.getName());
-        dto.setLastName(participant.getLastName());
-        dto.setAge(participant.getAge());
-        dto.setEmail(participant.getEmail());
-        return dto;
+        return new ParticipantReadDto()
+                .setId(participant.getId())
+                .setName(participant.getName())
+                .setLastName(participant.getLastName())
+                .setAge(participant.getAge())
+                .setEmail(participant.getEmail());
     }
 
      public Participant toEntity (ParticipantWriteDto dto, Long id) {
-        var entity = new Participant();
-        entity.setId(id);
-        entity.setName(dto.getName());
-        entity.setLastName(dto.getLastName());
-        entity.setAge(dto.getAge());
-        entity.setEmail(dto.getEmail());
-        return entity;
+        return new Participant()
+                .setId(id)
+                .setName(dto.getName())
+                .setLastName(dto.getLastName())
+                .setAge(dto.getAge())
+                .setEmail(dto.getEmail());
     }
 }

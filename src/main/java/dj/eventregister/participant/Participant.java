@@ -2,6 +2,7 @@ package dj.eventregister.participant;
 
 import dj.eventregister.eventrecord.EventRecord;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Accessors(chain = true)
 public class Participant {
 
     @Id
