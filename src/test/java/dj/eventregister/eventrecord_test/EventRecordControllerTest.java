@@ -1,6 +1,6 @@
 package dj.eventregister.eventrecord_test;
 
-import dj.eventregister.eventrecord.dto.EventRecordReadDto;
+import dj.eventregister.models.eventrecord.dto.EventRecordReadDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;

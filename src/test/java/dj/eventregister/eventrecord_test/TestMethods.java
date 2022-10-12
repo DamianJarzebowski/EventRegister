@@ -1,10 +1,10 @@
 package dj.eventregister.eventrecord_test;
 
-import dj.eventregister.event.dto.EventReadDto;
-import dj.eventregister.event.dto.EventWriteDto;
-import dj.eventregister.eventrecord.dto.EventRecordWriteDto;
-import dj.eventregister.participant.dto.ParticipantReadDto;
-import dj.eventregister.participant.dto.ParticipantWriteDto;
+import dj.eventregister.models.event.dto.EventReadDto;
+import dj.eventregister.models.event.dto.EventWriteDto;
+import dj.eventregister.models.eventrecord.dto.EventRecordWriteDto;
+import dj.eventregister.models.participant.dto.ParticipantReadDto;
+import dj.eventregister.models.participant.dto.ParticipantWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;

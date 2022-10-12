@@ -1,6 +1,6 @@
 package dj.eventregister.category_test;
 
-import dj.eventregister.category.dto.CategoryWriteDto;
+import dj.eventregister.models.category.dto.CategoryWriteDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
