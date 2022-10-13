@@ -1,10 +1,11 @@
 package dj.eventregister.category_test;
 
 import dj.eventregister.models.category.dto.CategoryReadDto;
+import dj.eventregister.models.category.dto.CategoryWriteDto;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
-import static dj.eventregister.category_test.TestMethods.createCategory;
-import static dj.eventregister.category_test.TestMethods.deleteCategory;
+import static dj.eventregister.testMethods.CreateReadUpdateDelete.delete;
+import static dj.eventregister.testMethods.CreateReadUpdateDelete.read;
+import static dj.eventregister.testMethods.CreateReadUpdateDelete.create;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
@@ -32,15 +35,12 @@ class CategoryControllerTest {
 
     @Test
     void shouldCreateAndGetCategory() {
-
-        var location = createCategory(baseUri);
-
-        var actual = RestAssured
-                .given()
-                    .headers("Content-Type", ContentType.JSON)
-                    .get(location)
-                    .as(CategoryReadDto.class);
-
+        // Create new Category and get her location
+        var location = create(baseUri, new CategoryWriteDto()
+                .setName(RandomString.make()));
+        // Read saved category
+        var actual = read(location, CategoryReadDto.class);
+        // This what I am excepted in assert
         var expected = new CategoryReadDto()
                 .setId(actual.getId())
                 .setName(actual.getName());
@@ -50,11 +50,13 @@ class CategoryControllerTest {
 
     @Test
     void shouldCreateAndDeleteCategory() {
+        // Create new Category and get her location
+        var location = create(baseUri, new CategoryWriteDto()
+                .setName(RandomString.make()));
 
-        var location = createCategory(baseUri);
+        delete(location);
 
-        deleteCategory(location);
-
+        // Looking deleted category
         RestAssured
                 .given()
                     .get(location)

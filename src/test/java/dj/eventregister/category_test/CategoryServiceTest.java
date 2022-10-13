@@ -26,19 +26,6 @@ class CategoryServiceTest {
         baseUri = URI.create(testRestTemplate.getRootUri()) + BASE_URL;
     }
 
-
-    /*
-    @Test
-    void shouldThrowDuplicateCategoryNameExceptionJUnit5() {
-
-        String categoryName = "CategoryTestName";
-
-        DuplicateCategoryNameException e = org.junit.jupiter.api.Assertions.assertThrows(DuplicateCategoryNameException.class, ()-> categoryService.saveCategory(new CategoryWriteDto(categoryName)));
-        Assertions.assertThat(e.getMessage()).isEqualTo("Kategoria o tej samej nazwie już istnieje.");
-    }
-
-     */
-
     @Test
     void shouldThrowDuplicateCategoryNameExceptionRestAssured() {
         final int addDuplicate = 1;
@@ -60,22 +47,4 @@ class CategoryServiceTest {
                     .statusCode(expectedCode);
         }
     }
-
-    /*
-    @Test
-    void shouldThrowDuplicateCategoryNameException() {
-
-        CategoryService categoryService = Mockito.mock(CategoryService.class);
-
-        String categoryName = "CategoryTestName";
-
-        categoryService.saveCategory(new CategoryWriteDto(categoryName));
-
-        when(categoryService.saveCategory(new CategoryWriteDto(categoryName))).thenThrow(new DuplicateCategoryNameException());
-
-        Assertions.assertThatThrownBy(() -> categoryService.saveCategory(new CategoryWriteDto(categoryName))).isInstanceOf(DuplicateCategoryNameException.class);
-
-    }
-
-     */
 }
