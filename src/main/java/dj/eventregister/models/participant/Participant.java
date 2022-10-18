@@ -1,5 +1,6 @@
 package dj.eventregister.models.participant;
 
+import dj.eventregister.models.event.Event;
 import dj.eventregister.models.eventrecord.EventRecord;
 import lombok.Data;
 import lombok.experimental.Accessors;

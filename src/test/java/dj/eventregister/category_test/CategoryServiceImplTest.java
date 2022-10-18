@@ -13,7 +13,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CategoryServiceTest {
+class CategoryServiceImplTest {
 
     public static final String BASE_URL = "/api/categories";
     String baseUri;

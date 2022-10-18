@@ -1,11 +1,14 @@
 package dj.eventregister.models.event;
 
 import dj.eventregister.models.category.Category;
+import dj.eventregister.models.participant.Participant;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
