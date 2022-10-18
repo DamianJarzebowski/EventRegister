@@ -31,21 +31,7 @@ public class CategoryServiceImpl implements CategoryService{
                 .map(categoryReadMapper::toDto);
     }
 
-    public CategoryReadDto saveCategory(CategoryWriteDto dto) {
-        Optional<Category> categoryName = categoryRepository.findByName(dto.getName());
-        categoryName.ifPresent(a -> {
-            throw new DuplicateCategoryNameException();
-        });
-        return mapAndSaveCategory(dto);
-    }
-
-    private CategoryReadDto mapAndSaveCategory (CategoryWriteDto dto) {
-        Category category = categoryWriteMapper.toEntity(dto);
-        Category savedCategory = categoryRepository.save(category);
-        return categoryReadMapper.toDto(savedCategory);
-    }
-
-    public  CategoryReadDto newSave(CategoryWriteDto dto) {
+    public  CategoryReadDto saveCategory(CategoryWriteDto dto) {
         Optional<Category> categoryName = categoryRepository.findByName(dto.getName());
         categoryName.ifPresent(a -> {
             throw new DuplicateCategoryNameException();
