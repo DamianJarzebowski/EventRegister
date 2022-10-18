@@ -1,5 +1,7 @@
 package dj.eventregister.models.event;
 
+import dj.eventregister.models.event.interfaces.EventService;
+import dj.eventregister.models.event.interfaces.EventStateMachine;
 import dj.eventregister.repository.CategoryRepository;
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.event.dto.EventWriteDto;
@@ -14,14 +16,13 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class EventService {
+public class EventServiceImpl implements EventService, EventStateMachine {
     private final EventRepository eventRepository;
     private final EventReadMapper eventReadMapper;
     private final EventWriteMapper eventWriteMapper;
     private final CategoryRepository categoryRepository;
 
     public List<EventReadDto> findAllEvents() {
-
         return eventRepository.findAll()
                 .stream()
                 .map(eventReadMapper::toDto)
@@ -36,42 +37,36 @@ public class EventService {
                 .toList();
     }
 
-    public Optional<EventReadDto> findById(long id) {
+    public Optional<EventReadDto> findById(Long id) {
         return eventRepository.findById(id)
                 .map(eventReadMapper::toDto);
     }
 
     public EventReadDto save(EventWriteDto dto) {
         findCategoryOrThrowException(dto);
-        return mapAndSaveEvent(dto);
+        return eventReadMapper.toDto
+                (eventRepository.save
+                        (eventWriteMapper.toEntity(dto)
+                                .setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT)));
     }
 
     public void findCategoryOrThrowException(EventWriteDto dto) {
         categoryRepository.findByName(dto.getCategory()).orElseThrow(IllegalArgumentException::new);
     }
 
-    private EventReadDto mapAndSaveEvent(EventWriteDto dto) {
-        Event eventEntity = eventWriteMapper.toEntity(dto);
-        eventEntity.setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT);
-        return saveAndMap(eventEntity);
-    }
-
-    private EventReadDto saveAndMap(Event event) {
-        Event savedEvent = eventRepository.save(event);
-        return eventReadMapper.toDto(savedEvent);
-    }
-
     public EventReadDto update(EventWriteDto dto, Long id) {
-        return mapAndUpgradeEvent(dto, id);
+        return eventReadMapper.toDto
+                (eventRepository.save
+                        (eventReadMapper.toEntity(dto, id)
+                                .setStateEvent(findActualStateEvent(id))));
     }
 
-    private EventReadDto mapAndUpgradeEvent(EventWriteDto dto, Long id) {
-        Event eventEntity = eventReadMapper.toEntity(dto, id);
-        Event.EventStateMachine actualState = findById(id)
+    public void deleteEvent(Long id) {eventRepository.deleteById(id);}
+
+    public Event.EventStateMachine findActualStateEvent(Long id) {
+        return findById(id)
                 .map(EventReadDto::getStateEvent)
                 .orElseThrow(RuntimeException::new);
-        eventEntity.setStateEvent(actualState);
-        return saveAndMap(eventEntity);
     }
 
     public void updateStateEvent(Long id, Long newNumberOfParticipants) {
@@ -81,9 +76,5 @@ public class EventService {
         if (newNumberOfParticipants == event.getMaxParticipant())
             event.setStateEvent(Event.EventStateMachine.REGISTRATION_CLOSE);
         eventRepository.save(event);
-    }
-
-    public void deleteEvent(Long id) {
-        eventRepository.deleteById(id);
     }
 }

@@ -14,7 +14,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EventServiceTest {
+class EventServiceImplTest {
 
     public static final String BASE_URL = "/api/event";
     String baseUri;

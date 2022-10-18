@@ -6,7 +6,7 @@ import dj.eventregister.models.eventrecord.mapper.EventRecordReadMapper;
 import dj.eventregister.models.eventrecord.mapper.EventRecordWriteMapper;
 import dj.eventregister.models.event.Event;
 import dj.eventregister.repository.EventRepository;
-import dj.eventregister.models.event.EventService;
+import dj.eventregister.models.event.EventServiceImpl;
 import dj.eventregister.models.participant.Participant;
 import dj.eventregister.repository.EventRecordRepository;
 import dj.eventregister.repository.ParticipantRepository;
@@ -25,7 +25,7 @@ public class EventRecordService {
     private final EventRecordWriteMapper eventRecordWriteMapper;
 
     private final EventRepository eventRepository;
-    private final EventService eventService;
+    private final EventServiceImpl eventService;
     private final ParticipantRepository participantRepository;
 
     public List<EventRecordReadDto> findAllEventsRecords() {

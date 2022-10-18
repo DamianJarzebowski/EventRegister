@@ -1,6 +1,6 @@
 package dj.eventregister.api;
 
-import dj.eventregister.models.event.EventService;
+import dj.eventregister.models.event.interfaces.EventService;
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.event.dto.EventWriteDto;
 import lombok.RequiredArgsConstructor;
