@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService, EventStateMachine {
         categoryRepository.findByName(dto.getCategory()).orElseThrow(IllegalArgumentException::new);
     }
 
-    public EventReadDto update(EventWriteDto dto, Long id) {
+    public EventReadDto update(EventWriteDto dto, long id) {
         return eventReadMapper.toDto
                 (eventRepository.save
                         (eventReadMapper.toEntity(dto, id)

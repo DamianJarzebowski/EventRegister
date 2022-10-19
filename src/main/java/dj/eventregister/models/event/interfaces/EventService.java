@@ -16,7 +16,7 @@ public interface EventService {
 
     EventReadDto save(EventWriteDto dto);
 
-    EventReadDto update(EventWriteDto dto, Long id);
+    EventReadDto update(EventWriteDto dto, long id);
 
     void deleteEvent(Long id);
 }

@@ -1,6 +1,6 @@
 package dj.eventregister.api;
 
-import dj.eventregister.models.participant.ParticipantService;
+import dj.eventregister.models.participant.ParticipantServiceImpl;
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
 import dj.eventregister.models.participant.dto.ParticipantWriteDto;
 import lombok.RequiredArgsConstructor;
@@ -15,25 +15,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/participants")
 class ParticipantController {
-    private final ParticipantService participantService;
+    private final ParticipantServiceImpl participantServiceImpl;
 
     @GetMapping("")
     List<ParticipantReadDto> findAll(String lastName) {
         if (lastName != null)
-            return participantService.findByLastName(lastName);
-        return participantService.findAll();
+            return participantServiceImpl.findByLastName(lastName);
+        return participantServiceImpl.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ParticipantReadDto> findById(@PathVariable Long id) {
-        return participantService.findById(id)
+        return participantServiceImpl.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("")
     ResponseEntity<ParticipantWriteDto> saveParticipant(@RequestBody ParticipantWriteDto dto) {
-        ParticipantReadDto savedParticipant = participantService.saveParticipant(dto);
+        ParticipantReadDto savedParticipant = participantServiceImpl.saveParticipant(dto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -44,13 +44,13 @@ class ParticipantController {
 
     @PutMapping("/{id}")
     ResponseEntity<Object> updateParticipant(@PathVariable Long id, @RequestBody ParticipantWriteDto dto) {
-        ParticipantReadDto updatedParticipant = participantService.updateParticipant(dto, id);
+        ParticipantReadDto updatedParticipant = participantServiceImpl.updateParticipant(dto, id);
         return ResponseEntity.ok(updatedParticipant);
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<ParticipantReadDto> deleteParticipant(@PathVariable Long id) {
-        participantService.deleteParticipant(id);
+        participantServiceImpl.deleteParticipant(id);
         return ResponseEntity.noContent().build();
     }
 }
