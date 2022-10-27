@@ -36,7 +36,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     public Optional<ParticipantReadDto> findById(long id) {
         return  participantRepository.findById(id).map(participantReadMapper::toDto);
     }
-
+    
     public ParticipantReadDto saveParticipant(ParticipantWriteDto dto) {
         checkEmailPresentAndThrowExceptionIfExist(dto);
         return participantReadMapper.toDto(
