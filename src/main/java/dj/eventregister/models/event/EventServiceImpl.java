@@ -10,6 +10,7 @@ import dj.eventregister.models.event.mapper.EventWriteMapper;
 import dj.eventregister.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +55,18 @@ public class EventServiceImpl implements EventService, EventStateMachine {
         categoryRepository.findByName(dto.getCategory()).orElseThrow(IllegalArgumentException::new);
     }
 
+    @Transactional
     public EventReadDto update(EventWriteDto dto, long id) {
-        return eventReadMapper.toDto
-                (eventRepository.save
-                        (eventReadMapper.toEntity(dto, id)
-                                .setStateEvent(findActualStateEvent(id))));
+        var actual = eventRepository.findById(id).orElseThrow();
+        actual.setName(dto.getName())
+                .setDescription(dto.getDescription())
+                .setMaxParticipant(dto.getMaxParticipant())
+                .setMinParticipant(dto.getMinParticipant())
+                .setMajority(dto.isMajority())
+                .setDateTime(dto.getDateTime())
+                .setCategory(categoryRepository.findByName(dto.getCategory()).orElseThrow())
+                .setStateEvent(findActualStateEvent(id));
+        return eventReadMapper.toDto(actual);
     }
 
     public void deleteEvent(Long id) {eventRepository.deleteById(id);}

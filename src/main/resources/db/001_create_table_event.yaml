@@ -19,6 +19,10 @@ databaseChangeLog:
                      nullable: false
 
               - column:
+                  name: version
+                  type: BIGINT
+
+              - column:
                    name: name
                    type: varchar(50)
 

@@ -8,6 +8,7 @@ import dj.eventregister.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,10 +44,15 @@ public class ParticipantServiceImpl implements ParticipantService {
                 participantRepository.save(participantWriteMapper.toEntity(dto)));
     }
 
+    @Transactional
     public ParticipantReadDto updateParticipant(ParticipantWriteDto dto, long id) {
         checkEmailPresentAndThrowExceptionIfExist(dto);
-        return participantReadMapper.toDto(
-                participantRepository.save(participantReadMapper.toEntity(dto, id)));
+        var actual = participantRepository.findById(id).orElseThrow();
+        actual.setName(dto.getName())
+                .setLastName(dto.getLastName())
+                .setAge(dto.getAge())
+                .setEmail(dto.getEmail());
+        return participantReadMapper.toDto(actual);
     }
 
     public void deleteParticipant(Long id) {

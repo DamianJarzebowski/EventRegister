@@ -18,12 +18,22 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    private Long version;
+
     private String name;
+
     private String description;
+
     private int maxParticipant;
+
     private int minParticipant;
+
     private boolean majority;
+
     private LocalDateTime dateTime;
+
     private EventStateMachine stateEvent;
 
     @ManyToOne

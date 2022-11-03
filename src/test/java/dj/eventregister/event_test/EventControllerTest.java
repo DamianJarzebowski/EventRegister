@@ -73,7 +73,7 @@ class EventControllerTest {
                 .setId(actual.getId())
                 .setName("UpdateName")
                 .setDescription("UpdateDescription")
-                .setCategory("Pływanie")
+                .setCategory("Rower")
                 .setMajority(false)
                 .setMaxParticipant(4)
                 .setMinParticipant(2)

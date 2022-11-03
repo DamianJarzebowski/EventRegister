@@ -1,0 +1,26 @@
+databaseChangeLog:
+
+  -  changeSet:
+       id: 010
+       author: Damian Jarzębowski
+       changes:
+
+         - createTable:
+             tableName: account
+             columns:
+
+               - column:
+                   name: id
+                   type: UUID
+
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+
+               - column:
+                   name: code
+                   type: varchar(50)
+
+               - column:
+                   name: amount
+                   type: int

@@ -16,10 +16,17 @@ public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    private Long version;
+
     private String name;
+
     @Column(name = "last_name")
     private String lastName;
+
     private int age;
+
     private String email;
 
     @OneToMany(mappedBy = "participant")
