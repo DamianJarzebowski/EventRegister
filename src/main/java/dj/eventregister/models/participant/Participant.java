@@ -33,5 +33,4 @@ public class Participant {
     private List<EventRecord> parties = new ArrayList<>();
 
 
-
 }

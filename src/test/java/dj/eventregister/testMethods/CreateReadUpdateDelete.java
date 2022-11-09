@@ -24,6 +24,9 @@ public class CreateReadUpdateDelete {
                 .given()
                 .headers("Content-Type", ContentType.JSON)
                 .get(location)
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
                 .as(clazz);
     }
 

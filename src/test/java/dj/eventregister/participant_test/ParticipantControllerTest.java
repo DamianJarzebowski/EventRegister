@@ -36,7 +36,8 @@ class ParticipantControllerTest {
     void shouldCreateAndUpdateParticipant() {
 
         var actual = RestAssured
-                .given().headers("Content-Type", ContentType.JSON)
+                .given()
+                .headers("Content-Type", ContentType.JSON)
                 .get(participantLocation)
                 .as(ParticipantReadDto.class);
 
