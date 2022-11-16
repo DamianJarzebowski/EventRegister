@@ -12,8 +12,6 @@ import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 
-import java.util.Optional;
-
 public class CategoryStepDef {
 
     private static final String baseUri = "http://localhost:8080/api/categories";
@@ -23,8 +21,7 @@ public class CategoryStepDef {
 
     @Given("Created a category")
     public void created_a_category() {
-        location = CreateReadUpdateDelete.create(baseUri, new CategoryWriteDto()
-                .setName(RandomString.make()));
+        location = CreateReadUpdateDelete.create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
     }
 
     @When("Reade created category")

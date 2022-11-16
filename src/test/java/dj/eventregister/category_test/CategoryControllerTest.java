@@ -38,8 +38,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndGetCategory() {
         // Create new Category and get her location
-        var location = create(baseUri, new CategoryWriteDto()
-                .setName(RandomString.make()));
+        var location = create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
         // Read saved category
         var actual = read(location, CategoryReadDto.class, HttpStatus.SC_OK);
         // This what I am excepted in assert
@@ -53,8 +52,7 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndDeleteCategory() {
         // Create new Category and get her location
-        var location = create(baseUri, new CategoryWriteDto()
-                .setName(RandomString.make()));
+        var location = create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
 
         delete(location, HttpStatus.SC_NO_CONTENT);
         delete(location, HttpStatus.SC_NOT_FOUND);

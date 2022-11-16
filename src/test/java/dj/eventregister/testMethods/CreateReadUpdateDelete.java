@@ -2,11 +2,10 @@ package dj.eventregister.testMethods;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.apache.http.HttpStatus;
 
 public class CreateReadUpdateDelete {
 
-    public static String create(String uri, Object objectToCreate) {
+    public static String create(String uri, Object objectToCreate, int statusCode) {
         return RestAssured
                 .with()
                 .contentType(ContentType.JSON)
@@ -14,7 +13,7 @@ public class CreateReadUpdateDelete {
                 .when()
                 .post(uri)
                 .then()
-                .statusCode(HttpStatus.SC_CREATED)
+                .statusCode(statusCode)
                 .extract()
                 .header("location");
     }

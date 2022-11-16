@@ -2,6 +2,7 @@ package dj.eventregister.event_test;
 
 import dj.eventregister.models.event.Event;
 import dj.eventregister.models.event.dto.EventReadDto;
+import dj.eventregister.models.event.dto.EventWriteDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
@@ -14,8 +15,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.Month;
-
-import static dj.eventregister.event_test.TestMethods.createEvent;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventControllerTest {
@@ -31,9 +30,18 @@ class EventControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    static final EventWriteDto dateForCreateEvent = new EventWriteDto()
+            .setName("TestEventName")
+            .setDescription("TestDescription")
+            .setCategory("Taniec")
+            .setMajority(true)
+            .setMaxParticipant(3)
+            .setMinParticipant(1)
+            .setDateTime(LocalDateTime.of(2222, 12, 31, 23, 59, 59));
+
     @Test
     void shouldCreateAndGetEvent() {
-        var location = createEvent(baseUri);
+        var location = CreateReadUpdateDelete.create(baseUri, dateForCreateEvent, HttpStatus.SC_CREATED);
         var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var expected = new EventReadDto()
@@ -52,7 +60,7 @@ class EventControllerTest {
 
     @Test
     void shouldCreateAndUpdateEvent() {
-        var location = createEvent(baseUri);
+        var location = CreateReadUpdateDelete.create(baseUri, dateForCreateEvent, HttpStatus.SC_CREATED);
         var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var dateForUpdate = new EventReadDto()
@@ -73,7 +81,7 @@ class EventControllerTest {
 
     @Test
     void shouldCreateAndDeleteEvent() {
-        var location = createEvent(baseUri);
+        var location = CreateReadUpdateDelete.create(baseUri, dateForCreateEvent, HttpStatus.SC_CREATED);
         CreateReadUpdateDelete.delete(location, HttpStatus.SC_NO_CONTENT);
         CreateReadUpdateDelete.delete(location, HttpStatus.SC_NOT_FOUND);
     }
