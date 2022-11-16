@@ -19,18 +19,18 @@ public class CreateReadUpdateDelete {
                 .header("location");
     }
 
-    public static <T> T read(String location, Class<T> clazz) {
+    public static <T> T read(String location, Class<T> clazz, int statusCode) {
         return RestAssured
                 .given()
                 .headers("Content-Type", ContentType.JSON)
                 .get(location)
                 .then()
-                .statusCode(HttpStatus.SC_OK)
+                .statusCode(statusCode)
                 .extract()
                 .as(clazz);
     }
 
-    public static <T> T update(String location, Class<T> clazz, Object objectToUpdate) {
+    public static <T> T update(String location, Class<T> clazz, Object objectToUpdate, int statusCode) {
         return RestAssured
                 .given()
                 .contentType(ContentType.JSON)
@@ -38,17 +38,17 @@ public class CreateReadUpdateDelete {
                 .when()
                 .put(location)
                 .then()
-                .statusCode(HttpStatus.SC_OK)
+                .statusCode(statusCode)
                 .extract()
                 .as(clazz);
     }
 
-    public static void delete(String location) {
+    public static void delete(String location, int statusCode) {
         RestAssured
                 .when()
                 .delete(location)
                 .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+                .statusCode(statusCode);
     }
 
 }

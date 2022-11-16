@@ -1,12 +1,12 @@
 package dj.eventregister.models.event;
 
-import dj.eventregister.models.event.interfaces.EventService;
-import dj.eventregister.models.event.interfaces.EventStateMachine;
-import dj.eventregister.repository.CategoryRepository;
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.event.dto.EventWriteDto;
+import dj.eventregister.models.event.interfaces.EventService;
+import dj.eventregister.models.event.interfaces.EventStateMachine;
 import dj.eventregister.models.event.mapper.EventReadMapper;
 import dj.eventregister.models.event.mapper.EventWriteMapper;
+import dj.eventregister.repository.CategoryRepository;
 import dj.eventregister.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class EventServiceImpl implements EventService, EventStateMachine {
+
     private final EventRepository eventRepository;
     private final EventReadMapper eventReadMapper;
     private final EventWriteMapper eventWriteMapper;

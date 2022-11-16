@@ -1,6 +1,8 @@
 package dj.eventregister.participant_test;
 
+import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
+import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -35,11 +37,7 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateAndUpdateParticipant() {
 
-        var actual = RestAssured
-                .given()
-                .headers("Content-Type", ContentType.JSON)
-                .get(participantLocation)
-                .as(ParticipantReadDto.class);
+        var actual = CreateReadUpdateDelete.read(participantLocation, ParticipantReadDto.class, HttpStatus.SC_OK);
 
         var dateForUpdate = new ParticipantReadDto()
                 .setId(actual.getId())
@@ -48,20 +46,7 @@ class ParticipantControllerTest {
                 .setAge(99)
                 .setEmail("UpdateEmail@gmail.com");
 
-        RestAssured
-                .given()
-                    .contentType(ContentType.JSON)
-                    .body(dateForUpdate)
-                .when()
-                    .put(participantLocation)
-                .then()
-                    .statusCode(HttpStatus.SC_OK);
-
-        var actualUpdatedParticipant = RestAssured
-                .given()
-                .headers("Content-Type", ContentType.JSON)
-                .get(participantLocation)
-                .as(ParticipantReadDto.class);
+        var actualUpdatedParticipant = CreateReadUpdateDelete.update(participantLocation, ParticipantReadDto.class, dateForUpdate, HttpStatus.SC_OK);
 
         Assertions.assertThat(actualUpdatedParticipant).isEqualTo(dateForUpdate);
     }
@@ -69,10 +54,7 @@ class ParticipantControllerTest {
     @Test
     void shouldCreateAndGetParticipant() {
 
-        var actual = RestAssured
-                .given().headers("Content-Type", ContentType.JSON)
-                .get(participantLocation)
-                .as(ParticipantReadDto.class);
+        var actual = CreateReadUpdateDelete.read(participantLocation, ParticipantReadDto.class, HttpStatus.SC_OK);
 
         var expected = new ParticipantReadDto()
                 .setId(actual.getId())

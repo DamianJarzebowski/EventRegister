@@ -2,6 +2,7 @@ package dj.eventregister.category_test;
 
 import dj.eventregister.models.category.dto.CategoryReadDto;
 import dj.eventregister.models.category.dto.CategoryWriteDto;
+import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
+import java.util.Optional;
 
 import static dj.eventregister.testMethods.CreateReadUpdateDelete.delete;
 import static dj.eventregister.testMethods.CreateReadUpdateDelete.read;
@@ -39,7 +41,7 @@ class CategoryControllerTest {
         var location = create(baseUri, new CategoryWriteDto()
                 .setName(RandomString.make()));
         // Read saved category
-        var actual = read(location, CategoryReadDto.class);
+        var actual = read(location, CategoryReadDto.class, HttpStatus.SC_OK);
         // This what I am excepted in assert
         var expected = new CategoryReadDto()
                 .setId(actual.getId())
@@ -54,13 +56,9 @@ class CategoryControllerTest {
         var location = create(baseUri, new CategoryWriteDto()
                 .setName(RandomString.make()));
 
-        delete(location);
+        delete(location, HttpStatus.SC_NO_CONTENT);
 
         // Looking deleted category
-        RestAssured
-                .given()
-                    .get(location)
-                .then()
-                    .statusCode(HttpStatus.SC_NOT_FOUND);
+        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NOT_FOUND);
     }
 }

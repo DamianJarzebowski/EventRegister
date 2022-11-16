@@ -2,6 +2,7 @@ package dj.eventregister.event_test;
 
 import dj.eventregister.models.event.Event;
 import dj.eventregister.models.event.dto.EventReadDto;
+import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -38,11 +39,7 @@ class EventControllerTest {
 
         var location = createEvent(baseUri);
 
-        var actual = RestAssured
-                .given()
-                .headers("Content-Type", ContentType.JSON)
-                .get(location)
-                .as(EventReadDto.class);
+        var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var expected = new EventReadDto()
                 .setId(actual.getId())
@@ -63,11 +60,7 @@ class EventControllerTest {
 
         var location = createEvent(baseUri);
 
-        var actual = RestAssured
-                .given()
-                .headers("Content-Type", ContentType.JSON)
-                .get(location)
-                .as(EventReadDto.class);
+        var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var dateForUpdate = new EventReadDto()
                 .setId(actual.getId())
@@ -79,16 +72,7 @@ class EventControllerTest {
                 .setMinParticipant(2)
                 .setDateTime(LocalDateTime.of(2000, Month.JANUARY, 10, 12, 30));
 
-        var actualUpdatedEvent = RestAssured
-                .given()
-                .contentType(ContentType.JSON)
-                .body(dateForUpdate)
-                .when()
-                .put(location)
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract()
-                .as(EventReadDto.class);
+        var actualUpdatedEvent = CreateReadUpdateDelete.update(location, EventReadDto.class, dateForUpdate, HttpStatus.SC_OK);
 
         Assertions.assertThat(actualUpdatedEvent).isEqualTo(dateForUpdate
                 .setStateEvent(Event.EventStateMachine.NOT_ENOUGH_PARTICIPANT));

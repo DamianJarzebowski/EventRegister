@@ -1,8 +1,8 @@
 package dj.eventregister.eventrecord_test;
 
 import dj.eventregister.models.eventrecord.dto.EventRecordReadDto;
+import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,19 +29,15 @@ class EventRecordControllerTest {
     @BeforeEach
     void beforeEach() {
         baseUri = URI.create(testRestTemplate.getRootUri()).toString();
-        participantLocation = createParticipant(baseUri);
-        eventLocation = createEvent(baseUri);
-        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
     }
 
     @Test
     void shouldCreateAndGetEventRecord() {
+        participantLocation = createParticipant(baseUri);
+        eventLocation = createEvent(baseUri);
+        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
 
-        var actual = RestAssured
-                .given()
-                        .headers("Content-Type", ContentType.JSON)
-                        .get(eventRegisterLocation)
-                        .as(EventRecordReadDto.class);
+        var actual = CreateReadUpdateDelete.read(eventRegisterLocation, EventRecordReadDto.class, HttpStatus.SC_OK);
 
         var expected = new EventRecordReadDto()
                 .setId(actual.getId())
@@ -53,6 +49,9 @@ class EventRecordControllerTest {
 
     @Test
     void shouldCreateAndDeleteEventRecord() {
+        participantLocation = createParticipant(baseUri);
+        eventLocation = createEvent(baseUri);
+        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
 
         deleteEventRecord(eventRegisterLocation);
 
