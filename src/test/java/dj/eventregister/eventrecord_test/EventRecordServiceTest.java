@@ -73,8 +73,4 @@ class EventRecordServiceTest {
                     .statusCode(expectedCode);
         }
     }
-
-
-
-
 }

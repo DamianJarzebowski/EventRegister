@@ -2,7 +2,6 @@ package dj.eventregister.eventrecord_test;
 
 import dj.eventregister.models.eventrecord.dto.EventRecordReadDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
-import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,13 +51,7 @@ class EventRecordControllerTest {
         participantLocation = createParticipant(baseUri);
         eventLocation = createEvent(baseUri);
         eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
-
-        deleteEventRecord(eventRegisterLocation);
-
-        RestAssured
-                .given()
-                    .get(eventRegisterLocation)
-                .then()
-                    .statusCode(HttpStatus.SC_NOT_FOUND);
+        CreateReadUpdateDelete.delete(eventRegisterLocation, HttpStatus.SC_NO_CONTENT);
+        CreateReadUpdateDelete.delete(eventRegisterLocation, HttpStatus.SC_NOT_FOUND);
     }
 }

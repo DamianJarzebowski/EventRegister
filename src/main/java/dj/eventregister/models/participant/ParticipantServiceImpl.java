@@ -1,11 +1,14 @@
 package dj.eventregister.models.participant;
 
+import dj.eventregister.exceptions.ErrorMessage;
+import dj.eventregister.exceptions.notFound.NotFoundException;
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
 import dj.eventregister.models.participant.dto.ParticipantWriteDto;
 import dj.eventregister.models.participant.mapper.ParticipantReadMapper;
 import dj.eventregister.models.participant.mapper.ParticipantWriteMapper;
 import dj.eventregister.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantRepository participantRepository;
@@ -56,7 +60,11 @@ public class ParticipantServiceImpl implements ParticipantService {
     }
 
     public void deleteParticipant(Long id) {
-        participantRepository.deleteById(id);
+        var actual = participantRepository.findById(id).orElseThrow(() -> {
+            log.error("Model id: {} does not exists", id);
+            return new NotFoundException(ErrorMessage.NOT_FOUND);
+        });
+        participantRepository.deleteById(actual.getId());
     }
 
     private void checkEmailPresentAndThrowExceptionIfExist(ParticipantWriteDto dto) {

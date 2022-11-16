@@ -32,12 +32,4 @@ class TestMethods {
                 .header("location");
     }
 
-    static void deleteEvent(String location) {
-
-        RestAssured
-                .when()
-                .delete(location)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
-    }
 }

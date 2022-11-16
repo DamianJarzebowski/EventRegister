@@ -1,10 +1,7 @@
 package dj.eventregister.participant_test;
 
-import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +13,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import java.net.URI;
 
 import static dj.eventregister.participant_test.TestMethods.createParticipant;
-import static dj.eventregister.participant_test.TestMethods.deleteParticipant;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ParticipantControllerTest {
@@ -68,13 +64,7 @@ class ParticipantControllerTest {
 
     @Test
     void shouldCreateAndDeleteParticipant() {
-
-        deleteParticipant(participantLocation);
-
-        RestAssured
-                .given()
-                    .get(participantLocation)
-                .then()
-                    .statusCode(HttpStatus.SC_NOT_FOUND);
+        CreateReadUpdateDelete.delete(participantLocation, HttpStatus.SC_NO_CONTENT);
+        CreateReadUpdateDelete.delete(participantLocation, HttpStatus.SC_NOT_FOUND);
     }
 }

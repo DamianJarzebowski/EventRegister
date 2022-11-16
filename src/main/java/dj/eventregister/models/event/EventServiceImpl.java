@@ -1,5 +1,7 @@
 package dj.eventregister.models.event;
 
+import dj.eventregister.exceptions.ErrorMessage;
+import dj.eventregister.exceptions.notFound.NotFoundException;
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.event.dto.EventWriteDto;
 import dj.eventregister.models.event.interfaces.EventService;
@@ -9,6 +11,7 @@ import dj.eventregister.models.event.mapper.EventWriteMapper;
 import dj.eventregister.repository.CategoryRepository;
 import dj.eventregister.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class EventServiceImpl implements EventService, EventStateMachine {
 
     private final EventRepository eventRepository;
@@ -70,7 +74,13 @@ public class EventServiceImpl implements EventService, EventStateMachine {
         return eventReadMapper.toDto(actual);
     }
 
-    public void deleteEvent(Long id) {eventRepository.deleteById(id);}
+    public void deleteEvent(Long id) {
+        var actual = eventRepository.findById(id).orElseThrow(() -> {
+            log.error("Event id: {} does not exists", id);
+            return new NotFoundException(ErrorMessage.NOT_FOUND);
+        });
+        eventRepository.deleteById(actual.getId());
+    }
 
     public Event.EventStateMachine findActualStateEvent(Long id) {
         return findById(id)

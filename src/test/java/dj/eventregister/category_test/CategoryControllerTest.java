@@ -57,8 +57,6 @@ class CategoryControllerTest {
                 .setName(RandomString.make()));
 
         delete(location, HttpStatus.SC_NO_CONTENT);
-
-        // Looking deleted category
-        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NOT_FOUND);
+        delete(location, HttpStatus.SC_NOT_FOUND);
     }
 }

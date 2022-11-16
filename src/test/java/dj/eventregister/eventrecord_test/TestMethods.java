@@ -86,13 +86,4 @@ class TestMethods {
                 .extract()
                 .header("location");
     }
-
-    static void deleteEventRecord(String location) {
-
-        RestAssured
-                .when()
-                .delete(location)
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
-    }
 }

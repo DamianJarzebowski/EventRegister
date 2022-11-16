@@ -3,8 +3,6 @@ package dj.eventregister.event_test;
 import dj.eventregister.models.event.Event;
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 
 import static dj.eventregister.event_test.TestMethods.createEvent;
-import static dj.eventregister.event_test.TestMethods.deleteEvent;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventControllerTest {
@@ -36,9 +33,7 @@ class EventControllerTest {
 
     @Test
     void shouldCreateAndGetEvent() {
-
         var location = createEvent(baseUri);
-
         var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var expected = new EventReadDto()
@@ -57,9 +52,7 @@ class EventControllerTest {
 
     @Test
     void shouldCreateAndUpdateEvent() {
-
         var location = createEvent(baseUri);
-
         var actual = CreateReadUpdateDelete.read(location, EventReadDto.class, HttpStatus.SC_OK);
 
         var dateForUpdate = new EventReadDto()
@@ -80,15 +73,8 @@ class EventControllerTest {
 
     @Test
     void shouldCreateAndDeleteEvent() {
-
         var location = createEvent(baseUri);
-
-        deleteEvent(location);
-
-        RestAssured
-                .given()
-                .get(location)
-                .then()
-                .statusCode(HttpStatus.SC_NOT_FOUND);
+        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NO_CONTENT);
+        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NOT_FOUND);
     }
 }

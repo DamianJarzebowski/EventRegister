@@ -1,5 +1,7 @@
 package dj.eventregister.models.eventrecord;
 
+import dj.eventregister.exceptions.ErrorMessage;
+import dj.eventregister.exceptions.notFound.NotFoundException;
 import dj.eventregister.models.eventrecord.dto.EventRecordReadDto;
 import dj.eventregister.models.eventrecord.dto.EventRecordWriteDto;
 import dj.eventregister.models.eventrecord.mapper.EventRecordReadMapper;
@@ -11,6 +13,7 @@ import dj.eventregister.models.participant.Participant;
 import dj.eventregister.repository.EventRecordRepository;
 import dj.eventregister.repository.ParticipantRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class EventRecordService {
 
     private final EventRecordRepository eventRecordRepository;
@@ -117,7 +121,11 @@ public class EventRecordService {
     }
 
     public void deleteEventRecord(long id) {
-        eventRecordRepository.deleteById(id);
+        var actual = eventRecordRepository.findById(id).orElseThrow(() -> {
+            log.error("Model id: {} does not exists", id);
+            return new NotFoundException(ErrorMessage.NOT_FOUND);
+        });
+        eventRecordRepository.deleteById(actual.getId());
     }
 
 }

@@ -1,11 +1,14 @@
 package dj.eventregister.models.category;
 
+import dj.eventregister.exceptions.ErrorMessage;
+import dj.eventregister.exceptions.notFound.NotFoundException;
 import dj.eventregister.models.category.dto.CategoryReadDto;
 import dj.eventregister.models.category.dto.CategoryWriteDto;
 import dj.eventregister.models.category.mapper.CategoryReadMapper;
 import dj.eventregister.models.category.mapper.CategoryWriteMapper;
 import dj.eventregister.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
@@ -39,7 +43,11 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryReadMapper.toDto(categoryRepository.save(categoryWriteMapper.toEntity(dto)));
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(long id) {
+        findById(id).orElseThrow(() -> {
+            log.error("Category id: {} does not exists", id);
+            return new NotFoundException(ErrorMessage.NOT_FOUND);
+        });
         categoryRepository.deleteById(id);
     }
 }
