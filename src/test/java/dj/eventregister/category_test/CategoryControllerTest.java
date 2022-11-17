@@ -3,7 +3,6 @@ package dj.eventregister.category_test;
 import dj.eventregister.models.category.dto.CategoryReadDto;
 import dj.eventregister.models.category.dto.CategoryWriteDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
-import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
@@ -14,12 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
-import java.util.Optional;
-
-import static dj.eventregister.testMethods.CreateReadUpdateDelete.delete;
-import static dj.eventregister.testMethods.CreateReadUpdateDelete.read;
-import static dj.eventregister.testMethods.CreateReadUpdateDelete.create;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
@@ -38,9 +31,9 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndGetCategory() {
         // Create new Category and get her location
-        var location = create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
+        var location = CreateReadUpdateDelete.create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
         // Read saved category
-        var actual = read(location, CategoryReadDto.class, HttpStatus.SC_OK);
+        var actual = CreateReadUpdateDelete.read(location, CategoryReadDto.class, HttpStatus.SC_OK);
         // This what I am excepted in assert
         var expected = new CategoryReadDto()
                 .setId(actual.getId())
@@ -52,9 +45,9 @@ class CategoryControllerTest {
     @Test
     void shouldCreateAndDeleteCategory() {
         // Create new Category and get her location
-        var location = create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
+        var location = CreateReadUpdateDelete.create(baseUri, new CategoryWriteDto().setName(RandomString.make()), HttpStatus.SC_CREATED);
 
-        delete(location, HttpStatus.SC_NO_CONTENT);
-        delete(location, HttpStatus.SC_NOT_FOUND);
+        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NO_CONTENT);
+        CreateReadUpdateDelete.delete(location, HttpStatus.SC_NOT_FOUND);
     }
 }

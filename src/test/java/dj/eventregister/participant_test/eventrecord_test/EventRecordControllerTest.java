@@ -1,4 +1,4 @@
-package dj.eventregister.eventrecord_test;
+package dj.eventregister.participant_test.eventrecord_test;
 
 import dj.eventregister.models.eventrecord.dto.EventRecordReadDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
@@ -11,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
-
-import static dj.eventregister.eventrecord_test.TestMethods.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordControllerTest {
@@ -32,9 +30,9 @@ class EventRecordControllerTest {
 
     @Test
     void shouldCreateAndGetEventRecord() {
-        participantLocation = createParticipant(baseUri);
-        eventLocation = createEvent(baseUri);
-        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
+        participantLocation = TestMethods.createParticipant(baseUri);
+        eventLocation = TestMethods.createEvent(baseUri);
+        eventRegisterLocation = TestMethods.createEventRecord(baseUri, participantLocation, eventLocation);
 
         var actual = CreateReadUpdateDelete.read(eventRegisterLocation, EventRecordReadDto.class, HttpStatus.SC_OK);
 
@@ -48,9 +46,9 @@ class EventRecordControllerTest {
 
     @Test
     void shouldCreateAndDeleteEventRecord() {
-        participantLocation = createParticipant(baseUri);
-        eventLocation = createEvent(baseUri);
-        eventRegisterLocation = createEventRecord(baseUri, participantLocation, eventLocation);
+        participantLocation = TestMethods.createParticipant(baseUri);
+        eventLocation = TestMethods.createEvent(baseUri);
+        eventRegisterLocation = TestMethods.createEventRecord(baseUri, participantLocation, eventLocation);
         CreateReadUpdateDelete.delete(eventRegisterLocation, HttpStatus.SC_NO_CONTENT);
         CreateReadUpdateDelete.delete(eventRegisterLocation, HttpStatus.SC_NOT_FOUND);
     }

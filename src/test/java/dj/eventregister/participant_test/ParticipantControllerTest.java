@@ -2,7 +2,6 @@ package dj.eventregister.participant_test;
 
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
 import dj.eventregister.models.participant.dto.ParticipantWriteDto;
-import dj.eventregister.repository.ParticipantRepository;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;

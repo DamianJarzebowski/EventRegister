@@ -1,4 +1,4 @@
-package dj.eventregister.eventrecord_test;
+package dj.eventregister.participant_test.eventrecord_test;
 
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.event.dto.EventWriteDto;

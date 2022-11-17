@@ -1,4 +1,4 @@
-package dj.eventregister.eventrecord_test;
+package dj.eventregister.participant_test.eventrecord_test;
 
 import dj.eventregister.models.event.dto.EventReadDto;
 import dj.eventregister.models.eventrecord.dto.EventRecordWriteDto;
@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dj.eventregister.eventrecord_test.TestMethods.*;
+import static dj.eventregister.participant_test.eventrecord_test.TestMethods.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EventRecordServiceTest {
