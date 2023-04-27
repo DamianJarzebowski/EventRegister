@@ -93,12 +93,8 @@ Project is: _in progress_.
 
 ## Room for Improvement
 Room for improvement:
-- Api is clone database, have to change it.
 - Improvement test code coverage.
 - Container connection with server postgreSQL
 
-To do:
-- Operations based at transactional.
-- Test in Cucumber.
 
 
