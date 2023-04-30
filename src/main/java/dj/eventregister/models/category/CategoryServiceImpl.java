@@ -20,7 +20,6 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
-    private final CategoryWriteMapper categoryWriteMapper;
 
     public List<String> findAllCategoryNames() {
         return categoryRepository.findAll()
@@ -39,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService{
         categoryName.ifPresent(a -> {
             throw new DuplicateCategoryNameException();
         });
-        return CategoryReadMapper.toDto(categoryRepository.save(categoryWriteMapper.toEntity(dto)));
+        return CategoryReadMapper.toDto(categoryRepository.save(CategoryWriteMapper.toEntity(dto)));
     }
 
     public void deleteCategory(long id) {
