@@ -3,12 +3,12 @@ package dj.eventregister.models.participant.mapper;
 import dj.eventregister.models.participant.Participant;
 import dj.eventregister.models.participant.dto.ParticipantReadDto;
 import dj.eventregister.models.participant.dto.ParticipantWriteDto;
-import org.springframework.stereotype.Service;
+import lombok.experimental.UtilityClass;
 
-@Service
+@UtilityClass
 public class ParticipantReadMapper {
 
-    public ParticipantReadDto toDto(Participant participant) {
+    public static ParticipantReadDto toDto(Participant participant) {
         return new ParticipantReadDto()
                 .setId(participant.getId())
                 .setName(participant.getName())
@@ -17,7 +17,7 @@ public class ParticipantReadMapper {
                 .setEmail(participant.getEmail());
     }
 
-     public Participant toEntity (ParticipantWriteDto dto, Long id) {
+     public static Participant toEntity (ParticipantWriteDto dto, Long id) {
         return new Participant()
                 .setId(id)
                 .setName(dto.getName())

@@ -21,30 +21,29 @@ import java.util.Optional;
 public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantRepository participantRepository;
-    private final ParticipantReadMapper participantReadMapper;
     private final ParticipantWriteMapper participantWriteMapper;
 
     public List<ParticipantReadDto> findAll() {
         return participantRepository.findAll()
                 .stream()
-                .map(participantReadMapper::toDto)
+                .map(ParticipantReadMapper::toDto)
                 .toList();
     }
 
     public List<ParticipantReadDto> findByLastName(String lastName) {
         return participantRepository.findAllByLastNameContainingIgnoreCase(lastName)
                 .stream()
-                .map(participantReadMapper::toDto)
+                .map(ParticipantReadMapper::toDto)
                 .toList();
     }
 
     public Optional<ParticipantReadDto> findById(long id) {
-        return  participantRepository.findById(id).map(participantReadMapper::toDto);
+        return  participantRepository.findById(id).map(ParticipantReadMapper::toDto);
     }
     
     public ParticipantReadDto saveParticipant(ParticipantWriteDto dto) {
         checkEmailPresentAndThrowExceptionIfExist(dto);
-        return participantReadMapper.toDto(
+        return ParticipantReadMapper.toDto(
                 participantRepository.save(participantWriteMapper.toEntity(dto)));
     }
 
@@ -56,7 +55,7 @@ public class ParticipantServiceImpl implements ParticipantService {
                 .setLastName(dto.getLastName())
                 .setAge(dto.getAge())
                 .setEmail(dto.getEmail());
-        return participantReadMapper.toDto(actual);
+        return ParticipantReadMapper.toDto(actual);
     }
 
     public void deleteParticipant(Long id) {
