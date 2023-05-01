@@ -21,7 +21,6 @@ import java.util.Optional;
 public class ParticipantServiceImpl implements ParticipantService {
 
     private final ParticipantRepository participantRepository;
-    private final ParticipantWriteMapper participantWriteMapper;
 
     public List<ParticipantReadDto> findAll() {
         return participantRepository.findAll()
@@ -44,7 +43,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     public ParticipantReadDto saveParticipant(ParticipantWriteDto dto) {
         checkEmailPresentAndThrowExceptionIfExist(dto);
         return ParticipantReadMapper.toDto(
-                participantRepository.save(participantWriteMapper.toEntity(dto)));
+                participantRepository.save(ParticipantWriteMapper.toEntity(dto)));
     }
 
     @Transactional
