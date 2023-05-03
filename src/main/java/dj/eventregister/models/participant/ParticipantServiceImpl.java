@@ -42,8 +42,8 @@ public class ParticipantServiceImpl implements ParticipantService {
     
     public ParticipantReadDto saveParticipant(ParticipantWriteDto dto) {
         checkEmailPresentAndThrowExceptionIfExist(dto);
-        return ParticipantReadMapper.toDto(
-                participantRepository.save(ParticipantWriteMapper.toEntity(dto)));
+        var savedParticipant = participantRepository.save(ParticipantWriteMapper.toEntity(dto));
+        return ParticipantReadMapper.toDto(savedParticipant);
     }
 
     @Transactional
