@@ -57,7 +57,13 @@ public class EventServiceImpl implements EventService, EventStateMachine {
     }
 
     public void findCategoryOrThrowException(EventWriteDto dto) {
-        categoryRepository.findByName(dto.getCategory()).orElseThrow(IllegalArgumentException::new);
+        var categoryName = dto.getCategory();
+        var foundCategory = categoryRepository.findByName(categoryName).orElseThrow(
+                () -> {
+                    log.error("Category with name: {} does not exists", categoryName);
+                    return new NotFoundException((ErrorMessage.NOT_FOUND));
+                });
+        log.info("Found category with name: {}", foundCategory);
     }
 
     @Transactional
