@@ -44,6 +44,6 @@ class EventServiceImplTest {
                 .when()
                 .post(baseUri)
                 .then()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
