@@ -28,13 +28,17 @@ public class CategoryServiceImpl implements CategoryService{
                 .toList();
     }
 
-    public Optional<CategoryReadDto> findById(long id) {
+    public CategoryReadDto findById(long id) {
         return categoryRepository.findById(id)
-                .map(CategoryReadMapper::toDto);
+                .map(CategoryReadMapper::toDto)
+                .orElseThrow(() -> {
+                    log.error("Category id: {} does not exists", id);
+                    return new NotFoundException(ErrorMessage.NOT_FOUND);
+                });
     }
 
     public  CategoryReadDto saveCategory(CategoryWriteDto dto) {
-        Optional<Category> categoryName = categoryRepository.findByName(dto.getName());
+        var categoryName = categoryRepository.findByName(dto.getName());
         categoryName.ifPresent(a -> {
             throw new DuplicateCategoryNameException();
         });
@@ -42,10 +46,8 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     public void deleteCategory(long id) {
-        findById(id).orElseThrow(() -> {
-            log.error("Category id: {} does not exists", id);
-            return new NotFoundException(ErrorMessage.NOT_FOUND);
-        });
-        categoryRepository.deleteById(id);
+        var categoryReadDto = findById(id);
+        var idFoundCategory = categoryReadDto.getId();
+        categoryRepository.deleteById(idFoundCategory);
     }
 }
