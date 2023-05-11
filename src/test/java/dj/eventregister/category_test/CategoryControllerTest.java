@@ -3,25 +3,25 @@ package dj.eventregister.category_test;
 import dj.eventregister.models.category.dto.CategoryReadDto;
 import dj.eventregister.models.category.dto.CategoryWriteDto;
 import dj.eventregister.testMethods.CreateReadUpdateDelete;
-import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 import java.net.URI;
 
-@RequiredArgsConstructor
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 
-    private final TestRestTemplate testRestTemplate;
+    @Autowired
+    private TestRestTemplate testRestTemplate;
 
     public static final String BASE_URL = "/api/categories";
-    String baseUri;
+    private String baseUri;
 
     @BeforeEach
     void beforeEach() {
